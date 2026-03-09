@@ -153,7 +153,7 @@
 
   .bars-paused .bar { animation-play-state: paused; }
 
-  /* ── ORIGINAL CLEAN TEXT PORTRAIT ── */
+  /* ── PORTRAIT ── */
   #portrait-container {
     display: flex;
     justify-content: center;
@@ -163,14 +163,16 @@
 
   .portrait {
     font-family: monospace;
-    font-size: 5px;
-    line-height: 5px;
-    letter-spacing: -0.5px;
+    font-size: 5.5px;
+    line-height: 5.5px;
+    letter-spacing: -0.3px;
     word-spacing: -1px;
     text-align: justify;
-    width: 500px;
-    height: 650px;
+    width: 480px;
+    height: 620px;
+    max-width: 90vw;
     overflow: hidden;
+    display: block;
 
     background-image: url('elaiza.jpg');
     background-size: cover;
@@ -178,8 +180,6 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-
-    max-width: 95vw;
   }
 
   #typed-box {
@@ -276,7 +276,6 @@
     </div>
   </div>
 
-  <!-- ORIGINAL CLEAN TEXT PORTRAIT -->
   <div id="portrait-container">
     <div class="portrait" id="portrait"></div>
   </div>
@@ -301,7 +300,12 @@ function startExperience() {
   setTimeout(() => {
     intro.style.display = 'none';
     document.getElementById('main').style.display = 'flex';
-    buildPortrait();
+
+    // ✅ Small delay so browser renders #main first before filling portrait
+    setTimeout(() => {
+      buildPortrait();
+    }, 100);
+
     startTyping();
     const music = document.getElementById('bg-music');
     music.play().then(() => {
@@ -334,13 +338,18 @@ function toggleMusic() {
 // ════════════════════════════════
 function buildPortrait() {
   const portrait = document.getElementById('portrait');
-  const message  = `HAPPY 5TH MONTHSARY ELAIZA I may not always say the perfect words but I am thankful every day that I have you Your smile makes my day better your love makes me stronger I'm lucky to call you mine Happy Monthsary my love `;
+  const message  = `HAPPY 5TH MONTHSARY ELAIZA I may not always say the perfect words but I am thankful every day that I have you Your smile makes my day better your love makes me stronger I am lucky to call you mine Happy Monthsary my love `;
 
   let text = '';
-  for (let i = 0; i < 600; i++) {
+  for (let i = 0; i < 800; i++) {
     text += message;
   }
   portrait.textContent = text;
+
+  // ✅ Force repaint so background-clip applies
+  portrait.style.display = 'none';
+  portrait.offsetHeight;
+  portrait.style.display = 'block';
 }
 
 // ════════════════════════════════
@@ -407,4 +416,3 @@ for (let i = 0; i < 15; i++) {
 </script>
 </body>
 </html>
-
