@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Happy 5th Monthsary, My Love 💕</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   body {
     min-height: 100vh;
     font-family: 'Georgia', serif;
@@ -14,8 +13,7 @@
     padding-top: 20px;
     background: #000;
   }
-
-  /* ── ANIMATED GRADIENT BACKGROUND ── */
+  /* Background gradient */
   #bg-gradient {
     position: fixed;
     inset: 0;
@@ -24,41 +22,35 @@
     background-size: 400% 400%;
     animation: gradientShift 12s ease infinite;
   }
-
   @keyframes gradientShift {
     0%   { background-position: 0% 50%; }
     50%  { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
   }
-
-  /* ── STARFIELD ── */
+  /* Stars */
   #stars {
     position: fixed;
     inset: 0;
     z-index: 1;
     pointer-events: none;
   }
-
   .star {
     position: absolute;
     background: #fff;
     border-radius: 50%;
     animation: twinkle ease-in-out infinite alternate;
   }
-
   @keyframes twinkle {
     0%   { opacity: 0.1; transform: scale(0.8); }
     100% { opacity: 1;   transform: scale(1.2); }
   }
-
-  /* ── FIREFLIES ── */
+  /* Fireflies - restricted sides */
   #fireflies {
     position: fixed;
     inset: 0;
     z-index: 2;
     pointer-events: none;
   }
-
   .firefly {
     position: absolute;
     width: 6px;
@@ -68,7 +60,6 @@
     box-shadow: 0 0 8px 3px rgba(255, 220, 80, 0.7);
     animation: fireflyMove ease-in-out infinite alternate;
   }
-
   @keyframes fireflyMove {
     0%   { transform: translate(0, 0)        scale(1);   opacity: 0.2; }
     25%  { transform: translate(40px, -30px) scale(1.2); opacity: 0.9; }
@@ -76,8 +67,7 @@
     75%  { transform: translate(30px, 40px)  scale(1.1); opacity: 0.8; }
     100% { transform: translate(-40px, -20px) scale(1);  opacity: 0.3; }
   }
-
-  /* ── PETAL RAIN ── */
+  /* Petals - restricted sides */
   #petals {
     position: fixed;
     inset: 0;
@@ -85,7 +75,6 @@
     pointer-events: none;
     overflow: hidden;
   }
-
   .petal {
     position: absolute;
     top: -30px;
@@ -93,22 +82,19 @@
     animation: petalFall linear infinite;
     opacity: 0.75;
   }
-
   @keyframes petalFall {
     0%   { top: -30px; transform: translateX(0) rotate(0deg);    opacity: 0.8; }
     50%  { transform: translateX(40px) rotate(180deg); }
     100% { top: 110vh;  transform: translateX(-30px) rotate(360deg); opacity: 0; }
   }
-
-  /* ── FIREWORKS CANVAS ── */
+  /* Fireworks canvas */
   #fireworks-canvas {
     position: fixed;
     inset: 0;
     z-index: 4;
     pointer-events: none;
   }
-
-  /* ── INTRO ── */
+  /* Intro */
   #intro {
     position: fixed;
     inset: 0;
@@ -122,13 +108,11 @@
     background: rgba(0,0,0,0.6);
     backdrop-filter: blur(4px);
   }
-
   #intro .intro-heart {
     font-size: 3.5rem;
     animation: pulse 1.5s infinite;
     margin-bottom: 18px;
   }
-
   #intro h1 {
     color: #ff9966;
     font-size: 1.9rem;
@@ -138,7 +122,6 @@
     margin-bottom: 12px;
     padding: 0 20px;
   }
-
   #intro p {
     color: #ffccaa;
     font-size: 0.95rem;
@@ -146,7 +129,6 @@
     font-style: italic;
     animation: pulse 2s infinite;
   }
-
   #intro .intro-date {
     margin-top: 20px;
     font-size: 0.75rem;
@@ -154,7 +136,6 @@
     opacity: 0.6;
     letter-spacing: 2px;
   }
-
   .intro-floats {
     position: absolute;
     width: 100%;
@@ -162,25 +143,21 @@
     pointer-events: none;
     overflow: hidden;
   }
-
   .intro-float {
     position: absolute;
     animation: float-up linear infinite;
     opacity: 0;
   }
-
   @keyframes float-up {
     0%   { bottom: -20px; opacity: 0.6; transform: translateX(0); }
     50%  { opacity: 0.4;  transform: translateX(20px); }
     100% { bottom: 110%;  opacity: 0;   transform: translateX(-20px); }
   }
-
   @keyframes pulse {
     0%, 100% { opacity: 1; }
     50%       { opacity: 0.4; }
   }
-
-  /* ── MAIN ── */
+  /* Main */
   #main {
     display: none;
     flex-direction: column;
@@ -190,7 +167,6 @@
     position: relative;
     z-index: 5;
   }
-
   h1.title {
     color: #ff9966;
     font-size: 1.5rem;
@@ -199,7 +175,6 @@
     text-shadow: 0 0 20px #ff6633, 0 0 40px #ff3300;
     letter-spacing: 2px;
   }
-
   h2.subtitle-top {
     color: #ffccaa;
     font-size: 0.95rem;
@@ -208,8 +183,7 @@
     font-style: italic;
     text-shadow: 0 0 10px #ff6633;
   }
-
-  /* ── TIMER ── */
+  /* Timer */
   #timer-box {
     display: flex;
     gap: 12px;
@@ -217,7 +191,6 @@
     flex-wrap: wrap;
     justify-content: center;
   }
-
   .timer-unit {
     display: flex;
     flex-direction: column;
@@ -229,7 +202,6 @@
     min-width: 60px;
     box-shadow: 0 0 15px rgba(255, 80, 30, 0.15);
   }
-
   .timer-num {
     color: #ff9966;
     font-size: 1.5rem;
@@ -237,7 +209,6 @@
     text-shadow: 0 0 10px #ff6633;
     line-height: 1;
   }
-
   .timer-label {
     color: #ffccaa;
     font-size: 0.6rem;
@@ -246,8 +217,7 @@
     letter-spacing: 1px;
     text-transform: uppercase;
   }
-
-  /* ── MUSIC PLAYER ── */
+  /* Music player */
   #music-player {
     display: flex;
     align-items: center;
@@ -260,7 +230,6 @@
     backdrop-filter: blur(6px);
     box-shadow: 0 0 20px rgba(255, 80, 30, 0.15);
   }
-
   #play-btn {
     background: linear-gradient(135deg, #ff6633, #ff3366);
     border: none;
@@ -276,60 +245,52 @@
     box-shadow: 0 0 15px rgba(255,80,30,0.5);
     transition: transform 0.2s;
   }
-
   #play-btn:hover { transform: scale(1.1); }
-
   .song-info { display: flex; flex-direction: column; }
-
   .song-title {
     color: #ff9966;
     font-size: 0.85rem;
     font-weight: bold;
   }
-
   .song-sub {
     color: #ffccaa;
     font-size: 0.72rem;
     opacity: 0.7;
     font-style: italic;
   }
-
   .music-bars {
     display: flex;
     align-items: flex-end;
     gap: 3px;
     height: 20px;
   }
-
   .bar {
     width: 4px;
     background: #ff6633;
     border-radius: 2px;
     animation: bounce-bar 0.8s ease infinite alternate;
   }
-
   .bar:nth-child(1) { animation-delay: 0s;    height: 8px; }
   .bar:nth-child(2) { animation-delay: 0.15s; height: 14px; }
   .bar:nth-child(3) { animation-delay: 0.3s;  height: 10px; }
   .bar:nth-child(4) { animation-delay: 0.45s; height: 18px; }
   .bar:nth-child(5) { animation-delay: 0.6s;  height: 6px; }
-
   @keyframes bounce-bar {
     from { transform: scaleY(0.4); opacity: 0.5; }
     to   { transform: scaleY(1.2); opacity: 1; }
   }
-
   .bars-paused .bar { animation-play-state: paused; }
-
-  /* ── PORTRAIT ── */
+  /* Portrait container */
   #portrait-container {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     position: relative;
+    /* Added z-index so portrait is above petals and fireflies */
+    z-index: 5;
   }
-
+  /* Portrait */
   .portrait {
     font-family: monospace;
     font-size: 5.5px;
@@ -349,52 +310,52 @@
     background-clip: text;
     color: transparent;
     border-radius: 12px;
-    box-shadow: 0 0 30px rgba(255, 100, 30, 0.4),
-                0 0 60px rgba(255, 60, 30, 0.2),
-                0 0 100px rgba(255, 30, 30, 0.1);
+    /* Brighten and sharpen the portrait */
+    filter: brightness(1.6) contrast(1.15) saturate(1.2);
+    box-shadow: 0 0 40px rgba(255, 100, 30, 0.5),
+                0 0 70px rgba(255, 60, 30, 0.3),
+                0 0 110px rgba(255, 30, 30, 0.15);
   }
-
   .portrait-caption {
     color: #ff9966;
     font-size: 0.85rem;
     font-style: italic;
     text-align: center;
     margin-top: 12px;
-    text-shadow: 0 0 10px rgba(255, 100, 30, 0.6);
+    text-shadow: 0 0 12px rgba(255, 100, 30, 0.7);
     animation: pulse 2s infinite;
     letter-spacing: 1px;
   }
-
-  /* ── LOVE LETTER ── */
+  /* Love letter */
   #letter-section {
     margin-top: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
+    z-index: 5;
   }
-
+  /* Slightly elevate envelope z-index for visibility */
   #envelope-wrapper {
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    position: relative;
+    z-index: 6;
   }
-
   #envelope {
     width: 220px;
     height: 140px;
     background: linear-gradient(135deg, #8b0000, #c0392b);
     border-radius: 8px;
     position: relative;
-    box-shadow: 0 0 30px rgba(255, 50, 30, 0.4),
-                0 0 60px rgba(255, 30, 10, 0.2);
+    box-shadow: 0 0 35px rgba(255, 50, 30, 0.45),
+                0 0 70px rgba(255, 30, 10, 0.25);
     transition: transform 0.3s ease;
   }
-
   #envelope:hover { transform: scale(1.05); }
-
   #envelope::before {
     content: '';
     position: absolute;
@@ -407,12 +368,10 @@
     transform-origin: top center;
     z-index: 2;
   }
-
   #envelope.open::before {
     transform: rotateX(180deg);
     border-top-color: #c0392b;
   }
-
   #envelope::after {
     content: '';
     position: absolute;
@@ -422,7 +381,6 @@
     border-top: 70px solid transparent;
     border-radius: 0 0 8px 8px;
   }
-
   .envelope-heart {
     position: absolute;
     top: 50%;
@@ -432,132 +390,12 @@
     z-index: 3;
     animation: pulse 1.5s infinite;
   }
-
   #envelope-hint {
     color: #ffccaa;
     font-size: 0.8rem;
     font-style: italic;
-    opacity: 0.7;
+    opacity: 0.8;
     animation: pulse 2s infinite;
-  }
-
-  /* ── LETTER PAPER ── */
-  #letter-paper {
-    display: none;
-    max-width: 480px;
-    width: 92vw;
-    margin-top: 20px;
-    background: linear-gradient(160deg, #fff9f0, #fff0e0);
-    border-radius: 12px;
-    padding: 32px 28px;
-    box-shadow: 0 0 40px rgba(255, 80, 30, 0.3),
-                0 10px 40px rgba(0,0,0,0.4);
-    animation: letterOpen 0.8s ease forwards;
-    position: relative;
-    overflow: hidden;
-  }
-
-  #letter-paper::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-      transparent,
-      transparent 27px,
-      rgba(255, 150, 100, 0.15) 28px
-    );
-    pointer-events: none;
-  }
-
-  @keyframes letterOpen {
-    0%   { opacity: 0; transform: scaleY(0.3) translateY(-30px); }
-    100% { opacity: 1; transform: scaleY(1) translateY(0); }
-  }
-
-  .letter-dear {
-    font-size: 1rem;
-    color: #8b2500;
-    font-style: italic;
-    margin-bottom: 14px;
-    font-weight: bold;
-  }
-
-  .letter-body {
-    font-size: 0.88rem;
-    color: #5a1500;
-    line-height: 1.95;
-    font-style: italic;
-    margin-bottom: 20px;
-  }
-
-  .letter-sign {
-    font-size: 1.1rem;
-    color: #8b2500;
-    font-style: italic;
-    text-align: right;
-    font-weight: bold;
-  }
-
-  .letter-hearts {
-    text-align: center;
-    font-size: 1.2rem;
-    margin-top: 10px;
-    letter-spacing: 4px;
-  }
-
-  /* ── TYPED BOX ── */
-  #typed-box {
-    max-width: 500px;
-    width: 92vw;
-    margin-top: 30px;
-    background: rgba(255,100,40,0.08);
-    border: 1px solid rgba(255,120,50,0.25);
-    border-radius: 16px;
-    padding: 22px 24px;
-    text-align: center;
-    box-shadow: 0 0 20px rgba(255, 80, 30, 0.1);
-  }
-
-  #typed-text {
-    color: #ffddbb;
-    font-size: 0.95rem;
-    line-height: 1.85;
-    font-style: italic;
-    min-height: 80px;
-    text-shadow: 0 0 8px rgba(255,100,30,0.4);
-  }
-
-  #cursor {
-    display: inline-block;
-    width: 2px;
-    height: 1em;
-    background: #ff9966;
-    margin-left: 2px;
-    vertical-align: middle;
-    animation: blink 0.7s infinite;
-  }
-
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0; }
-  }
-
-  .date-tag {
-    color: #ff9966;
-    font-size: 0.78rem;
-    margin-top: 14px;
-    opacity: 0.7;
-    letter-spacing: 1px;
-  }
-
-  .footer {
-    margin-top: 30px;
-    color: #ff6633;
-    font-size: 0.75rem;
-    opacity: 0.5;
-    letter-spacing: 2px;
-    text-align: center;
-    font-style: italic;
   }
 </style>
 </head>
@@ -582,8 +420,6 @@
 <div id="main">
   <h1 class="title">💕 Happy 5th Monthsary, Love 💕</h1>
   <h2 class="subtitle-top">— From the one who loves you most —</h2>
-
-  <!-- TIMER -->
   <div id="timer-box">
     <div class="timer-unit"><span class="timer-num" id="t-months">0</span><span class="timer-label">Months</span></div>
     <div class="timer-unit"><span class="timer-num" id="t-days">0</span><span class="timer-label">Days</span></div>
@@ -591,8 +427,6 @@
     <div class="timer-unit"><span class="timer-num" id="t-mins">0</span><span class="timer-label">Minutes</span></div>
     <div class="timer-unit"><span class="timer-num" id="t-secs">0</span><span class="timer-label">Seconds</span></div>
   </div>
-
-  <!-- MUSIC PLAYER -->
   <div id="music-player">
     <button id="play-btn" onclick="toggleMusic()">▶</button>
     <div class="song-info">
@@ -607,14 +441,10 @@
       <div class="bar"></div>
     </div>
   </div>
-
-  <!-- PORTRAIT -->
   <div id="portrait-container">
     <div class="portrait" id="portrait"></div>
   </div>
   <p class="portrait-caption">✨ Made with love, just for you ✨</p>
-
-  <!-- LOVE LETTER -->
   <div id="letter-section">
     <div id="envelope-wrapper" onclick="openLetter()">
       <div id="envelope">
@@ -628,11 +458,11 @@
         From the very first day you said yes, my world has never been the same.
         Every morning I wake up grateful that I get to love you.
         You are not just my girlfriend — you are my peace, my happiness,
-        and my favorite reason to smile every single day. 🥹<br><br>
+        and my favorite reason to smile every single day. 🥹<br /><br />
         I know I am not perfect, but I promise to always try my best
         to make you feel loved, safe, and cherished.
         Thank you for choosing me, for trusting me, and for loving me
-        the way that you do. 💕<br><br>
+        the way that you do. 💕<br /><br />
         Happy 5th Monthsary, my love.
         This is only the beginning of forever. 🌟
       </p>
@@ -640,306 +470,263 @@
       <p class="letter-hearts">💕 ❤️ 💖 ❤️ 💕</p>
     </div>
   </div>
-
-  <!-- TYPED MESSAGES -->
   <div id="typed-box">
     <div id="typed-text"><span id="cursor"></span></div>
     <p class="date-tag">💕 October 12, 2025 → Forever 💕</p>
   </div>
-
   <p class="footer">with all my love, forever yours — Gel 💕</p>
 </div>
 
 <audio id="bg-music" loop>
-  <source src="music.mp3" type="audio/mpeg">
+  <source src="music.mp3" type="audio/mpeg" />
 </audio>
 
 <script>
-// ════════════════════════════════
-//  STARS
-// ════════════════════════════════
-const starsContainer = document.getElementById('stars');
-for (let i = 0; i < 160; i++) {
-  const star = document.createElement('div');
-  star.classList.add('star');
-  const size = 0.5 + Math.random() * 2;
-  star.style.cssText = `
-    width: ${size}px;
-    height: ${size}px;
-    top: ${Math.random() * 100}vh;
-    left: ${Math.random() * 100}vw;
-    animation-duration: ${1.5 + Math.random() * 3}s;
-    animation-delay: ${Math.random() * 3}s;
-    opacity: ${0.3 + Math.random() * 0.7};
-  `;
-  starsContainer.appendChild(star);
-}
+  // STARS
+  const starsContainer = document.getElementById('stars');
+  for(let i = 0; i < 160; i++) {
+    const star = document.createElement('div');
+    star.classList.add('star');
+    const size = 0.5 + Math.random() * 2;
+    star.style.cssText = `
+      width: ${size}px;
+      height: ${size}px;
+      top: ${Math.random() * 100}vh;
+      left: ${Math.random() * 100}vw;
+      animation-duration: ${1.5 + Math.random() * 3}s;
+      animation-delay: ${Math.random() * 3}s;
+      opacity: ${0.3 + Math.random() * 0.7};
+    `;
+   starsContainer.appendChild(star);
+  }
 
-// ════════════════════════════════
-//  FIREFLIES
-// ════════════════════════════════
-const firefliesContainer = document.getElementById('fireflies');
-for (let i = 0; i < 18; i++) {
-  const ff = document.createElement('div');
-  ff.classList.add('firefly');
-  ff.style.cssText = `
-    top: ${Math.random() * 100}vh;
-    left: ${Math.random() * 100}vw;
-    animation-duration: ${3 + Math.random() * 5}s;
-    animation-delay: ${Math.random() * 4}s;
-    width: ${4 + Math.random() * 5}px;
-    height: ${4 + Math.random() * 5}px;
-  `;
-  firefliesContainer.appendChild(ff);
-}
+  // FIREFLIES - restrict horizontal to sides (left 20%, right 20%)
+  const firefliesContainer = document.getElementById('fireflies');
+  for(let i=0; i < 18; i++) {
+    const ff = document.createElement('div');
+    ff.classList.add('firefly');
+    const side = Math.random() > 0.5;
+    const leftPos = side ? Math.random()*20 : 80 + Math.random()*20;
+    ff.style.cssText = `
+      top: ${Math.random()*100}vh;
+      left: ${leftPos}vw;
+      animation-duration: ${3 + Math.random()*5}s;
+      animation-delay: ${Math.random()*4}s;
+      width: ${4 + Math.random()*5}px;
+      height: ${4 + Math.random()*5}px;
+    `;
+    firefliesContainer.appendChild(ff);
+  }
 
-// ════════════════════════════════
-//  PETAL RAIN
-// ════════════════════════════════
-const petalsContainer = document.getElementById('petals');
-const petalEmojis = ['🌸','🌹','🌺','❤️','💕','🍀'];
-for (let i = 0; i < 22; i++) {
-  const petal = document.createElement('div');
-  petal.classList.add('petal');
-  petal.textContent = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
-  petal.style.cssText = `
-    left: ${Math.random() * 100}vw;
-    animation-duration: ${6 + Math.random() * 8}s;
-    animation-delay: ${Math.random() * 7}s;
-    font-size: ${0.7 + Math.random() * 1}rem;
-    opacity: ${0.5 + Math.random() * 0.4};
-  `;
-  petalsContainer.appendChild(petal);
-}
+  // PETALS - restrict horizontal to sides (left 15%, right 15%)
+  const petalsContainer = document.getElementById('petals');
+  const petalEmojis = ['🌸','🌹','🌺','❤️','💕','🍀'];
+  for(let i=0; i < 22; i++) {
+    const petal = document.createElement('div');
+    petal.classList.add('petal');
+    petal.textContent = petalEmojis[Math.floor(Math.random()*petalEmojis.length)];
+    const side = Math.random() > 0.5;
+    const leftPos = side ? Math.random()*15 : 85 + Math.random()*15;
+    petal.style.cssText = `
+      left: ${leftPos}vw;
+      animation-duration: ${6 + Math.random()*8}s;
+      animation-delay: ${Math.random()*7}s;
+      font-size: ${0.7 + Math.random()*1}rem;
+      opacity: ${0.5 + Math.random()*0.4};
+    `;
+    petalsContainer.appendChild(petal);
+  }
 
-// ════════════════════════════════
-//  INTRO FLOATS
-// ════════════════════════════════
-const introFloats  = document.getElementById('intro-floats');
-const introSymbols = ['💕','❤️','🥹','💖','✨','🌸'];
-for (let i = 0; i < 14; i++) {
-  const el = document.createElement('div');
-  el.classList.add('intro-float');
-  el.textContent = introSymbols[Math.floor(Math.random() * introSymbols.length)];
-  el.style.cssText = `
-    left: ${Math.random() * 100}vw;
-    font-size: ${0.8 + Math.random() * 1.2}rem;
-    animation-duration: ${4 + Math.random() * 5}s;
-    animation-delay: ${Math.random() * 4}s;
-  `;
-  introFloats.appendChild(el);
-}
+  // FIREWORKS
+  const fwCanvas = document.getElementById('fireworks-canvas');
+  const fwCtx = fwCanvas.getContext('2d');
+  let fwActive = false;
+  let particles = [];
 
-// ════════════════════════════════
-//  FIREWORKS
-// ════════════════════════════════
-const fwCanvas = document.getElementById('fireworks-canvas');
-const fwCtx    = fwCanvas.getContext('2d');
-let   fwActive = false;
-let   particles = [];
-
-fwCanvas.width  = window.innerWidth;
-fwCanvas.height = window.innerHeight;
-window.addEventListener('resize', () => {
-  fwCanvas.width  = window.innerWidth;
+  fwCanvas.width = window.innerWidth;
   fwCanvas.height = window.innerHeight;
-});
-
-function randomColor() {
-  const colors = ['#ff6633','#ff3366','#ff99cc','#ffcc00','#ff66aa','#ffffff','#ff9966'];
-  return colors[Math.floor(Math.random() * colors.length)];
-}
-
-function launchFirework() {
-  const x = Math.random() * fwCanvas.width;
-  const y = Math.random() * fwCanvas.height * 0.6;
-  const color = randomColor();
-  for (let i = 0; i < 60; i++) {
-    const angle = (Math.PI * 2 / 60) * i;
-    const speed = 2 + Math.random() * 4;
-    particles.push({
-      x, y,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed,
-      alpha: 1,
-      color,
-      size: 2 + Math.random() * 2
-    });
-  }
-}
-
-function animateFireworks() {
-  if (!fwActive) return;
-  fwCtx.clearRect(0, 0, fwCanvas.width, fwCanvas.height);
-  particles = particles.filter(p => p.alpha > 0.02);
-  particles.forEach(p => {
-    p.x  += p.vx;
-    p.y  += p.vy;
-    p.vy += 0.05;
-    p.alpha -= 0.018;
-    fwCtx.save();
-    fwCtx.globalAlpha = p.alpha;
-    fwCtx.fillStyle   = p.color;
-    fwCtx.beginPath();
-    fwCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-    fwCtx.fill();
-    fwCtx.restore();
+  window.addEventListener('resize', () => {
+    fwCanvas.width = window.innerWidth;
+    fwCanvas.height = window.innerHeight;
   });
-  requestAnimationFrame(animateFireworks);
-}
 
-function startFireworks() {
-  fwActive = true;
-  animateFireworks();
-  let count = 0;
-  const interval = setInterval(() => {
-    launchFirework();
-    launchFirework();
-    count++;
-    if (count >= 10) {
-      clearInterval(interval);
-      setTimeout(() => {
-        fwActive = false;
-        fwCtx.clearRect(0, 0, fwCanvas.width, fwCanvas.height);
-      }, 3000);
+  function randomColor() {
+    const colors = ['#ff6633','#ff3366','#ff99cc','#ffcc00','#ff66aa','#ffffff','#ff9966'];
+    return colors[Math.floor(Math.random()*colors.length)];
+  }
+
+  function launchFirework() {
+    const x = Math.random()*fwCanvas.width;
+    const y = Math.random()*fwCanvas.height*0.6;
+    const color = randomColor();
+    for(let i=0; i < 60; i++) {
+      const angle = (Math.PI*2/60)*i;
+      const speed = 2 + Math.random()*4;
+      particles.push({
+        x, y,
+        vx: Math.cos(angle)*speed,
+        vy: Math.sin(angle)*speed,
+        alpha: 1,
+        color,
+        size: 2 + Math.random()*2
+      });
     }
-  }, 400);
-}
+  }
 
-// ════════════════════════════════
-//  TIMER
-// ════════════════════════════════
-function updateTimer() {
-  const start = new Date('2025-10-12T00:00:00');
-  const now   = new Date();
-  let   diff  = Math.floor((now - start) / 1000);
+  function animateFireworks() {
+    if(!fwActive) return;
+    fwCtx.clearRect(0,0,fwCanvas.width, fwCanvas.height);
+    particles = particles.filter(p => p.alpha > 0.02);
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.05;
+      p.alpha -= 0.018;
+      fwCtx.save();
+      fwCtx.globalAlpha = p.alpha;
+      fwCtx.fillStyle = p.color;
+      fwCtx.beginPath();
+      fwCtx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+      fwCtx.fill();
+      fwCtx.restore();
+    });
+    requestAnimationFrame(animateFireworks);
+  }
 
-  if (diff < 0) diff = 0;
+  function startFireworks() {
+    fwActive = true;
+    animateFireworks();
+    let count = 0;
+    const interval = setInterval(() => {
+      launchFirework();
+      launchFirework();
+      count++;
+      if(count >= 10) {
+        clearInterval(interval);
+        setTimeout(() => {
+          fwActive = false;
+          fwCtx.clearRect(0,0,fwCanvas.width, fwCanvas.height);
+        }, 3000);
+      }
+    }, 400);
+  }
 
-  const months = Math.floor(diff / (30.44 * 24 * 3600));
-  diff -= months * Math.floor(30.44 * 24 * 3600);
-  const days  = Math.floor(diff / (24 * 3600));
-  diff -= days * 24 * 3600;
-  const hours = Math.floor(diff / 3600);
-  diff -= hours * 3600;
-  const mins  = Math.floor(diff / 60);
-  const secs  = diff % 60;
+  // TIMER
+  function updateTimer() {
+    const start = new Date('2025-10-12T00:00:00');
+    const now = new Date();
+    let diff = Math.floor((now - start)/1000);
+    if(diff < 0) diff = 0;
+    const months = Math.floor(diff / (30.44*24*3600));
+    diff -= months * Math.floor(30.44*24*3600);
+    const days = Math.floor(diff / (24*3600));
+    diff -= days * 24*3600;
+    const hours = Math.floor(diff / 3600);
+    diff -= hours * 3600;
+    const mins = Math.floor(diff / 60);
+    const secs = diff % 60;
+    document.getElementById('t-months').textContent = months;
+    document.getElementById('t-days').textContent = String(days).padStart(2,'0');
+    document.getElementById('t-hours').textContent = String(hours).padStart(2,'0');
+    document.getElementById('t-mins').textContent = String(mins).padStart(2,'0');
+    document.getElementById('t-secs').textContent = String(secs).padStart(2,'0');
+  }
 
-  document.getElementById('t-months').textContent = months;
-  document.getElementById('t-days').textContent   = String(days).padStart(2,'0');
-  document.getElementById('t-hours').textContent  = String(hours).padStart(2,'0');
-  document.getElementById('t-mins').textContent   = String(mins).padStart(2,'0');
-  document.getElementById('t-secs').textContent   = String(secs).padStart(2,'0');
-}
+  // Intro experience start
+  function startExperience(){
+    const intro = document.getElementById('intro');
+    intro.style.opacity = '0';
+    setTimeout(() => {
+      intro.style.display = 'none';
+      document.getElementById('main').style.display = 'flex';
+      setTimeout(() => buildPortrait(), 100);
+      startTyping();
+      updateTimer();
+      setInterval(updateTimer, 1000);
+      startFireworks();
+      const music = document.getElementById('bg-music');
+      music.play().then(() => {
+        document.getElementById('play-btn').textContent = '⏸';
+        document.getElementById('bars').classList.remove('bars-paused');
+      }).catch(() => {});
+    }, 1200);
+  }
 
-// ════════════════════════════════
-//  INTRO
-// ════════════════════════════════
-function startExperience() {
-  const intro = document.getElementById('intro');
-  intro.style.opacity = '0';
-  setTimeout(() => {
-    intro.style.display = 'none';
-    document.getElementById('main').style.display = 'flex';
-    setTimeout(() => { buildPortrait(); }, 100);
-    startTyping();
-    updateTimer();
-    setInterval(updateTimer, 1000);
-    startFireworks();
+  // Music toggle
+  function toggleMusic() {
     const music = document.getElementById('bg-music');
-    music.play().then(() => {
-      document.getElementById('play-btn').textContent = '⏸';
-      document.getElementById('bars').classList.remove('bars-paused');
-    }).catch(() => {});
-  }, 1200);
-}
-
-// ════════════════════════════════
-//  MUSIC
-// ════════════════════════════════
-function toggleMusic() {
-  const music = document.getElementById('bg-music');
-  const btn   = document.getElementById('play-btn');
-  const bars  = document.getElementById('bars');
-  if (music.paused) {
-    music.play();
-    btn.textContent = '⏸';
-    bars.classList.remove('bars-paused');
-  } else {
-    music.pause();
-    btn.textContent = '▶';
-    bars.classList.add('bars-paused');
-  }
-}
-
-// ════════════════════════════════
-//  PORTRAIT
-// ════════════════════════════════
-function buildPortrait() {
-  const portrait = document.getElementById('portrait');
-  const message  = `HAPPY 5TH MONTHSARY ELAIZA I may not always say the perfect words but I am thankful every day that I have you Your smile makes my day better your love makes me stronger I am lucky to call you mine Happy Monthsary my love `;
-  let text = '';
-  for (let i = 0; i < 800; i++) text += message;
-  portrait.textContent = text;
-  portrait.style.display = 'none';
-  portrait.offsetHeight;
-  portrait.style.display = 'block';
-}
-
-// ════════════════════════════════
-//  LOVE LETTER
-// ════════════════════════════════
-let letterOpened = false;
-function openLetter() {
-  if (letterOpened) return;
-  letterOpened = true;
-  document.getElementById('envelope').classList.add('open');
-  document.getElementById('envelope-hint').textContent = '💕';
-  setTimeout(() => {
-    document.getElementById('letter-paper').style.display = 'block';
-  }, 700);
-}
-
-// ════════════════════════════════
-//  TYPED MESSAGES
-// ════════════════════════════════
-const messages = [
-  "My Love, Elai... 🥹",
-  "From October 12, 2025 — you changed my world. 💕",
-  "I love how you care for me and support me...",
-  "You make every single day better, just by being you. ❤️",
-  "When we talk, I feel the purest happiness.",
-  "You understand me like no one else ever has.",
-  "I miss you so much when you're not around. 🥺",
-  "Our first kiss... that memory lives in my heart forever. 💋",
-  "You are my peace, my joy, my favorite person. 🌟",
-  "Happy 5th Monthsary, my love. I love you, Elai. 💕"
-];
-
-let msgIndex = 0, charIdx = 0, isDeleting = false;
-
-function startTyping() { typeLoop(); }
-
-function typeLoop() {
-  const current = messages[msgIndex];
-  const typedEl = document.getElementById('typed-text');
-  if (!isDeleting) {
-    charIdx++;
-    typedEl.innerHTML = current.substring(0, charIdx) + '<span id="cursor"></span>';
-    if (charIdx === current.length) {
-      setTimeout(() => { isDeleting = true; typeLoop(); }, 2200);
-      return;
-    }
-  } else {
-    charIdx--;
-    typedEl.innerHTML = current.substring(0, charIdx) + '<span id="cursor"></span>';
-    if (charIdx === 0) {
-      isDeleting = false;
-      msgIndex = (msgIndex + 1) % messages.length;
+    const btn = document.getElementById('play-btn');
+    const bars = document.getElementById('bars');
+    if(music.paused){
+      music.play();
+      btn.textContent = '⏸';
+      bars.classList.remove('bars-paused');
+    } else {
+      music.pause();
+      btn.textContent = '▶';
+      bars.classList.add('bars-paused');
     }
   }
-  setTimeout(typeLoop, isDeleting ? 28 : 58);
-}
+
+  // Build portrait text content
+  function buildPortrait(){
+    const portrait = document.getElementById('portrait');
+    const message = `HAPPY 5TH MONTHSARY ELAIZA I may not always say the perfect words but I am thankful every day that I have you Your smile makes my day better your love makes me stronger I am lucky to call you mine Happy Monthsary my love `;
+    let text = '';
+    for(let i=0; i<800; i++) text += message;
+    portrait.textContent = text;
+    portrait.style.display = 'none';
+    portrait.offsetHeight; // force reflow
+    portrait.style.display = 'block';
+  }
+
+  // Open love letter
+  let letterOpened = false;
+  function openLetter(){
+    if(letterOpened) return;
+    letterOpened = true;
+    document.getElementById('envelope').classList.add('open');
+    document.getElementById('envelope-hint').textContent = '💕';
+    setTimeout(() => {
+      document.getElementById('letter-paper').style.display = 'block';
+    }, 700);
+  }
+
+  // Typed messages
+  const messages = [
+    "My Love, Elai... 🥹",
+    "From October 12, 2025 — you changed my world. 💕",
+    "I love how you care for me and support me...",
+    "You make every single day better, just by being you. ❤️",
+    "When we talk, I feel the purest happiness.",
+    "You understand me like no one else ever has.",
+    "I miss you so much when you're not around. 🥺",
+    "Our first kiss... that memory lives in my heart forever. 💋",
+    "You are my peace, my joy, my favorite person. 🌟",
+    "Happy 5th Monthsary, my love. I love you, Elai. 💕"
+  ];
+  let msgIndex=0, charIdx=0, isDeleting=false;
+  function startTyping() { typeLoop(); }
+  function typeLoop(){
+    const current = messages[msgIndex];
+    const typedEl = document.getElementById('typed-text');
+    if(!isDeleting){
+      charIdx++;
+      typedEl.innerHTML = current.substring(0,charIdx)+'<span id="cursor"></span>';
+      if(charIdx === current.length){
+        setTimeout(() => { isDeleting = true; typeLoop() }, 2200);
+        return;
+      }
+    } else {
+      charIdx--;
+      typedEl.innerHTML = current.substring(0,charIdx)+'<span id="cursor"></span>';
+      if(charIdx === 0){
+        isDeleting = false;
+        msgIndex = (msgIndex+1)%messages.length; 
+      }
+    }
+    setTimeout(typeLoop, isDeleting ? 28 : 58);
+  }
 </script>
 </body>
 </html>
