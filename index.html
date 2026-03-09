@@ -78,7 +78,6 @@
     margin-bottom: 14px;
     text-align: center;
     font-style: italic;
-    text-shadow: 0 0 10px #ff6633;
   }
 
   #music-player {
@@ -110,7 +109,6 @@
   }
 
   #play-btn:hover { transform: scale(1.1); }
-
   .song-info { display: flex; flex-direction: column; }
 
   .song-title {
@@ -153,11 +151,6 @@
 
   .bars-paused .bar { animation-play-state: paused; }
 
-  #portrait-container {
-    position: relative;
-    display: inline-block;
-  }
-
   canvas {
     display: block;
     max-width: 95vw;
@@ -170,6 +163,7 @@
     font-style: italic;
     margin: 20px 0;
     animation: pulse 1.5s infinite;
+    text-align: center;
   }
 
   #typed-box {
@@ -266,11 +260,9 @@
     </div>
   </div>
 
-  <div id="loading">✨ Loading your portrait, Love... ✨</div>
+  <div id="loading">✨ Building your portrait... 🥹</div>
 
-  <div id="portrait-container">
-    <canvas id="canvas"></canvas>
-  </div>
+  <canvas id="canvas"></canvas>
 
   <div id="typed-box">
     <div id="typed-text"><span id="cursor"></span></div>
@@ -283,9 +275,6 @@
 </audio>
 
 <script>
-// ════════════════════════════════
-//  INTRO
-// ════════════════════════════════
 function startExperience() {
   const intro = document.getElementById('intro');
   intro.style.opacity = '0';
@@ -302,9 +291,6 @@ function startExperience() {
   }, 1000);
 }
 
-// ════════════════════════════════
-//  MUSIC
-// ════════════════════════════════
 function toggleMusic() {
   const music = document.getElementById('bg-music');
   const btn   = document.getElementById('play-btn');
@@ -320,107 +306,114 @@ function toggleMusic() {
   }
 }
 
-// ════════════════════════════════
-//  LOVE TEXT
-// ════════════════════════════════
-const loveText = `MyLoveElaiFromTheVeryFirstDayOctober122025YouChangedMyWorldILoveHowYouCareForMeAndSupportMeYouMakeEveryDayBetterWhenWeTalkIFeelPureHappinessYouUnderstandMeLikeNoOneElseIMissYouSoMuchOurFirstKissLivesInMyHeartForeverYouAreMyPeaceMyJoyMyFavoritePersonILoveYouElaiAlwaysAndForeverHappyMonthsaryMyLovePagIbigNgIkawAtAkoParaSaIyoElai`;
+// ── Love words that will be readable in the portrait ──
+const words = [
+  'LOVE','ELAI','HAPPY','5TH','MONTHSARY',
+  'OCT','12','2025','MY','PEACE','MY','JOY',
+  'FOREVER','ALWAYS','MAHAL','KITA','PARA',
+  'SA','IYO','HEART','KISS','SMILE','MINE',
+  'BEAUTIFUL','CARE','SUPPORT','TOGETHER'
+];
 
 // ════════════════════════════════
-//  REAL COLOR TEXT PORTRAIT
+//  PORTRAIT — WORD BASED
+//  Uses short readable words as pixels
+//  Real photo colors
 // ════════════════════════════════
 function buildPortrait() {
   const canvas = document.getElementById('canvas');
-  const ctx    = canvas.getContext('2d');
+  const ctx    = canvas.getContext('2d', { willReadFrequently: true });
   const img    = new Image();
   img.src      = 'elaiza.jpg';
 
   img.onload = function () {
-    const MAX_W = Math.min(window.innerWidth * 0.95, 650);
-    const scale = MAX_W / img.width;
-    const W     = Math.floor(img.width  * scale);
-    const H     = Math.floor(img.height * scale);
-    const DPR   = Math.min(window.devicePixelRatio || 2, 3);
 
-    canvas.width        = W * DPR;
-    canvas.height       = H * DPR;
-    canvas.style.width  = W + 'px';
-    canvas.style.height = H + 'px';
+    const DISP_W = Math.min(window.innerWidth * 0.95, 660);
+    const DISP_H = Math.floor(img.height * (DISP_W / img.width));
+
+    const DPR        = Math.min(window.devicePixelRatio || 2, 3);
+    canvas.width     = DISP_W * DPR;
+    canvas.height    = DISP_H * DPR;
+    canvas.style.width  = DISP_W + 'px';
+    canvas.style.height = DISP_H + 'px';
     ctx.scale(DPR, DPR);
 
-    // ── Offscreen canvas with contrast boost ──
+    // ── Sample image with contrast boost ──
     const off    = document.createElement('canvas');
-    off.width    = W;
-    off.height   = H;
-    const offCtx = off.getContext('2d');
+    off.width    = DISP_W;
+    off.height   = DISP_H;
+    const offCtx = off.getContext('2d', { willReadFrequently: true });
+    offCtx.filter = 'contrast(150%) brightness(110%) saturate(115%)';
+    offCtx.drawImage(img, 0, 0, DISP_W, DISP_H);
 
-    // Boost contrast and brightness so face details are sharp
-    offCtx.filter = 'contrast(140%) brightness(110%)';
-    offCtx.drawImage(img, 0, 0, W, H);
-
-    const imageData = offCtx.getImageData(0, 0, W, H);
+    const imageData = offCtx.getImageData(0, 0, DISP_W, DISP_H);
     const pixels    = imageData.data;
 
     // Black background
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, DISP_W, DISP_H);
 
-    // Ultra fine font for maximum detail
-    const fontSize = 3.2;
-    const step     = fontSize;
+    // ── Font size: 7px — small enough for detail, big enough to READ ──
+    const FONT_SIZE = 7;
+    const LINE_H    = FONT_SIZE * 1.15;
+
     ctx.textBaseline = 'top';
+    ctx.font = `bold ${FONT_SIZE}px monospace`;
 
-    let charIndex = 0;
+    let wordIndex = 0;
+    let x = 0;
+    let y = 0;
 
-    for (let y = 0; y < H; y += step) {
-      for (let x = 0; x < W; x += step) {
-        const px = Math.min(Math.floor(x), W - 1);
-        const py = Math.min(Math.floor(y), H - 1);
-        const i  = (py * W + px) * 4;
+    while (y < DISP_H) {
+      const word  = words[wordIndex % words.length];
+      const chars = word.length;
 
-        const r = pixels[i];
-        const g = pixels[i + 1];
-        const b = pixels[i + 2];
-        const a = pixels[i + 3];
+      // Sample pixel at current word start position
+      const sx = Math.min(Math.floor(x + (chars * FONT_SIZE * 0.6) / 2), DISP_W - 1);
+      const sy = Math.min(Math.floor(y + LINE_H / 2), DISP_H - 1);
+      const i  = (sy * DISP_W + sx) * 4;
 
-        if (a < 10) continue;
+      const r = pixels[i];
+      const g = pixels[i + 1];
+      const b = pixels[i + 2];
+      const a = pixels[i + 3];
 
+      if (a > 20) {
         const brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
 
-        // Skip only pure black pixels
-        if (brightness < 0.04) continue;
+        if (brightness >= 0.04) {
+          // Real photo color, slightly boosted
+          const rr    = Math.min(255, Math.floor(r * 1.12));
+          const gg    = Math.min(255, Math.floor(g * 1.12));
+          const bb    = Math.min(255, Math.floor(b * 1.12));
+          const alpha = Math.min(1, 0.55 + brightness * 0.45);
 
-        // ── USE REAL PIXEL COLOR from the photo ──
-        // Slightly boost each channel so it's vivid not dull
-        const red   = Math.min(255, Math.floor(r * 1.15));
-        const green = Math.min(255, Math.floor(g * 1.15));
-        const blue  = Math.min(255, Math.floor(b * 1.15));
+          ctx.fillStyle = `rgba(${rr},${gg},${bb},${alpha})`;
+          ctx.fillText(word, x, y);
+        }
+      }
 
-        // Alpha based on brightness — bright pixels are more opaque
-        const alpha = Math.min(1, 0.5 + brightness * 0.6);
+      // Advance x by word width + small gap
+      const wordW = chars * FONT_SIZE * 0.62;
+      x += wordW + FONT_SIZE * 0.3;
+      wordIndex++;
 
-        // Font size slightly smaller for bright areas = more detail
-        const fSize = brightness > 0.6
-          ? fontSize * 0.85
-          : fontSize;
-
-        ctx.font      = `bold ${fSize}px monospace`;
-        ctx.fillStyle = `rgba(${red},${green},${blue},${alpha})`;
-
-        const char = loveText[charIndex % loveText.length];
-        ctx.fillText(char, x, y);
-        charIndex++;
+      // Next line
+      if (x + FONT_SIZE * 3 > DISP_W) {
+        x  = 0;
+        y += LINE_H;
       }
     }
 
-    // Subtle vignette on edges only — does NOT darken the face
+    // Subtle edge vignette only
     const vignette = ctx.createRadialGradient(
-      W / 2, H / 2, H * 0.4,
-      W / 2, H / 2, H * 0.95
+      DISP_W / 2, DISP_H / 2, DISP_H * 0.38,
+      DISP_W / 2, DISP_H / 2, DISP_H * 1.0
     );
     vignette.addColorStop(0, 'rgba(0,0,0,0)');
-    vignette.addColorStop(1, 'rgba(0,0,0,0.35)');
+    vignette.addColorStop(1, 'rgba(0,0,0,0.3)');
     ctx.fillStyle = vignette;
-    ctx.fillRect(0, 0, W, H);
+    ctx.fillRect(0, 0, DISP_W, DISP_H);
 
     document.getElementById('loading').style.display = 'none';
   };
