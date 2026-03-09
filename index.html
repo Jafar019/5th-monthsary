@@ -13,9 +13,15 @@
     overflow-x: hidden;
     padding-top: 20px;
     background: #000;
+    opacity: 0;
+    animation: pageLoad 1.2s ease forwards;
   }
 
-  /* ── ANIMATED GRADIENT BACKGROUND ── */
+  @keyframes pageLoad {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
   #bg-gradient {
     position: fixed;
     inset: 0;
@@ -31,7 +37,6 @@
     100% { background-position: 0% 50%; }
   }
 
-  /* ── STARFIELD ── */
   #stars {
     position: fixed;
     inset: 0;
@@ -51,7 +56,6 @@
     100% { opacity: 1;   transform: scale(1.2); }
   }
 
-  /* ── FIREFLIES ── */
   #fireflies {
     position: fixed;
     inset: 0;
@@ -77,7 +81,6 @@
     100% { transform: translate(-40px, -20px) scale(1);   opacity: 0.3; }
   }
 
-  /* ── PETAL RAIN ── */
   #petals {
     position: fixed;
     inset: 0;
@@ -100,7 +103,6 @@
     100% { top: 110vh; transform: translateX(-30px) rotate(360deg); opacity: 0; }
   }
 
-  /* ── FIREWORKS CANVAS ── */
   #fireworks-canvas {
     position: fixed;
     inset: 0;
@@ -119,37 +121,38 @@
     z-index: 999;
     cursor: pointer;
     transition: opacity 1.2s ease;
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(4px);
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(6px);
   }
 
   #intro .intro-heart {
-    font-size: 3.5rem;
+    font-size: 4rem;
     animation: pulse 1.5s infinite;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 20px #00aaff);
   }
 
   #intro h1 {
     color: #7fd8f0;
-    font-size: 1.9rem;
+    font-size: 2.1rem;
     text-shadow: 0 0 30px #00aaff;
     text-align: center;
     animation: pulse 2s infinite;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
     padding: 0 20px;
   }
 
   #intro p {
     color: #b0e8ff;
-    font-size: 0.95rem;
-    opacity: 0.7;
+    font-size: 1rem;
+    opacity: 0.75;
     font-style: italic;
     animation: pulse 2s infinite;
   }
 
   #intro .intro-date {
-    margin-top: 20px;
-    font-size: 0.75rem;
+    margin-top: 22px;
+    font-size: 0.78rem;
     color: #7fd8f0;
     opacity: 0.6;
     letter-spacing: 2px;
@@ -186,24 +189,36 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    padding-bottom: 60px;
+    padding-bottom: 80px;
     position: relative;
     z-index: 5;
   }
 
+  /* ── SECTION FADE-IN ── */
+  .fade-section {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .fade-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
   h1.title {
     color: #7fd8f0;
-    font-size: 1.5rem;
-    margin: 22px 0 4px;
+    font-size: clamp(1.2rem, 4vw, 1.7rem);
+    margin: 28px 0 6px;
     text-align: center;
     text-shadow: 0 0 20px #00aaff, 0 0 40px #0077cc;
     letter-spacing: 2px;
+    padding: 0 16px;
   }
 
   h2.subtitle-top {
     color: #b0e8ff;
-    font-size: 0.95rem;
-    margin-bottom: 14px;
+    font-size: clamp(0.8rem, 3vw, 1rem);
+    margin-bottom: 18px;
     text-align: center;
     font-style: italic;
     text-shadow: 0 0 10px #00aaff;
@@ -212,38 +227,41 @@
   /* ── TIMER ── */
   #timer-box {
     display: flex;
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: 10px;
+    margin-bottom: 24px;
     flex-wrap: wrap;
     justify-content: center;
+    padding: 0 12px;
   }
 
   .timer-unit {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: rgba(0, 170, 255, 0.1);
-    border: 1px solid rgba(100, 210, 255, 0.3);
-    border-radius: 12px;
-    padding: 10px 14px;
-    min-width: 60px;
-    box-shadow: 0 0 15px rgba(0, 170, 255, 0.15);
+    background: rgba(0, 170, 255, 0.12);
+    border: 1px solid rgba(100, 210, 255, 0.35);
+    border-radius: 14px;
+    padding: 12px 16px;
+    min-width: 64px;
+    box-shadow: 0 0 18px rgba(0, 170, 255, 0.18),
+                inset 0 1px 0 rgba(255,255,255,0.05);
+    backdrop-filter: blur(4px);
   }
 
   .timer-num {
     color: #7fd8f0;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: bold;
-    text-shadow: 0 0 10px #00aaff;
+    text-shadow: 0 0 12px #00aaff;
     line-height: 1;
   }
 
   .timer-label {
     color: #b0e8ff;
-    font-size: 0.6rem;
-    opacity: 0.7;
-    margin-top: 4px;
-    letter-spacing: 1px;
+    font-size: 0.62rem;
+    opacity: 0.75;
+    margin-top: 5px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
   }
 
@@ -251,46 +269,54 @@
   #music-player {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     background: rgba(0, 170, 255, 0.1);
     border: 1px solid rgba(100, 210, 255, 0.3);
     border-radius: 50px;
-    padding: 10px 22px;
-    margin-bottom: 22px;
+    padding: 10px 24px;
+    margin-bottom: 28px;
     backdrop-filter: blur(6px);
-    box-shadow: 0 0 20px rgba(0, 170, 255, 0.15);
+    box-shadow: 0 0 24px rgba(0, 170, 255, 0.18);
+    transition: box-shadow 0.3s ease;
+  }
+
+  #music-player:hover {
+    box-shadow: 0 0 36px rgba(0, 170, 255, 0.3);
   }
 
   #play-btn {
     background: linear-gradient(135deg, #00aaff, #0077cc);
     border: none;
     border-radius: 50%;
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
     font-size: 1.1rem;
     cursor: pointer;
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 15px rgba(0, 170, 255, 0.5);
-    transition: transform 0.2s;
+    box-shadow: 0 0 18px rgba(0, 170, 255, 0.55);
+    transition: transform 0.2s, box-shadow 0.2s;
   }
 
-  #play-btn:hover { transform: scale(1.1); }
+  #play-btn:hover {
+    transform: scale(1.12);
+    box-shadow: 0 0 28px rgba(0, 170, 255, 0.8);
+  }
 
   .song-info { display: flex; flex-direction: column; }
 
   .song-title {
     color: #7fd8f0;
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     font-weight: bold;
   }
 
   .song-sub {
     color: #b0e8ff;
-    font-size: 0.72rem;
-    opacity: 0.7;
+    font-size: 0.73rem;
+    opacity: 0.75;
     font-style: italic;
   }
 
@@ -303,7 +329,7 @@
 
   .bar {
     width: 4px;
-    background: #00aaff;
+    background: linear-gradient(to top, #0077cc, #00ccff);
     border-radius: 2px;
     animation: bounce-bar 0.8s ease infinite alternate;
   }
@@ -324,11 +350,25 @@
   /* ── PORTRAIT WRAPPER ── */
   #portrait-wrapper {
     position: relative;
-    width: 480px;
-    max-width: 90vw;
+    width: min(480px, 92vw);
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  /* Portrait glow ring */
+  #portrait-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 18px;
+    background: transparent;
+    box-shadow:
+      0 0 28px rgba(0, 170, 255, 0.5),
+      0 0 60px rgba(0, 120, 200, 0.25),
+      0 0 100px rgba(0, 80, 180, 0.12);
+    z-index: 0;
+    pointer-events: none;
   }
 
   /* ── PORTRAIT ── */
@@ -339,9 +379,8 @@
     letter-spacing: 0px;
     word-spacing: -1px;
     text-align: justify;
-    width: 480px;
-    height: 640px;
-    max-width: 90vw;
+    width: min(480px, 92vw);
+    height: min(640px, calc(92vw * 1.333));
     overflow: hidden;
     display: block;
     background-image: url('elaiza.jpg');
@@ -350,22 +389,18 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    border-radius: 12px;
-    filter: brightness(1.4) contrast(1.1);
-    box-shadow:
-      0 0 30px rgba(0, 170, 255, 0.4),
-      0 0 60px rgba(0, 120, 200, 0.2),
-      0 0 100px rgba(0, 80, 180, 0.1);
+    border-radius: 14px;
+    filter: brightness(1.45) contrast(1.12);
     position: relative;
     z-index: 6;
   }
 
   .portrait-caption {
     color: #7fd8f0;
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     font-style: italic;
     text-align: center;
-    margin-top: 12px;
+    margin-top: 14px;
     text-shadow: 0 0 10px rgba(0, 170, 255, 0.6);
     animation: pulse 2s infinite;
     letter-spacing: 1px;
@@ -373,11 +408,12 @@
 
   /* ── LOVE LETTER ── */
   #letter-section {
-    margin-top: 30px;
+    margin-top: 36px;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
+    gap: 0;
   }
 
   #envelope-wrapper {
@@ -385,31 +421,38 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+    transition: transform 0.2s ease;
   }
+
+  #envelope-wrapper:hover { transform: scale(1.03); }
 
   #envelope {
-    width: 220px;
-    height: 140px;
+    width: 240px;
+    height: 150px;
     background: linear-gradient(135deg, #004a7a, #0077bb);
-    border-radius: 8px;
+    border-radius: 10px;
     position: relative;
     box-shadow:
-      0 0 30px rgba(0, 150, 255, 0.4),
-      0 0 60px rgba(0, 100, 200, 0.2);
-    transition: transform 0.3s ease;
+      0 0 32px rgba(0, 150, 255, 0.45),
+      0 0 70px rgba(0, 100, 200, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  #envelope:hover { transform: scale(1.05); }
+  #envelope:hover {
+    box-shadow:
+      0 0 48px rgba(0, 150, 255, 0.65),
+      0 0 90px rgba(0, 100, 200, 0.3);
+  }
 
   #envelope::before {
     content: '';
     position: absolute;
     top: 0; left: 0;
-    border-left: 110px solid transparent;
-    border-right: 110px solid transparent;
-    border-top: 70px solid #003a6a;
-    border-radius: 8px 8px 0 0;
+    border-left: 120px solid transparent;
+    border-right: 120px solid transparent;
+    border-top: 75px solid #003a6a;
+    border-radius: 10px 10px 0 0;
     transition: transform 0.6s ease, border-top-color 0.3s;
     transform-origin: top center;
     z-index: 2;
@@ -424,10 +467,10 @@
     content: '';
     position: absolute;
     bottom: 0; left: 0;
-    border-left: 110px solid #003060;
-    border-right: 110px solid #003060;
-    border-top: 70px solid transparent;
-    border-radius: 0 0 8px 8px;
+    border-left: 120px solid #003060;
+    border-right: 120px solid #003060;
+    border-top: 75px solid transparent;
+    border-radius: 0 0 10px 10px;
   }
 
   .envelope-heart {
@@ -435,31 +478,39 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 2rem;
+    font-size: 2.2rem;
     z-index: 3;
     animation: pulse 1.5s infinite;
+    filter: drop-shadow(0 0 8px #00aaff);
   }
 
   #envelope-hint {
     color: #b0e8ff;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-style: italic;
-    opacity: 0.7;
-    animation: pulse 2s infinite;
+    opacity: 0;
+    animation: hintPulse 2.5s ease infinite;
+    letter-spacing: 0.5px;
+  }
+
+  @keyframes hintPulse {
+    0%   { opacity: 0.3; transform: translateY(0); }
+    50%  { opacity: 0.9; transform: translateY(-4px); }
+    100% { opacity: 0.3; transform: translateY(0); }
   }
 
   /* ── LETTER PAPER ── */
   #letter-paper {
     display: none;
-    max-width: 480px;
+    max-width: 500px;
     width: 92vw;
-    margin-top: 20px;
+    margin-top: 24px;
     background: linear-gradient(160deg, #f0f8ff, #e0f4ff);
-    border-radius: 12px;
-    padding: 32px 28px;
+    border-radius: 16px;
+    padding: 36px 32px;
     box-shadow:
-      0 0 40px rgba(0, 150, 255, 0.3),
-      0 10px 40px rgba(0, 0, 0, 0.4);
+      0 0 50px rgba(0, 150, 255, 0.35),
+      0 14px 48px rgba(0, 0, 0, 0.45);
     position: relative;
     overflow: hidden;
   }
@@ -470,8 +521,8 @@
     inset: 0;
     background: repeating-linear-gradient(
       transparent,
-      transparent 27px,
-      rgba(100, 180, 255, 0.15) 28px
+      transparent 28px,
+      rgba(100, 180, 255, 0.15) 29px
     );
     pointer-events: none;
   }
@@ -482,23 +533,23 @@
   }
 
   .letter-dear {
-    font-size: 1rem;
+    font-size: 1.05rem;
     color: #004a8a;
     font-style: italic;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
     font-weight: bold;
   }
 
   .letter-body {
-    font-size: 0.88rem;
+    font-size: 0.92rem;
     color: #003366;
-    line-height: 1.95;
+    line-height: 2.05;
     font-style: italic;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
   }
 
   .letter-sign {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     color: #004a8a;
     font-style: italic;
     text-align: right;
@@ -507,31 +558,33 @@
 
   .letter-hearts {
     text-align: center;
-    font-size: 1.2rem;
-    margin-top: 10px;
-    letter-spacing: 4px;
+    font-size: 1.3rem;
+    margin-top: 12px;
+    letter-spacing: 5px;
   }
 
   /* ── TYPED BOX ── */
   #typed-box {
-    max-width: 500px;
+    max-width: 520px;
     width: 92vw;
-    margin-top: 30px;
-    background: rgba(0, 170, 255, 0.07);
-    border: 1px solid rgba(100, 210, 255, 0.25);
-    border-radius: 16px;
-    padding: 22px 24px;
+    margin-top: 36px;
+    background: rgba(0, 170, 255, 0.08);
+    border: 1px solid rgba(100, 210, 255, 0.28);
+    border-radius: 18px;
+    padding: 26px 28px;
     text-align: center;
-    box-shadow: 0 0 20px rgba(0, 170, 255, 0.1);
+    box-shadow: 0 0 24px rgba(0, 170, 255, 0.12),
+                inset 0 1px 0 rgba(255,255,255,0.04);
+    backdrop-filter: blur(4px);
   }
 
   #typed-text {
     color: #d0f0ff;
-    font-size: 0.95rem;
-    line-height: 1.85;
+    font-size: 1rem;
+    line-height: 1.9;
     font-style: italic;
-    min-height: 80px;
-    text-shadow: 0 0 8px rgba(0, 170, 255, 0.4);
+    min-height: 88px;
+    text-shadow: 0 0 10px rgba(0, 170, 255, 0.45);
   }
 
   #cursor {
@@ -542,6 +595,7 @@
     margin-left: 2px;
     vertical-align: middle;
     animation: blink 0.7s infinite;
+    border-radius: 1px;
   }
 
   @keyframes blink {
@@ -551,20 +605,35 @@
 
   .date-tag {
     color: #7fd8f0;
-    font-size: 0.78rem;
-    margin-top: 14px;
-    opacity: 0.7;
-    letter-spacing: 1px;
+    font-size: 0.8rem;
+    margin-top: 16px;
+    opacity: 0.75;
+    letter-spacing: 1.5px;
   }
 
   .footer {
-    margin-top: 30px;
+    margin-top: 36px;
     color: #7fd8f0;
-    font-size: 0.75rem;
-    opacity: 0.5;
+    font-size: 0.8rem;
+    opacity: 0.55;
     letter-spacing: 2px;
     text-align: center;
     font-style: italic;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 480px) {
+    h1.title { font-size: 1.15rem; }
+    .timer-num { font-size: 1.3rem; }
+    .timer-unit { padding: 10px 12px; min-width: 54px; }
+    #music-player { padding: 10px 16px; gap: 10px; }
+    .song-title { font-size: 0.78rem; }
+    .song-sub { font-size: 0.66rem; }
+    #envelope { width: 200px; height: 126px; }
+    #envelope::before { border-left-width: 100px; border-right-width: 100px; border-top-width: 63px; }
+    #envelope::after  { border-left-width: 100px; border-right-width: 100px; border-top-width: 63px; }
+    #letter-paper { padding: 26px 20px; }
+    .letter-body { font-size: 0.86rem; }
   }
 </style>
 </head>
@@ -587,11 +656,11 @@
 
 <!-- MAIN -->
 <div id="main">
-  <h1 class="title">💙 Happy 5th Monthsary, Love 💙</h1>
-  <h2 class="subtitle-top">— From the one who loves you most —</h2>
+  <h1 class="title fade-section">💙 Happy 5th Monthsary, Love 💙</h1>
+  <h2 class="subtitle-top fade-section">— From the one who loves you most —</h2>
 
   <!-- TIMER -->
-  <div id="timer-box">
+  <div id="timer-box" class="fade-section">
     <div class="timer-unit"><span class="timer-num" id="t-months">0</span><span class="timer-label">Months</span></div>
     <div class="timer-unit"><span class="timer-num" id="t-days">0</span><span class="timer-label">Days</span></div>
     <div class="timer-unit"><span class="timer-num" id="t-hours">0</span><span class="timer-label">Hours</span></div>
@@ -600,7 +669,7 @@
   </div>
 
   <!-- MUSIC PLAYER -->
-  <div id="music-player">
+  <div id="music-player" class="fade-section">
     <button id="play-btn" onclick="toggleMusic()">▶</button>
     <div class="song-info">
       <span class="song-title">🎵 Pag Ibig ng Ikaw at Ako</span>
@@ -616,13 +685,13 @@
   </div>
 
   <!-- PORTRAIT -->
-  <div id="portrait-wrapper">
+  <div id="portrait-wrapper" class="fade-section">
     <div class="portrait" id="portrait"></div>
   </div>
-  <p class="portrait-caption">✨ Made with love, just for you ✨</p>
+  <p class="portrait-caption fade-section">✨ Made with love, just for you ✨</p>
 
   <!-- LOVE LETTER -->
-  <div id="letter-section">
+  <div id="letter-section" class="fade-section">
     <div id="envelope-wrapper" onclick="openLetter()">
       <div id="envelope">
         <div class="envelope-heart">💌</div>
@@ -649,12 +718,12 @@
   </div>
 
   <!-- TYPED MESSAGES -->
-  <div id="typed-box">
+  <div id="typed-box" class="fade-section">
     <div id="typed-text"><span id="cursor"></span></div>
     <p class="date-tag">💙 October 12, 2025 → Forever 💙</p>
   </div>
 
-  <p class="footer">with all my love, forever yours — Gel 💙</p>
+  <p class="footer fade-section">with all my love, forever yours — Gel 💙</p>
 </div>
 
 <audio id="bg-music" loop>
@@ -671,60 +740,50 @@ for (let i = 0; i < 160; i++) {
   star.classList.add('star');
   const size = 0.5 + Math.random() * 2;
   star.style.cssText = `
-    width: ${size}px;
-    height: ${size}px;
-    top: ${Math.random() * 100}vh;
-    left: ${Math.random() * 100}vw;
-    animation-duration: ${1.5 + Math.random() * 3}s;
-    animation-delay: ${Math.random() * 3}s;
-    opacity: ${0.3 + Math.random() * 0.7};
+    width:${size}px;height:${size}px;
+    top:${Math.random()*100}vh;left:${Math.random()*100}vw;
+    animation-duration:${1.5+Math.random()*3}s;
+    animation-delay:${Math.random()*3}s;
+    opacity:${0.3+Math.random()*0.7};
   `;
   starsContainer.appendChild(star);
 }
 
 // ════════════════════════════════
-//  FIREFLIES — sides only, not center
+//  FIREFLIES
 // ════════════════════════════════
 const firefliesContainer = document.getElementById('fireflies');
 for (let i = 0; i < 18; i++) {
   const ff = document.createElement('div');
   ff.classList.add('firefly');
-  // Keep fireflies on left 20% or right 20% of screen
   const side = Math.random() > 0.5;
-  const leftPos = side
-    ? Math.random() * 20
-    : 80 + Math.random() * 20;
+  const leftPos = side ? Math.random()*20 : 80+Math.random()*20;
   ff.style.cssText = `
-    top: ${Math.random() * 100}vh;
-    left: ${leftPos}vw;
-    animation-duration: ${3 + Math.random() * 5}s;
-    animation-delay: ${Math.random() * 4}s;
-    width: ${4 + Math.random() * 5}px;
-    height: ${4 + Math.random() * 5}px;
+    top:${Math.random()*100}vh;left:${leftPos}vw;
+    animation-duration:${3+Math.random()*5}s;
+    animation-delay:${Math.random()*4}s;
+    width:${4+Math.random()*5}px;height:${4+Math.random()*5}px;
   `;
   firefliesContainer.appendChild(ff);
 }
 
 // ════════════════════════════════
-//  PETAL RAIN — sides only, not center
+//  PETAL RAIN
 // ════════════════════════════════
 const petalsContainer = document.getElementById('petals');
 const petalEmojis = ['🌸','🩵','💙','❄️','🌊','💎'];
 for (let i = 0; i < 22; i++) {
   const petal = document.createElement('div');
   petal.classList.add('petal');
-  petal.textContent = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
-  // Keep petals on left 15% or right 15% of screen
+  petal.textContent = petalEmojis[Math.floor(Math.random()*petalEmojis.length)];
   const side = Math.random() > 0.5;
-  const leftPos = side
-    ? Math.random() * 15
-    : 85 + Math.random() * 15;
+  const leftPos = side ? Math.random()*15 : 85+Math.random()*15;
   petal.style.cssText = `
-    left: ${leftPos}vw;
-    animation-duration: ${6 + Math.random() * 8}s;
-    animation-delay: ${Math.random() * 7}s;
-    font-size: ${0.7 + Math.random() * 1}rem;
-    opacity: ${0.5 + Math.random() * 0.4};
+    left:${leftPos}vw;
+    animation-duration:${6+Math.random()*8}s;
+    animation-delay:${Math.random()*7}s;
+    font-size:${0.7+Math.random()*1}rem;
+    opacity:${0.5+Math.random()*0.4};
   `;
   petalsContainer.appendChild(petal);
 }
@@ -737,14 +796,30 @@ const introSymbols = ['💙','🩵','❄️','💎','✨','🌸'];
 for (let i = 0; i < 14; i++) {
   const el = document.createElement('div');
   el.classList.add('intro-float');
-  el.textContent = introSymbols[Math.floor(Math.random() * introSymbols.length)];
+  el.textContent = introSymbols[Math.floor(Math.random()*introSymbols.length)];
   el.style.cssText = `
-    left: ${Math.random() * 100}vw;
-    font-size: ${0.8 + Math.random() * 1.2}rem;
-    animation-duration: ${4 + Math.random() * 5}s;
-    animation-delay: ${Math.random() * 4}s;
+    left:${Math.random()*100}vw;
+    font-size:${0.8+Math.random()*1.2}rem;
+    animation-duration:${4+Math.random()*5}s;
+    animation-delay:${Math.random()*4}s;
   `;
   introFloats.appendChild(el);
+}
+
+// ════════════════════════════════
+//  SCROLL FADE-IN OBSERVER
+// ════════════════════════════════
+function initFadeObserver() {
+  const sections = document.querySelectorAll('.fade-section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  sections.forEach(s => observer.observe(s));
 }
 
 // ════════════════════════════════
@@ -764,23 +839,22 @@ window.addEventListener('resize', () => {
 
 function randomColor() {
   const colors = ['#7fd8f0','#00aaff','#b0e8ff','#ffffff','#00ccff','#aaddff','#0077cc'];
-  return colors[Math.floor(Math.random() * colors.length)];
+  return colors[Math.floor(Math.random()*colors.length)];
 }
 
 function launchFirework() {
-  const x     = Math.random() * fwCanvas.width;
-  const y     = Math.random() * fwCanvas.height * 0.6;
+  const x     = Math.random()*fwCanvas.width;
+  const y     = Math.random()*fwCanvas.height*0.6;
   const color = randomColor();
   for (let i = 0; i < 60; i++) {
-    const angle = (Math.PI * 2 / 60) * i;
-    const speed = 2 + Math.random() * 4;
+    const angle = (Math.PI*2/60)*i;
+    const speed = 2+Math.random()*4;
     particles.push({
       x, y,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed,
-      alpha: 1,
-      color,
-      size: 2 + Math.random() * 2
+      vx: Math.cos(angle)*speed,
+      vy: Math.sin(angle)*speed,
+      alpha: 1, color,
+      size: 2+Math.random()*2
     });
   }
 }
@@ -790,15 +864,13 @@ function animateFireworks() {
   fwCtx.clearRect(0, 0, fwCanvas.width, fwCanvas.height);
   particles = particles.filter(p => p.alpha > 0.02);
   particles.forEach(p => {
-    p.x     += p.vx;
-    p.y     += p.vy;
-    p.vy    += 0.05;
-    p.alpha -= 0.018;
+    p.x += p.vx; p.y += p.vy;
+    p.vy += 0.05; p.alpha -= 0.018;
     fwCtx.save();
     fwCtx.globalAlpha = p.alpha;
     fwCtx.fillStyle   = p.color;
     fwCtx.beginPath();
-    fwCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    fwCtx.arc(p.x, p.y, p.size, 0, Math.PI*2);
     fwCtx.fill();
     fwCtx.restore();
   });
@@ -810,8 +882,7 @@ function startFireworks() {
   animateFireworks();
   let count = 0;
   const interval = setInterval(() => {
-    launchFirework();
-    launchFirework();
+    launchFirework(); launchFirework();
     count++;
     if (count >= 10) {
       clearInterval(interval);
@@ -832,12 +903,10 @@ function updateTimer() {
   let   diff  = Math.floor((now - start) / 1000);
   if (diff < 0) diff = 0;
 
-  const months = Math.floor(diff / (30.44 * 24 * 3600));
-  diff -= months * Math.floor(30.44 * 24 * 3600);
-  const days  = Math.floor(diff / (24 * 3600));
-  diff -= days * 24 * 3600;
-  const hours = Math.floor(diff / 3600);
-  diff -= hours * 3600;
+  const months = Math.floor(diff / (30.44*24*3600));
+  diff -= months * Math.floor(30.44*24*3600);
+  const days  = Math.floor(diff / (24*3600)); diff -= days*24*3600;
+  const hours = Math.floor(diff / 3600);      diff -= hours*3600;
   const mins  = Math.floor(diff / 60);
   const secs  = diff % 60;
 
@@ -856,8 +925,12 @@ function startExperience() {
   intro.style.opacity = '0';
   setTimeout(() => {
     intro.style.display = 'none';
-    document.getElementById('main').style.display = 'flex';
-    setTimeout(() => { buildPortrait(); }, 100);
+    const main = document.getElementById('main');
+    main.style.display = 'flex';
+    setTimeout(() => {
+      buildPortrait();
+      initFadeObserver();
+    }, 100);
     startTyping();
     updateTimer();
     setInterval(updateTimer, 1000);
@@ -910,11 +983,12 @@ function openLetter() {
   if (letterOpened) return;
   letterOpened = true;
   document.getElementById('envelope').classList.add('open');
+  document.getElementById('envelope-hint').style.animation = 'none';
   document.getElementById('envelope-hint').textContent = '💙';
   setTimeout(() => {
     const paper = document.getElementById('letter-paper');
-    paper.style.display    = 'block';
-    paper.style.animation  = 'letterOpen 0.8s ease forwards';
+    paper.style.display   = 'block';
+    paper.style.animation = 'letterOpen 0.8s ease forwards';
   }, 700);
 }
 
