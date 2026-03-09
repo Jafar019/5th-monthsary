@@ -8,7 +8,7 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: #0a0005;
+    background: #000;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -22,7 +22,7 @@
   #intro {
     position: fixed;
     inset: 0;
-    background: #0a0005;
+    background: #000;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -248,7 +248,6 @@
 <div class="hearts" id="hearts"></div>
 
 <div id="main">
-
   <h1 class="title">💕 Happy 5th Monthsary, Love 💕</h1>
   <h2 class="subtitle-top">— From the one who loves you most —</h2>
 
@@ -277,7 +276,6 @@
     <div id="typed-text"><span id="cursor"></span></div>
     <p class="date-tag">💕 October 12, 2025 → Forever 💕</p>
   </div>
-
 </div>
 
 <audio id="bg-music" loop>
@@ -328,7 +326,7 @@ function toggleMusic() {
 const loveText = `MyLoveElaiFromTheVeryFirstDayOctober122025YouChangedMyWorldILoveHowYouCareForMeAndSupportMeYouMakeEveryDayBetterWhenWeTalkIFeelPureHappinessYouUnderstandMeLikeNoOneElseIMissYouSoMuchOurFirstKissLivesInMyHeartForeverYouAreMyPeaceMyJoyMyFavoritePersonILoveYouElaiAlwaysAndForeverHappyMonthsaryMyLovePagIbigNgIkawAtAkoParaSaIyoElai`;
 
 // ════════════════════════════════
-//  HIGH QUALITY PORTRAIT
+//  REAL COLOR TEXT PORTRAIT
 // ════════════════════════════════
 function buildPortrait() {
   const canvas = document.getElementById('canvas');
@@ -337,7 +335,6 @@ function buildPortrait() {
   img.src      = 'elaiza.jpg';
 
   img.onload = function () {
-
     const MAX_W = Math.min(window.innerWidth * 0.95, 650);
     const scale = MAX_W / img.width;
     const W     = Math.floor(img.width  * scale);
@@ -350,23 +347,24 @@ function buildPortrait() {
     canvas.style.height = H + 'px';
     ctx.scale(DPR, DPR);
 
-    // ── Draw image to offscreen for pixel sampling ──
+    // ── Offscreen canvas with contrast boost ──
     const off    = document.createElement('canvas');
     off.width    = W;
     off.height   = H;
     const offCtx = off.getContext('2d');
 
-    // STEP 1: Increase contrast and brightness before sampling
-    offCtx.filter = 'contrast(160%) brightness(115%) saturate(100%)';
+    // Boost contrast and brightness so face details are sharp
+    offCtx.filter = 'contrast(140%) brightness(110%)';
     offCtx.drawImage(img, 0, 0, W, H);
 
     const imageData = offCtx.getImageData(0, 0, W, H);
     const pixels    = imageData.data;
 
-    // ── Black background ──
-    ctx.fillStyle = '#0a0005';
+    // Black background
+    ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, W, H);
 
+    // Ultra fine font for maximum detail
     const fontSize = 3.2;
     const step     = fontSize;
     ctx.textBaseline = 'top';
@@ -388,24 +386,22 @@ function buildPortrait() {
 
         const brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
 
-        // ── Much lower threshold so dark areas still render ──
-        if (brightness < 0.03) continue;
+        // Skip only pure black pixels
+        if (brightness < 0.04) continue;
 
-        // ── Remap brightness so even dark pixels are visible ──
-        const boosted = Math.pow(brightness, 0.55);
+        // ── USE REAL PIXEL COLOR from the photo ──
+        // Slightly boost each channel so it's vivid not dull
+        const red   = Math.min(255, Math.floor(r * 1.15));
+        const green = Math.min(255, Math.floor(g * 1.15));
+        const blue  = Math.min(255, Math.floor(b * 1.15));
 
-        // ── Color: bright = warm gold, dark = deep orange/red ──
-        const red   = Math.min(255, Math.floor(100 + boosted * 155));
-        const green = Math.min(255, Math.floor(20  + boosted * 90));
-        const blue  = Math.min(255, Math.floor(0   + boosted * 30));
-        const alpha = Math.min(1,   0.55 + boosted * 0.45);
+        // Alpha based on brightness — bright pixels are more opaque
+        const alpha = Math.min(1, 0.5 + brightness * 0.6);
 
-        // ── Font size varies for depth effect ──
-        const fSize = brightness > 0.65
-          ? fontSize * 0.8
-          : brightness > 0.35
-            ? fontSize * 0.95
-            : fontSize * 1.05;
+        // Font size slightly smaller for bright areas = more detail
+        const fSize = brightness > 0.6
+          ? fontSize * 0.85
+          : fontSize;
 
         ctx.font      = `bold ${fSize}px monospace`;
         ctx.fillStyle = `rgba(${red},${green},${blue},${alpha})`;
@@ -416,13 +412,13 @@ function buildPortrait() {
       }
     }
 
-    // ── Subtle vignette only on edges ──
+    // Subtle vignette on edges only — does NOT darken the face
     const vignette = ctx.createRadialGradient(
-      W / 2, H / 2, H * 0.35,
-      W / 2, H / 2, H * 0.9
+      W / 2, H / 2, H * 0.4,
+      W / 2, H / 2, H * 0.95
     );
     vignette.addColorStop(0, 'rgba(0,0,0,0)');
-    vignette.addColorStop(1, 'rgba(0,0,0,0.4)');
+    vignette.addColorStop(1, 'rgba(0,0,0,0.35)');
     ctx.fillStyle = vignette;
     ctx.fillRect(0, 0, W, H);
 
@@ -482,13 +478,13 @@ const heartsContainer = document.getElementById('hearts');
 const heartSymbols    = ['💕','❤️','🥹','💖','💗','✨'];
 
 for (let i = 0; i < 15; i++) {
-  const heart               = document.createElement('div');
+  const heart = document.createElement('div');
   heart.classList.add('heart');
-  heart.textContent         = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-  heart.style.left          = Math.random() * 100 + 'vw';
+  heart.textContent             = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+  heart.style.left              = Math.random() * 100 + 'vw';
   heart.style.animationDuration = (5 + Math.random() * 7) + 's';
   heart.style.animationDelay   = (Math.random() * 6) + 's';
-  heart.style.fontSize         = (0.8 + Math.random() * 1.2) + 'rem';
+  heart.style.fontSize          = (0.8 + Math.random() * 1.2) + 'rem';
   heartsContainer.appendChild(heart);
 }
 </script>
