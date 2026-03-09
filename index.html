@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy 5th Monthsary, My Love 💙</title>
+<title>Happy 5th Monthsary, My Love 💕</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -15,11 +15,12 @@
     background: #000;
   }
 
+  /* ── ANIMATED GRADIENT BACKGROUND ── */
   #bg-gradient {
     position: fixed;
     inset: 0;
     z-index: 0;
-    background: linear-gradient(135deg, #000208, #000d18, #000510, #000a14);
+    background: linear-gradient(135deg, #000a1a, #001a2e, #000d20, #001525);
     background-size: 400% 400%;
     animation: gradientShift 12s ease infinite;
   }
@@ -30,6 +31,7 @@
     100% { background-position: 0% 50%; }
   }
 
+  /* ── STARFIELD ── */
   #stars {
     position: fixed;
     inset: 0;
@@ -49,6 +51,7 @@
     100% { opacity: 1;   transform: scale(1.2); }
   }
 
+  /* ── FIREFLIES ── */
   #fireflies {
     position: fixed;
     inset: 0;
@@ -74,6 +77,7 @@
     100% { transform: translate(-40px, -20px) scale(1);   opacity: 0.3; }
   }
 
+  /* ── PETAL RAIN ── */
   #petals {
     position: fixed;
     inset: 0;
@@ -96,6 +100,7 @@
     100% { top: 110vh; transform: translateX(-30px) rotate(360deg); opacity: 0; }
   }
 
+  /* ── FIREWORKS CANVAS ── */
   #fireworks-canvas {
     position: fixed;
     inset: 0;
@@ -316,27 +321,17 @@
 
   .bars-paused .bar { animation-play-state: paused; }
 
-  /* ── PORTRAIT ── */
-  #portrait-container {
+  /* ── PORTRAIT WRAPPER ── */
+  #portrait-wrapper {
+    position: relative;
+    width: 480px;
+    max-width: 90vw;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    position: relative;
   }
 
-  /* Spotlight behind portrait */
-  #portrait-spotlight {
-    position: relative;
-    padding: 16px;
-    border-radius: 20px;
-    background: radial-gradient(
-      ellipse 70% 60% at 50% 50%,
-      rgba(0, 150, 255, 0.07) 0%,
-      rgba(0, 0, 0, 0.75) 100%
-    );
-  }
-
+  /* ── PORTRAIT ── */
   .portrait {
     font-family: monospace;
     font-size: 5.5px;
@@ -345,8 +340,8 @@
     word-spacing: -1px;
     text-align: justify;
     width: 480px;
-    height: 620px;
-    max-width: 88vw;
+    height: 640px;
+    max-width: 90vw;
     overflow: hidden;
     display: block;
     background-image: url('elaiza.jpg');
@@ -356,15 +351,13 @@
     background-clip: text;
     color: transparent;
     border-radius: 12px;
-
-    /* ✅ BRIGHT & SHARP */
-    filter: brightness(2.2) contrast(1.3) saturate(1.4);
-
-    /* ✅ SKY BLUE GLOW */
+    filter: brightness(1.4) contrast(1.1);
     box-shadow:
-      0 0 25px rgba(0, 200, 255, 0.85),
-      0 0 55px rgba(0, 140, 255, 0.55),
-      0 0 110px rgba(0, 100, 200, 0.3);
+      0 0 30px rgba(0, 170, 255, 0.4),
+      0 0 60px rgba(0, 120, 200, 0.2),
+      0 0 100px rgba(0, 80, 180, 0.1);
+    position: relative;
+    z-index: 6;
   }
 
   .portrait-caption {
@@ -398,12 +391,12 @@
   #envelope {
     width: 220px;
     height: 140px;
-    background: linear-gradient(135deg, #004a8a, #0077bb);
+    background: linear-gradient(135deg, #004a7a, #0077bb);
     border-radius: 8px;
     position: relative;
     box-shadow:
-      0 0 30px rgba(0, 150, 255, 0.5),
-      0 0 60px rgba(0, 100, 200, 0.3);
+      0 0 30px rgba(0, 150, 255, 0.4),
+      0 0 60px rgba(0, 100, 200, 0.2);
     transition: transform 0.3s ease;
   }
 
@@ -451,9 +444,8 @@
     color: #b0e8ff;
     font-size: 0.8rem;
     font-style: italic;
-    opacity: 0.85;
+    opacity: 0.7;
     animation: pulse 2s infinite;
-    text-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
   }
 
   /* ── LETTER PAPER ── */
@@ -624,10 +616,8 @@
   </div>
 
   <!-- PORTRAIT -->
-  <div id="portrait-container">
-    <div id="portrait-spotlight">
-      <div class="portrait" id="portrait"></div>
-    </div>
+  <div id="portrait-wrapper">
+    <div class="portrait" id="portrait"></div>
   </div>
   <p class="portrait-caption">✨ Made with love, just for you ✨</p>
 
@@ -693,16 +683,17 @@ for (let i = 0; i < 160; i++) {
 }
 
 // ════════════════════════════════
-//  FIREFLIES — sides only
+//  FIREFLIES — sides only, not center
 // ════════════════════════════════
 const firefliesContainer = document.getElementById('fireflies');
 for (let i = 0; i < 18; i++) {
   const ff = document.createElement('div');
   ff.classList.add('firefly');
-  const onLeft = Math.random() > 0.5;
-  const leftPos = onLeft
-    ? Math.random() * 18
-    : 82 + Math.random() * 18;
+  // Keep fireflies on left 20% or right 20% of screen
+  const side = Math.random() > 0.5;
+  const leftPos = side
+    ? Math.random() * 20
+    : 80 + Math.random() * 20;
   ff.style.cssText = `
     top: ${Math.random() * 100}vh;
     left: ${leftPos}vw;
@@ -715,7 +706,7 @@ for (let i = 0; i < 18; i++) {
 }
 
 // ════════════════════════════════
-//  PETAL RAIN — sides only
+//  PETAL RAIN — sides only, not center
 // ════════════════════════════════
 const petalsContainer = document.getElementById('petals');
 const petalEmojis = ['🌸','🩵','💙','❄️','🌊','💎'];
@@ -723,8 +714,9 @@ for (let i = 0; i < 22; i++) {
   const petal = document.createElement('div');
   petal.classList.add('petal');
   petal.textContent = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
-  const onLeft = Math.random() > 0.5;
-  const leftPos = onLeft
+  // Keep petals on left 15% or right 15% of screen
+  const side = Math.random() > 0.5;
+  const leftPos = side
     ? Math.random() * 15
     : 85 + Math.random() * 15;
   petal.style.cssText = `
@@ -921,8 +913,8 @@ function openLetter() {
   document.getElementById('envelope-hint').textContent = '💙';
   setTimeout(() => {
     const paper = document.getElementById('letter-paper');
-    paper.style.display   = 'block';
-    paper.style.animation = 'letterOpen 0.8s ease forwards';
+    paper.style.display    = 'block';
+    paper.style.animation  = 'letterOpen 0.8s ease forwards';
   }, 700);
 }
 
