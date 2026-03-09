@@ -19,10 +19,11 @@
     padding-top: 20px;
   }
 
+  /* ── INTRO ── */
   #intro {
     position: fixed;
     inset: 0;
-    background: #000;
+    background: radial-gradient(ellipse at center, #1a0000 0%, #000 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -30,6 +31,12 @@
     z-index: 999;
     cursor: pointer;
     transition: opacity 1s ease;
+  }
+
+  #intro .intro-heart {
+    font-size: 3rem;
+    animation: pulse 1.5s infinite;
+    margin-bottom: 16px;
   }
 
   #intro h1 {
@@ -50,25 +57,57 @@
     animation: pulse 2s infinite;
   }
 
+  #intro .intro-date {
+    margin-top: 20px;
+    font-size: 0.75rem;
+    color: #ff6633;
+    opacity: 0.6;
+    letter-spacing: 2px;
+  }
+
+  /* ── INTRO FLOATING HEARTS ── */
+  .intro-floats {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .intro-float {
+    position: absolute;
+    animation: float-up linear infinite;
+    opacity: 0;
+  }
+
+  @keyframes float-up {
+    0%   { bottom: -20px; opacity: 0.6; transform: translateX(0); }
+    50%  { opacity: 0.4; transform: translateX(20px); }
+    100% { bottom: 110%; opacity: 0; transform: translateX(-20px); }
+  }
+
   @keyframes pulse {
     0%, 100% { opacity: 1; }
     50%       { opacity: 0.4; }
   }
 
+  /* ── MAIN ── */
   #main {
     display: none;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    padding-bottom: 40px;
+    padding-bottom: 60px;
+    position: relative;
+    z-index: 1;
   }
 
   h1.title {
     color: #ff9966;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     margin: 22px 0 4px;
     text-align: center;
-    text-shadow: 0 0 20px #ff6633;
+    text-shadow: 0 0 20px #ff6633, 0 0 40px #ff3300;
     letter-spacing: 2px;
   }
 
@@ -81,6 +120,7 @@
     text-shadow: 0 0 10px #ff6633;
   }
 
+  /* ── MUSIC PLAYER ── */
   #music-player {
     display: flex;
     align-items: center;
@@ -89,8 +129,9 @@
     border: 1px solid rgba(255,120,50,0.3);
     border-radius: 50px;
     padding: 10px 22px;
-    margin-bottom: 18px;
+    margin-bottom: 22px;
     backdrop-filter: blur(6px);
+    box-shadow: 0 0 20px rgba(255, 80, 30, 0.15);
   }
 
   #play-btn {
@@ -159,6 +200,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
+    position: relative;
   }
 
   .portrait {
@@ -180,8 +222,32 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(255, 100, 30, 0.4),
+                0 0 60px rgba(255, 60, 30, 0.2),
+                0 0 100px rgba(255, 30, 30, 0.1);
   }
 
+  /* ── PORTRAIT CAPTION ── */
+  .portrait-caption {
+    color: #ff9966;
+    font-size: 0.85rem;
+    font-style: italic;
+    text-align: center;
+    margin-top: 12px;
+    text-shadow: 0 0 10px rgba(255, 100, 30, 0.6);
+    animation: pulse 2s infinite;
+    letter-spacing: 1px;
+  }
+
+  /* ── SPARKLES ── */
+  @keyframes sparkle-float {
+    0%   { transform: translateY(0px) scale(1);    opacity: 0.6; }
+    100% { transform: translateY(-15px) scale(1.3); opacity: 1; }
+  }
+
+  /* ── TYPED BOX ── */
   #typed-box {
     max-width: 500px;
     width: 92vw;
@@ -189,14 +255,15 @@
     background: rgba(255,100,40,0.08);
     border: 1px solid rgba(255,120,50,0.25);
     border-radius: 16px;
-    padding: 20px 22px;
+    padding: 22px 24px;
     text-align: center;
+    box-shadow: 0 0 20px rgba(255, 80, 30, 0.1);
   }
 
   #typed-text {
     color: #ffddbb;
-    font-size: 0.92rem;
-    line-height: 1.75;
+    font-size: 0.95rem;
+    line-height: 1.85;
     font-style: italic;
     min-height: 80px;
     text-shadow: 0 0 8px rgba(255,100,30,0.4);
@@ -225,6 +292,7 @@
     letter-spacing: 1px;
   }
 
+  /* ── FALLING HEARTS ── */
   .hearts {
     position: fixed;
     top: 0; left: 0;
@@ -245,27 +313,43 @@
     100% { top: 100vh; opacity: 0; }
   }
 
-  #main { position: relative; z-index: 1; }
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 30px;
+    color: #ff6633;
+    font-size: 0.75rem;
+    opacity: 0.5;
+    letter-spacing: 2px;
+    text-align: center;
+    font-style: italic;
+  }
 </style>
 </head>
 <body>
 
+<!-- INTRO -->
 <div id="intro" onclick="startExperience()">
-  <h1>💕 For My Love, Elai 💕</h1>
+  <div class="intro-floats" id="intro-floats"></div>
+  <div class="intro-heart">💕</div>
+  <h1>For My Love, Elai</h1>
   <p>Tap anywhere to open your gift...</p>
+  <div class="intro-date">— October 12, 2025 —</div>
 </div>
 
+<!-- FALLING HEARTS -->
 <div class="hearts" id="hearts"></div>
 
+<!-- MAIN -->
 <div id="main">
   <h1 class="title">💕 Happy 5th Monthsary, Love 💕</h1>
   <h2 class="subtitle-top">— From the one who loves you most —</h2>
 
+  <!-- MUSIC PLAYER -->
   <div id="music-player">
     <button id="play-btn" onclick="toggleMusic()">▶</button>
     <div class="song-info">
       <span class="song-title">🎵 Pag Ibig ng Ikaw at Ako</span>
-      <span class="song-sub">Earl Agustin — Para sa iyo, Elai 💕</span>
+      <span class="song-sub">Earl Agustin — Para sa iyo, love 💕</span>
     </div>
     <div class="music-bars bars-paused" id="bars">
       <div class="bar"></div>
@@ -276,14 +360,20 @@
     </div>
   </div>
 
+  <!-- PORTRAIT -->
   <div id="portrait-container">
     <div class="portrait" id="portrait"></div>
   </div>
+  <p class="portrait-caption">✨ Made with love, just for you ✨</p>
 
+  <!-- TYPED MESSAGES -->
   <div id="typed-box">
     <div id="typed-text"><span id="cursor"></span></div>
     <p class="date-tag">💕 October 12, 2025 → Forever 💕</p>
   </div>
+
+  <!-- FOOTER -->
+  <p class="footer">with all my love, forever yours 💕</p>
 </div>
 
 <audio id="bg-music" loop>
@@ -291,6 +381,23 @@
 </audio>
 
 <script>
+// ════════════════════════════════
+//  INTRO FLOATING HEARTS
+// ════════════════════════════════
+const introFloats  = document.getElementById('intro-floats');
+const introSymbols = ['💕','❤️','🥹','💖','✨'];
+
+for (let i = 0; i < 12; i++) {
+  const el = document.createElement('div');
+  el.classList.add('intro-float');
+  el.textContent             = introSymbols[Math.floor(Math.random() * introSymbols.length)];
+  el.style.left              = Math.random() * 100 + 'vw';
+  el.style.fontSize          = (0.8 + Math.random() * 1.2) + 'rem';
+  el.style.animationDuration = (4 + Math.random() * 5) + 's';
+  el.style.animationDelay   = (Math.random() * 4) + 's';
+  introFloats.appendChild(el);
+}
+
 // ════════════════════════════════
 //  INTRO
 // ════════════════════════════════
@@ -301,12 +408,13 @@ function startExperience() {
     intro.style.display = 'none';
     document.getElementById('main').style.display = 'flex';
 
-    // ✅ Small delay so browser renders #main first before filling portrait
     setTimeout(() => {
       buildPortrait();
+      addSparkles();
     }, 100);
 
     startTyping();
+
     const music = document.getElementById('bg-music');
     music.play().then(() => {
       document.getElementById('play-btn').textContent = '⏸';
@@ -346,10 +454,32 @@ function buildPortrait() {
   }
   portrait.textContent = text;
 
-  // ✅ Force repaint so background-clip applies
   portrait.style.display = 'none';
   portrait.offsetHeight;
   portrait.style.display = 'block';
+}
+
+// ════════════════════════════════
+//  SPARKLES
+// ════════════════════════════════
+function addSparkles() {
+  const container = document.getElementById('portrait-container');
+
+  for (let i = 0; i < 8; i++) {
+    const sparkle = document.createElement('div');
+    sparkle.textContent = ['✨','💕','❤️','🌟'][Math.floor(Math.random() * 4)];
+    sparkle.style.cssText = `
+      position: absolute;
+      font-size: ${0.6 + Math.random() * 0.8}rem;
+      top: ${Math.random() * 100}%;
+      left: ${Math.random() * 100}%;
+      animation: sparkle-float ${2 + Math.random() * 3}s ease-in-out infinite alternate;
+      animation-delay: ${Math.random() * 2}s;
+      pointer-events: none;
+      z-index: 2;
+    `;
+    container.appendChild(sparkle);
+  }
 }
 
 // ════════════════════════════════
@@ -403,7 +533,7 @@ function typeLoop() {
 const heartsContainer = document.getElementById('hearts');
 const heartSymbols    = ['💕','❤️','🥹','💖','💗','✨'];
 
-for (let i = 0; i < 15; i++) {
+for (let i = 0; i < 18; i++) {
   const heart = document.createElement('div');
   heart.classList.add('heart');
   heart.textContent             = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
