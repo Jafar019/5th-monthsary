@@ -261,7 +261,6 @@
   </div>
 
   <div id="loading">✨ Building your portrait... 🥹</div>
-
   <canvas id="canvas"></canvas>
 
   <div id="typed-box">
@@ -306,20 +305,15 @@ function toggleMusic() {
   }
 }
 
-// ── Love words that will be readable in the portrait ──
-const words = [
-  'LOVE','ELAI','HAPPY','5TH','MONTHSARY',
-  'OCT','12','2025','MY','PEACE','MY','JOY',
-  'FOREVER','ALWAYS','MAHAL','KITA','PARA',
-  'SA','IYO','HEART','KISS','SMILE','MINE',
-  'BEAUTIFUL','CARE','SUPPORT','TOGETHER'
-];
+// ── The love message as one long string ──
+const loveMessage =
+  'ILOVEYOUELAI HAPPY5THMONTHSARY OCTOBER122025 ' +
+  'YOUCHANGEDMYWORLD YOUAREMYPEACE YOUAREMYJOY ' +
+  'YOUAREMYFAVORITEPERSON MAHALNAMAHALKITA ' +
+  'YOUUNDERSTANDMELIKENOONEELSE IMISSYOUSOMUCH ' +
+  'OURFIRSTKISS LIVEINMYHEART FOREVER ALWAYS ' +
+  'YOUAREMYEVERYTHING HAPPYMONTHSARYMYLOVE ';
 
-// ════════════════════════════════
-//  PORTRAIT — WORD BASED
-//  Uses short readable words as pixels
-//  Real photo colors
-// ════════════════════════════════
 function buildPortrait() {
   const canvas = document.getElementById('canvas');
   const ctx    = canvas.getContext('2d', { willReadFrequently: true });
@@ -328,9 +322,11 @@ function buildPortrait() {
 
   img.onload = function () {
 
+    // Display size
     const DISP_W = Math.min(window.innerWidth * 0.95, 660);
     const DISP_H = Math.floor(img.height * (DISP_W / img.width));
 
+    // HiDPI
     const DPR        = Math.min(window.devicePixelRatio || 2, 3);
     canvas.width     = DISP_W * DPR;
     canvas.height    = DISP_H * DPR;
@@ -338,12 +334,12 @@ function buildPortrait() {
     canvas.style.height = DISP_H + 'px';
     ctx.scale(DPR, DPR);
 
-    // ── Sample image with contrast boost ──
+    // Offscreen — contrast boosted for sharp pixel sampling
     const off    = document.createElement('canvas');
     off.width    = DISP_W;
     off.height   = DISP_H;
     const offCtx = off.getContext('2d', { willReadFrequently: true });
-    offCtx.filter = 'contrast(150%) brightness(110%) saturate(115%)';
+    offCtx.filter = 'contrast(155%) brightness(112%) saturate(110%)';
     offCtx.drawImage(img, 0, 0, DISP_W, DISP_H);
 
     const imageData = offCtx.getImageData(0, 0, DISP_W, DISP_H);
@@ -353,75 +349,58 @@ function buildPortrait() {
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, DISP_W, DISP_H);
 
-    // ── Font size: 7px — small enough for detail, big enough to READ ──
-    const FONT_SIZE = 7;
-    const LINE_H    = FONT_SIZE * 1.15;
+    // ── KEY: font size 6px ──
+    // Small enough to show portrait detail
+    // Large enough that each letter is individually readable
+    const FS   = 6;
+    const STEP = FS;
 
     ctx.textBaseline = 'top';
-    ctx.font = `bold ${FONT_SIZE}px monospace`;
+    ctx.font = `bold ${FS}px monospace`;
 
-    let wordIndex = 0;
-    let x = 0;
-    let y = 0;
+    let idx = 0;
 
-    while (y < DISP_H) {
-      const word  = words[wordIndex % words.length];
-      const chars = word.length;
+    for (let y = 0; y < DISP_H; y += STEP) {
+      for (let x = 0; x < DISP_W; x += STEP) {
 
-      // Sample pixel at current word start position
-      const sx = Math.min(Math.floor(x + (chars * FONT_SIZE * 0.6) / 2), DISP_W - 1);
-      const sy = Math.min(Math.floor(y + LINE_H / 2), DISP_H - 1);
-      const i  = (sy * DISP_W + sx) * 4;
+        const px = Math.min(Math.floor(x), DISP_W - 1);
+        const py = Math.min(Math.floor(y), DISP_H - 1);
+        const i  = (py * DISP_W + px) * 4;
 
-      const r = pixels[i];
-      const g = pixels[i + 1];
-      const b = pixels[i + 2];
-      const a = pixels[i + 3];
-
-      if (a > 20) {
+        const r          = pixels[i];
+        const g          = pixels[i + 1];
+        const b          = pixels[i + 2];
+        const a          = pixels[i + 3];
         const brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
 
-        if (brightness >= 0.04) {
-          // Real photo color, slightly boosted
-          const rr    = Math.min(255, Math.floor(r * 1.12));
-          const gg    = Math.min(255, Math.floor(g * 1.12));
-          const bb    = Math.min(255, Math.floor(b * 1.12));
-          const alpha = Math.min(1, 0.55 + brightness * 0.45);
+        if (a < 20 || brightness < 0.04) continue;
 
-          ctx.fillStyle = `rgba(${rr},${gg},${bb},${alpha})`;
-          ctx.fillText(word, x, y);
-        }
-      }
+        // Real photo color — exact RGB from the image
+        const rr    = Math.min(255, Math.floor(r * 1.1));
+        const gg    = Math.min(255, Math.floor(g * 1.1));
+        const bb    = Math.min(255, Math.floor(b * 1.1));
+        const alpha = Math.min(1, 0.5 + brightness * 0.5);
 
-      // Advance x by word width + small gap
-      const wordW = chars * FONT_SIZE * 0.62;
-      x += wordW + FONT_SIZE * 0.3;
-      wordIndex++;
-
-      // Next line
-      if (x + FONT_SIZE * 3 > DISP_W) {
-        x  = 0;
-        y += LINE_H;
+        ctx.fillStyle = `rgba(${rr},${gg},${bb},${alpha})`;
+        ctx.fillText(loveMessage[idx % loveMessage.length], x, y);
+        idx++;
       }
     }
 
-    // Subtle edge vignette only
-    const vignette = ctx.createRadialGradient(
-      DISP_W / 2, DISP_H / 2, DISP_H * 0.38,
+    // Edge-only vignette
+    const vig = ctx.createRadialGradient(
+      DISP_W / 2, DISP_H / 2, DISP_H * 0.4,
       DISP_W / 2, DISP_H / 2, DISP_H * 1.0
     );
-    vignette.addColorStop(0, 'rgba(0,0,0,0)');
-    vignette.addColorStop(1, 'rgba(0,0,0,0.3)');
-    ctx.fillStyle = vignette;
+    vig.addColorStop(0, 'rgba(0,0,0,0)');
+    vig.addColorStop(1, 'rgba(0,0,0,0.28)');
+    ctx.fillStyle = vig;
     ctx.fillRect(0, 0, DISP_W, DISP_H);
 
     document.getElementById('loading').style.display = 'none';
   };
 }
 
-// ════════════════════════════════
-//  TYPED MESSAGES
-// ════════════════════════════════
 const messages = [
   "My Love, Elai... 🥹",
   "From October 12, 2025 — you changed my world. 💕",
@@ -435,16 +414,11 @@ const messages = [
   "Happy 5th Monthsary, my love. I love you, Elai. 💕"
 ];
 
-let msgIndex   = 0;
-let charIdx    = 0;
-let isDeleting = false;
-
+let msgIndex = 0, charIdx = 0, isDeleting = false;
 function startTyping() { typeLoop(); }
-
 function typeLoop() {
   const current = messages[msgIndex];
   const typedEl = document.getElementById('typed-text');
-
   if (!isDeleting) {
     charIdx++;
     typedEl.innerHTML = current.substring(0, charIdx) + '<span id="cursor"></span>';
@@ -457,19 +431,14 @@ function typeLoop() {
     typedEl.innerHTML = current.substring(0, charIdx) + '<span id="cursor"></span>';
     if (charIdx === 0) {
       isDeleting = false;
-      msgIndex   = (msgIndex + 1) % messages.length;
+      msgIndex = (msgIndex + 1) % messages.length;
     }
   }
-
   setTimeout(typeLoop, isDeleting ? 28 : 58);
 }
 
-// ════════════════════════════════
-//  FALLING HEARTS
-// ════════════════════════════════
 const heartsContainer = document.getElementById('hearts');
 const heartSymbols    = ['💕','❤️','🥹','💖','💗','✨'];
-
 for (let i = 0; i < 15; i++) {
   const heart = document.createElement('div');
   heart.classList.add('heart');
