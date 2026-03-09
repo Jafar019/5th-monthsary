@@ -19,7 +19,6 @@
     padding-top: 20px;
   }
 
-  /* ── INTRO SCREEN ── */
   #intro {
     position: fixed;
     inset: 0;
@@ -56,7 +55,6 @@
     50%       { opacity: 0.4; }
   }
 
-  /* ── MAIN CONTENT ── */
   #main {
     display: none;
     flex-direction: column;
@@ -83,7 +81,6 @@
     text-shadow: 0 0 10px #ff6633;
   }
 
-  /* ── MUSIC PLAYER ── */
   #music-player {
     display: flex;
     align-items: center;
@@ -114,10 +111,7 @@
 
   #play-btn:hover { transform: scale(1.1); }
 
-  .song-info {
-    display: flex;
-    flex-direction: column;
-  }
+  .song-info { display: flex; flex-direction: column; }
 
   .song-title {
     color: #ff9966;
@@ -159,7 +153,6 @@
 
   .bars-paused .bar { animation-play-state: paused; }
 
-  /* ── CANVAS ── */
   #portrait-container {
     position: relative;
     display: inline-block;
@@ -169,11 +162,8 @@
     display: block;
     max-width: 95vw;
     border-radius: 8px;
-    image-rendering: crisp-edges;
-    image-rendering: pixelated;
   }
 
-  /* ── LOADING ── */
   #loading {
     color: #ff9966;
     font-size: 0.9rem;
@@ -182,7 +172,6 @@
     animation: pulse 1.5s infinite;
   }
 
-  /* ── TYPED MESSAGE ── */
   #typed-box {
     max-width: 500px;
     width: 92vw;
@@ -226,7 +215,6 @@
     letter-spacing: 1px;
   }
 
-  /* ── FALLING HEARTS ── */
   .hearts {
     position: fixed;
     top: 0; left: 0;
@@ -252,22 +240,18 @@
 </head>
 <body>
 
-<!-- ── INTRO SCREEN ── -->
 <div id="intro" onclick="startExperience()">
   <h1>💕 For My Love, Elai 💕</h1>
   <p>Tap anywhere to open your gift...</p>
 </div>
 
-<!-- ── FALLING HEARTS ── -->
 <div class="hearts" id="hearts"></div>
 
-<!-- ── MAIN CONTENT ── -->
 <div id="main">
 
   <h1 class="title">💕 Happy 5th Monthsary, Love 💕</h1>
   <h2 class="subtitle-top">— From the one who loves you most —</h2>
 
-  <!-- MUSIC PLAYER -->
   <div id="music-player">
     <button id="play-btn" onclick="toggleMusic()">▶</button>
     <div class="song-info">
@@ -283,15 +267,12 @@
     </div>
   </div>
 
-  <!-- LOADING TEXT -->
   <div id="loading">✨ Loading your portrait, Love... ✨</div>
 
-  <!-- TEXT PORTRAIT CANVAS -->
   <div id="portrait-container">
     <canvas id="canvas"></canvas>
   </div>
 
-  <!-- TYPED LOVE MESSAGE -->
   <div id="typed-box">
     <div id="typed-text"><span id="cursor"></span></div>
     <p class="date-tag">💕 October 12, 2025 → Forever 💕</p>
@@ -305,7 +286,7 @@
 
 <script>
 // ════════════════════════════════
-//  INTRO → MAIN
+//  INTRO
 // ════════════════════════════════
 function startExperience() {
   const intro = document.getElementById('intro');
@@ -324,7 +305,7 @@ function startExperience() {
 }
 
 // ════════════════════════════════
-//  MUSIC TOGGLE
+//  MUSIC
 // ════════════════════════════════
 function toggleMusic() {
   const music = document.getElementById('bg-music');
@@ -342,45 +323,26 @@ function toggleMusic() {
 }
 
 // ════════════════════════════════
-//  LOVE LETTER TEXT
+//  LOVE TEXT
 // ════════════════════════════════
-const loveText = `
-  MyLoveElai FromTheVeryFirstDayYouSaidWeWereOfficiallyTogether October122025
-  MyWorldChangedCompletely ILoveHowYouCareForMeSoDeeplyhowYouSupportMeThroughEverything
-  HowYouMakeEverySingleDayBetterJustByBeingInIt WhenWeTalkWhenWeSpendTimeTogether
-  IFeelSomethingICannotPutIntoWords PureHappiness YouUnderstandMeLikeNoOneElseEverHas
-  AndIMissYouSoMuchWhenYoureNotAround IStillThinkAboutTheDayWeSharedOurFirstKiss
-  ThatMemoryLivesInMyHeartForever YouAreNotJustMyGirlfriend YouAreMyPeaceMyJoy
-  MyFavoritePersonInThisWorld ILoveYouElai AlwaysAndForever HappyMonthsaryMyLove
-  PagIbigNgIkawAtAko OctoberTwelve TwoThousandTwentyFive ForeverAndAlways
-  MyLoveElai FromTheVeryFirstDayYouSaidWeWereOfficiallyTogether October122025
-  MyWorldChangedCompletely ILoveHowYouCareForMeSoDeeplyhowYouSupportMeThroughEverything
-  HowYouMakeEverySingleDayBetterJustByBeingInIt WhenWeTalkWhenWeSpendTimeTogether
-  IFeelSomethingICannotPutIntoWords PureHappiness YouUnderstandMeLikeNoOneElseEverHas
-  ILoveYouElai AlwaysAndForever HappyMonthsaryMyLove
-`.replace(/\s+/g, '').trim();
+const loveText = `MyLoveElaiFromTheVeryFirstDayOctober122025YouChangedMyWorldILoveHowYouCareForMeAndSupportMeYouMakeEveryDayBetterWhenWeTalkIFeelPureHappinessYouUnderstandMeLikeNoOneElseIMissYouSoMuchOurFirstKissLivesInMyHeartForeverYouAreMyPeaceMyJoyMyFavoritePersonILoveYouElaiAlwaysAndForeverHappyMonthsaryMyLovePagIbigNgIkawAtAkoParaSaIyoElai`;
 
 // ════════════════════════════════
-//  HIGH QUALITY TEXT PORTRAIT
+//  HIGH QUALITY PORTRAIT
 // ════════════════════════════════
 function buildPortrait() {
   const canvas = document.getElementById('canvas');
   const ctx    = canvas.getContext('2d');
   const img    = new Image();
-  img.crossOrigin = 'anonymous';
-  img.src = 'elaiza.jpg';
+  img.src      = 'elaiza.jpg';
 
   img.onload = function () {
-    const loading = document.getElementById('loading');
 
-    // Use full image resolution for maximum detail
-    const MAX_W = Math.min(window.innerWidth * 0.95, 700);
+    const MAX_W = Math.min(window.innerWidth * 0.95, 650);
     const scale = MAX_W / img.width;
-    const W = Math.floor(img.width  * scale);
-    const H = Math.floor(img.height * scale);
-
-    // High DPI — renders at 2x or 3x pixel density
-    const DPR = Math.min(window.devicePixelRatio || 2, 3);
+    const W     = Math.floor(img.width  * scale);
+    const H     = Math.floor(img.height * scale);
+    const DPR   = Math.min(window.devicePixelRatio || 2, 3);
 
     canvas.width        = W * DPR;
     canvas.height       = H * DPR;
@@ -388,21 +350,24 @@ function buildPortrait() {
     canvas.style.height = H + 'px';
     ctx.scale(DPR, DPR);
 
-    // Step 1: Draw original image to sample pixels
-    const offscreen    = document.createElement('canvas');
-    offscreen.width    = W;
-    offscreen.height   = H;
-    const offCtx       = offscreen.getContext('2d');
-    offCtx.drawImage(img, 0, 0, W, H);
-    const imageData    = offCtx.getImageData(0, 0, W, H);
-    const pixels       = imageData.data;
+    // ── Draw image to offscreen for pixel sampling ──
+    const off    = document.createElement('canvas');
+    off.width    = W;
+    off.height   = H;
+    const offCtx = off.getContext('2d');
 
-    // Step 2: Black background
+    // STEP 1: Increase contrast and brightness before sampling
+    offCtx.filter = 'contrast(160%) brightness(115%) saturate(100%)';
+    offCtx.drawImage(img, 0, 0, W, H);
+
+    const imageData = offCtx.getImageData(0, 0, W, H);
+    const pixels    = imageData.data;
+
+    // ── Black background ──
     ctx.fillStyle = '#0a0005';
     ctx.fillRect(0, 0, W, H);
 
-    // Step 3: Tiny font = maximum detail
-    const fontSize = 3.5;
+    const fontSize = 3.2;
     const step     = fontSize;
     ctx.textBaseline = 'top';
 
@@ -410,8 +375,8 @@ function buildPortrait() {
 
     for (let y = 0; y < H; y += step) {
       for (let x = 0; x < W; x += step) {
-        const px = Math.floor(x);
-        const py = Math.floor(y);
+        const px = Math.min(Math.floor(x), W - 1);
+        const py = Math.min(Math.floor(y), H - 1);
         const i  = (py * W + px) * 4;
 
         const r = pixels[i];
@@ -423,23 +388,26 @@ function buildPortrait() {
 
         const brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
 
-        // Skip near-black background pixels
-        if (brightness < 0.07) continue;
+        // ── Much lower threshold so dark areas still render ──
+        if (brightness < 0.03) continue;
 
-        // Color warm glow — brighter pixels = more vivid orange/gold
-        const red   = Math.min(255, Math.floor(140 + brightness * 115));
-        const green = Math.min(255, Math.floor(40  + brightness * 100));
-        const blue  = Math.min(255, Math.floor(0   + brightness * 40));
-        const alpha = 0.35 + brightness * 0.65;
+        // ── Remap brightness so even dark pixels are visible ──
+        const boosted = Math.pow(brightness, 0.55);
 
-        // Font size varies slightly with brightness for depth
-        const dynamicSize = brightness > 0.6
-          ? fontSize * 0.85
-          : brightness > 0.3
-            ? fontSize
-            : fontSize * 1.1;
+        // ── Color: bright = warm gold, dark = deep orange/red ──
+        const red   = Math.min(255, Math.floor(100 + boosted * 155));
+        const green = Math.min(255, Math.floor(20  + boosted * 90));
+        const blue  = Math.min(255, Math.floor(0   + boosted * 30));
+        const alpha = Math.min(1,   0.55 + boosted * 0.45);
 
-        ctx.font      = `bold ${dynamicSize}px monospace`;
+        // ── Font size varies for depth effect ──
+        const fSize = brightness > 0.65
+          ? fontSize * 0.8
+          : brightness > 0.35
+            ? fontSize * 0.95
+            : fontSize * 1.05;
+
+        ctx.font      = `bold ${fSize}px monospace`;
         ctx.fillStyle = `rgba(${red},${green},${blue},${alpha})`;
 
         const char = loveText[charIndex % loveText.length];
@@ -448,27 +416,22 @@ function buildPortrait() {
       }
     }
 
-    // Step 4: Subtle vignette for depth
-    const vignette = ctx.createRadialGradient(W/2, H/2, H * 0.25, W/2, H/2, H * 0.85);
+    // ── Subtle vignette only on edges ──
+    const vignette = ctx.createRadialGradient(
+      W / 2, H / 2, H * 0.35,
+      W / 2, H / 2, H * 0.9
+    );
     vignette.addColorStop(0, 'rgba(0,0,0,0)');
-    vignette.addColorStop(1, 'rgba(0,0,0,0.5)');
+    vignette.addColorStop(1, 'rgba(0,0,0,0.4)');
     ctx.fillStyle = vignette;
     ctx.fillRect(0, 0, W, H);
 
-    // Step 5: Very subtle warm center glow
-    const glow = ctx.createRadialGradient(W/2, H*0.35, 0, W/2, H*0.35, W * 0.6);
-    glow.addColorStop(0, 'rgba(255,80,20,0.06)');
-    glow.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = glow;
-    ctx.fillRect(0, 0, W, H);
-
-    // Hide loading
-    loading.style.display = 'none';
+    document.getElementById('loading').style.display = 'none';
   };
 }
 
 // ════════════════════════════════
-//  TYPED MESSAGE ANIMATION
+//  TYPED MESSAGES
 // ════════════════════════════════
 const messages = [
   "My Love, Elai... 🥹",
@@ -490,8 +453,8 @@ let isDeleting = false;
 function startTyping() { typeLoop(); }
 
 function typeLoop() {
-  const current  = messages[msgIndex];
-  const typedEl  = document.getElementById('typed-text');
+  const current = messages[msgIndex];
+  const typedEl = document.getElementById('typed-text');
 
   if (!isDeleting) {
     charIdx++;
@@ -509,7 +472,7 @@ function typeLoop() {
     }
   }
 
-  setTimeout(typeLoop, isDeleting ? 30 : 60);
+  setTimeout(typeLoop, isDeleting ? 28 : 58);
 }
 
 // ════════════════════════════════
@@ -519,10 +482,10 @@ const heartsContainer = document.getElementById('hearts');
 const heartSymbols    = ['💕','❤️','🥹','💖','💗','✨'];
 
 for (let i = 0; i < 15; i++) {
-  const heart = document.createElement('div');
+  const heart               = document.createElement('div');
   heart.classList.add('heart');
-  heart.textContent          = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-  heart.style.left           = Math.random() * 100 + 'vw';
+  heart.textContent         = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+  heart.style.left          = Math.random() * 100 + 'vw';
   heart.style.animationDuration = (5 + Math.random() * 7) + 's';
   heart.style.animationDelay   = (Math.random() * 6) + 's';
   heart.style.fontSize         = (0.8 + Math.random() * 1.2) + 'rem';
