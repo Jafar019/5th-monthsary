@@ -34,7 +34,7 @@
 
   #intro h1 {
     color: #ff9966;
-    font-size: 1.8rem;
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
     text-shadow: 0 0 30px #ff6633;
     text-align: center;
     animation: pulse 2s infinite;
@@ -44,7 +44,7 @@
 
   #intro p {
     color: #ffccaa;
-    font-size: 0.95rem;
+    font-size: clamp(0.8rem, 2.5vw, 0.95rem);
     opacity: 0.7;
     font-style: italic;
     animation: pulse 2s infinite;
@@ -61,20 +61,23 @@
     align-items: center;
     width: 100%;
     padding-bottom: 40px;
+    position: relative;
+    z-index: 1;
   }
 
   h1.title {
     color: #ff9966;
-    font-size: 1.4rem;
-    margin: 22px 0 4px;
+    font-size: clamp(1rem, 3.5vw, 1.4rem);
+    margin: 18px 0 4px;
     text-align: center;
     text-shadow: 0 0 20px #ff6633;
     letter-spacing: 2px;
+    padding: 0 10px;
   }
 
   h2.subtitle-top {
     color: #ffccaa;
-    font-size: 0.95rem;
+    font-size: clamp(0.75rem, 2.5vw, 0.95rem);
     margin-bottom: 14px;
     text-align: center;
     font-style: italic;
@@ -87,8 +90,8 @@
     background: rgba(255,120,50,0.12);
     border: 1px solid rgba(255,120,50,0.3);
     border-radius: 50px;
-    padding: 10px 22px;
-    margin-bottom: 18px;
+    padding: 8px 18px;
+    margin-bottom: 16px;
     backdrop-filter: blur(6px);
   }
 
@@ -96,9 +99,9 @@
     background: linear-gradient(135deg, #ff6633, #ff3366);
     border: none;
     border-radius: 50%;
-    width: 42px;
-    height: 42px;
-    font-size: 1.1rem;
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
     cursor: pointer;
     color: white;
     display: flex;
@@ -106,20 +109,22 @@
     justify-content: center;
     box-shadow: 0 0 15px rgba(255,80,30,0.5);
     transition: transform 0.2s;
+    flex-shrink: 0;
   }
 
   #play-btn:hover { transform: scale(1.1); }
+
   .song-info { display: flex; flex-direction: column; }
 
   .song-title {
     color: #ff9966;
-    font-size: 0.85rem;
+    font-size: clamp(0.72rem, 2vw, 0.85rem);
     font-weight: bold;
   }
 
   .song-sub {
     color: #ffccaa;
-    font-size: 0.72rem;
+    font-size: clamp(0.62rem, 1.8vw, 0.72rem);
     opacity: 0.7;
     font-style: italic;
   }
@@ -151,10 +156,44 @@
 
   .bars-paused .bar { animation-play-state: paused; }
 
+  #canvas-wrap {
+    position: relative;
+    display: inline-block;
+  }
+
   canvas {
     display: block;
     max-width: 95vw;
-    border-radius: 8px;
+    border-radius: 10px;
+    box-shadow: 0 0 40px rgba(255, 100, 50, 0.2);
+  }
+
+  /* Name label overlaid bottom-left like Image 2 */
+  #name-label {
+    position: absolute;
+    bottom: 18px;
+    left: 18px;
+    pointer-events: none;
+  }
+
+  #name-label .name-main {
+    font-family: 'Georgia', serif;
+    font-size: clamp(1.1rem, 4vw, 1.6rem);
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(0,0,0,0.8), 0 2px 6px rgba(0,0,0,0.9);
+    display: block;
+    line-height: 1.2;
+  }
+
+  #name-label .name-sub {
+    font-family: 'Georgia', serif;
+    font-size: clamp(0.85rem, 3vw, 1.2rem);
+    color: #ff4466;
+    font-style: italic;
+    text-shadow: 0 0 10px rgba(0,0,0,0.8), 0 2px 6px rgba(0,0,0,0.9);
+    display: block;
+    font-weight: bold;
   }
 
   #loading {
@@ -169,20 +208,20 @@
   #typed-box {
     max-width: 500px;
     width: 92vw;
-    margin-top: 24px;
+    margin-top: 22px;
     background: rgba(255,100,40,0.08);
     border: 1px solid rgba(255,120,50,0.25);
     border-radius: 16px;
-    padding: 20px 22px;
+    padding: 18px 20px;
     text-align: center;
   }
 
   #typed-text {
     color: #ffddbb;
-    font-size: 0.92rem;
+    font-size: clamp(0.82rem, 2.5vw, 0.92rem);
     line-height: 1.75;
     font-style: italic;
-    min-height: 80px;
+    min-height: 70px;
     text-shadow: 0 0 8px rgba(255,100,30,0.4);
   }
 
@@ -203,8 +242,8 @@
 
   .date-tag {
     color: #ff9966;
-    font-size: 0.78rem;
-    margin-top: 14px;
+    font-size: clamp(0.68rem, 2vw, 0.78rem);
+    margin-top: 12px;
     opacity: 0.7;
     letter-spacing: 1px;
   }
@@ -228,8 +267,6 @@
     0%   { top: -20px; opacity: 0.45; }
     100% { top: 100vh; opacity: 0; }
   }
-
-  #main { position: relative; z-index: 1; }
 </style>
 </head>
 <body>
@@ -242,7 +279,7 @@
 <div class="hearts" id="hearts"></div>
 
 <div id="main">
-  <h1 class="title">💕 Happy 5th Monthsary, Love 💕</h1>
+  <h1 class="title">💕 Happy 5th Monthsary, Elai 💕</h1>
   <h2 class="subtitle-top">— From the one who loves you most —</h2>
 
   <div id="music-player">
@@ -261,7 +298,14 @@
   </div>
 
   <div id="loading">✨ Building your portrait... 🥹</div>
-  <canvas id="canvas"></canvas>
+
+  <div id="canvas-wrap">
+    <canvas id="canvas"></canvas>
+    <div id="name-label">
+      <span class="name-main">Elaiza Dato-on</span>
+      <span class="name-sub">My Love 💕</span>
+    </div>
+  </div>
 
   <div id="typed-box">
     <div id="typed-text"><span id="cursor"></span></div>
@@ -274,6 +318,9 @@
 </audio>
 
 <script>
+// ─── Since we can't load external images in sandbox, we'll draw a realistic
+//     portrait using canvas drawing techniques to simulate the photo ───
+
 function startExperience() {
   const intro = document.getElementById('intro');
   intro.style.opacity = '0';
@@ -305,102 +352,413 @@ function toggleMusic() {
   }
 }
 
-// ── The love message as one long string ──
+// ── Love message text to tile across the portrait ──
 const loveMessage =
   'ILOVEYOUELAI HAPPY5THMONTHSARY OCTOBER122025 ' +
   'YOUCHANGEDMYWORLD YOUAREMYPEACE YOUAREMYJOY ' +
   'YOUAREMYFAVORITEPERSON MAHALNAMAHALKITA ' +
   'YOUUNDERSTANDMELIKENOONEELSE IMISSYOUSOMUCH ' +
-  'OURFIRSTKISS LIVEINMYHEART FOREVER ALWAYS ' +
+  'OURFIRSTKISS LIVESINMYHEART FOREVER ALWAYS ' +
   'YOUAREMYEVERYTHING HAPPYMONTHSARYMYLOVE ';
 
 function buildPortrait() {
   const canvas = document.getElementById('canvas');
   const ctx    = canvas.getContext('2d', { willReadFrequently: true });
-  const img    = new Image();
-  img.src      = 'elaiza.jpg';
+
+  // Try loading the actual image first
+  const img = new Image();
+  // Use a data URI approach - we'll draw a synthetic portrait if image fails
+  img.crossOrigin = 'anonymous';
 
   img.onload = function () {
-
-    // Display size
-    const DISP_W = Math.min(window.innerWidth * 0.95, 660);
-    const DISP_H = Math.floor(img.height * (DISP_W / img.width));
-
-    // HiDPI
-    const DPR        = Math.min(window.devicePixelRatio || 2, 3);
-    canvas.width     = DISP_W * DPR;
-    canvas.height    = DISP_H * DPR;
-    canvas.style.width  = DISP_W + 'px';
-    canvas.style.height = DISP_H + 'px';
-    ctx.scale(DPR, DPR);
-
-    // Offscreen — contrast boosted for sharp pixel sampling
-    const off    = document.createElement('canvas');
-    off.width    = DISP_W;
-    off.height   = DISP_H;
-    const offCtx = off.getContext('2d', { willReadFrequently: true });
-    offCtx.filter = 'contrast(155%) brightness(112%) saturate(110%)';
-    offCtx.drawImage(img, 0, 0, DISP_W, DISP_H);
-
-    const imageData = offCtx.getImageData(0, 0, DISP_W, DISP_H);
-    const pixels    = imageData.data;
-
-    // Black background
-    ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, DISP_W, DISP_H);
-
-    // ── KEY: font size 6px ──
-    // Small enough to show portrait detail
-    // Large enough that each letter is individually readable
-    const FS   = 6;
-    const STEP = FS;
-
-    ctx.textBaseline = 'top';
-    ctx.font = `bold ${FS}px monospace`;
-
-    let idx = 0;
-
-    for (let y = 0; y < DISP_H; y += STEP) {
-      for (let x = 0; x < DISP_W; x += STEP) {
-
-        const px = Math.min(Math.floor(x), DISP_W - 1);
-        const py = Math.min(Math.floor(y), DISP_H - 1);
-        const i  = (py * DISP_W + px) * 4;
-
-        const r          = pixels[i];
-        const g          = pixels[i + 1];
-        const b          = pixels[i + 2];
-        const a          = pixels[i + 3];
-        const brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
-
-        if (a < 20 || brightness < 0.04) continue;
-
-        // Real photo color — exact RGB from the image
-        const rr    = Math.min(255, Math.floor(r * 1.1));
-        const gg    = Math.min(255, Math.floor(g * 1.1));
-        const bb    = Math.min(255, Math.floor(b * 1.1));
-        const alpha = Math.min(1, 0.5 + brightness * 0.5);
-
-        ctx.fillStyle = `rgba(${rr},${gg},${bb},${alpha})`;
-        ctx.fillText(loveMessage[idx % loveMessage.length], x, y);
-        idx++;
-      }
-    }
-
-    // Edge-only vignette
-    const vig = ctx.createRadialGradient(
-      DISP_W / 2, DISP_H / 2, DISP_H * 0.4,
-      DISP_W / 2, DISP_H / 2, DISP_H * 1.0
-    );
-    vig.addColorStop(0, 'rgba(0,0,0,0)');
-    vig.addColorStop(1, 'rgba(0,0,0,0.28)');
-    ctx.fillStyle = vig;
-    ctx.fillRect(0, 0, DISP_W, DISP_H);
-
-    document.getElementById('loading').style.display = 'none';
+    renderTextPortrait(canvas, ctx, img);
   };
+
+  img.onerror = function () {
+    // Fallback: draw a synthetic portrait using canvas
+    renderSyntheticPortrait(canvas, ctx);
+  };
+
+  // Attempt to load — will fail in sandbox, triggering onerror
+  img.src = 'elaiza.jpg';
 }
 
+function renderTextPortrait(canvas, ctx, img) {
+  const DISP_W = Math.min(window.innerWidth * 0.93, 520);
+  const DISP_H = Math.floor(img.height * (DISP_W / img.width));
+
+  const DPR = Math.min(window.devicePixelRatio || 2, 3);
+  canvas.width  = DISP_W * DPR;
+  canvas.height = DISP_H * DPR;
+  canvas.style.width  = DISP_W + 'px';
+  canvas.style.height = DISP_H + 'px';
+  ctx.scale(DPR, DPR);
+
+  // Offscreen with boosted contrast for sharper pixel sampling
+  const off    = document.createElement('canvas');
+  off.width    = DISP_W;
+  off.height   = DISP_H;
+  const offCtx = off.getContext('2d', { willReadFrequently: true });
+  offCtx.filter = 'contrast(160%) brightness(108%) saturate(105%)';
+  offCtx.drawImage(img, 0, 0, DISP_W, DISP_H);
+
+  const imageData = offCtx.getImageData(0, 0, DISP_W, DISP_H);
+  const pixels    = imageData.data;
+
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0, 0, DISP_W, DISP_H);
+
+  const FS   = 6;
+  const STEP = FS;
+  ctx.textBaseline = 'top';
+  ctx.font = `bold ${FS}px monospace`;
+
+  let idx = 0;
+
+  for (let y = 0; y < DISP_H; y += STEP) {
+    for (let x = 0; x < DISP_W; x += STEP) {
+      const px = Math.min(Math.floor(x), DISP_W - 1);
+      const py = Math.min(Math.floor(y), DISP_H - 1);
+      const i  = (py * DISP_W + px) * 4;
+
+      const r = pixels[i], g = pixels[i+1], b = pixels[i+2], a = pixels[i+3];
+      const brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
+
+      if (a < 20 || brightness < 0.04) continue;
+
+      const rr = Math.min(255, Math.floor(r * 1.1));
+      const gg = Math.min(255, Math.floor(g * 1.1));
+      const bb = Math.min(255, Math.floor(b * 1.1));
+      const alpha = Math.min(1, 0.5 + brightness * 0.55);
+
+      ctx.fillStyle = `rgba(${rr},${gg},${bb},${alpha})`;
+      ctx.fillText(loveMessage[idx % loveMessage.length], x, y);
+      idx++;
+    }
+  }
+
+  // Soft vignette
+  const vig = ctx.createRadialGradient(
+    DISP_W/2, DISP_H/2, DISP_H * 0.38,
+    DISP_W/2, DISP_H/2, DISP_H * 0.95
+  );
+  vig.addColorStop(0, 'rgba(0,0,0,0)');
+  vig.addColorStop(1, 'rgba(0,0,0,0.35)');
+  ctx.fillStyle = vig;
+  ctx.fillRect(0, 0, DISP_W, DISP_H);
+
+  document.getElementById('loading').style.display = 'none';
+}
+
+function renderSyntheticPortrait(canvas, ctx) {
+  // Build a beautiful synthetic portrait made of love text
+  // since we can't load the image in sandbox
+  const DISP_W = Math.min(window.innerWidth * 0.93, 420);
+  const DISP_H = Math.floor(DISP_W * 1.28); // portrait ratio
+
+  const DPR = Math.min(window.devicePixelRatio || 2, 3);
+  canvas.width  = DISP_W * DPR;
+  canvas.height = DISP_H * DPR;
+  canvas.style.width  = DISP_W + 'px';
+  canvas.style.height = DISP_H + 'px';
+  ctx.scale(DPR, DPR);
+
+  // Black background
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0, 0, DISP_W, DISP_H);
+
+  // Create an offscreen canvas and draw a synthetic face silhouette
+  const off    = document.createElement('canvas');
+  off.width    = DISP_W;
+  off.height   = DISP_H;
+  const o      = off.getContext('2d');
+
+  // ── Draw a realistic-looking face silhouette with gradients ──
+  const cx = DISP_W / 2;
+  const cy = DISP_H * 0.40;
+  const fw = DISP_W * 0.44; // face width
+  const fh = DISP_H * 0.50; // face height
+
+  o.fillStyle = '#000';
+  o.fillRect(0, 0, DISP_W, DISP_H);
+
+  // Background gradient (room/wall)
+  const bgGrad = o.createLinearGradient(0, 0, DISP_W, DISP_H);
+  bgGrad.addColorStop(0, '#2a1f18');
+  bgGrad.addColorStop(0.5, '#1a1210');
+  bgGrad.addColorStop(1, '#0d0a08');
+  o.fillStyle = bgGrad;
+  o.fillRect(0, 0, DISP_W, DISP_H);
+
+  // Neck
+  o.beginPath();
+  const neckW = fw * 0.28;
+  o.rect(cx - neckW/2, cy + fh*0.46, neckW, DISP_H * 0.20);
+  const neckGrad = o.createLinearGradient(cx - neckW/2, 0, cx + neckW/2, 0);
+  neckGrad.addColorStop(0, '#a07060');
+  neckGrad.addColorStop(0.4, '#c09070');
+  neckGrad.addColorStop(0.6, '#c09070');
+  neckGrad.addColorStop(1, '#806050');
+  o.fillStyle = neckGrad;
+  o.fill();
+
+  // Shoulders / body (dark shirt)
+  o.beginPath();
+  o.ellipse(cx, DISP_H * 0.92, DISP_W * 0.55, DISP_H * 0.22, 0, 0, Math.PI * 2);
+  o.fillStyle = '#1a1a1a';
+  o.fill();
+
+  // Hair back (long, dark)
+  o.beginPath();
+  o.ellipse(cx, cy - fh*0.10, fw * 0.54, fh * 0.62, 0, 0, Math.PI * 2);
+  o.fillStyle = '#0d0807';
+  o.fill();
+
+  // Hair sides flowing down
+  o.beginPath();
+  o.moveTo(cx - fw*0.50, cy - fh*0.05);
+  o.quadraticCurveTo(cx - fw*0.75, cy + fh*0.3, cx - fw*0.60, cy + fh*0.85);
+  o.quadraticCurveTo(cx - fw*0.40, cy + fh*1.1, cx - fw*0.10, cy + fh*0.80);
+  o.quadraticCurveTo(cx - fw*0.50, cy + fh*0.55, cx - fw*0.48, cy - fh*0.05);
+  o.fillStyle = '#0d0807';
+  o.fill();
+
+  o.beginPath();
+  o.moveTo(cx + fw*0.50, cy - fh*0.05);
+  o.quadraticCurveTo(cx + fw*0.70, cy + fh*0.25, cx + fw*0.55, cy + fh*0.75);
+  o.quadraticCurveTo(cx + fw*0.30, cy + fh*0.95, cx + fw*0.05, cy + fh*0.78);
+  o.quadraticCurveTo(cx + fw*0.45, cy + fh*0.50, cx + fw*0.48, cy - fh*0.05);
+  o.fillStyle = '#0d0807';
+  o.fill();
+
+  // Face shape
+  o.beginPath();
+  o.ellipse(cx, cy, fw * 0.48, fh * 0.54, 0, 0, Math.PI * 2);
+  const faceGrad = o.createRadialGradient(cx - fw*0.08, cy - fh*0.1, fw*0.05, cx, cy, fw*0.52);
+  faceGrad.addColorStop(0, '#d4a888');
+  faceGrad.addColorStop(0.4, '#c4987a');
+  faceGrad.addColorStop(0.75, '#b08568');
+  faceGrad.addColorStop(1, '#8a6050');
+  o.fillStyle = faceGrad;
+  o.fill();
+
+  // Forehead shading
+  const foreGrad = o.createLinearGradient(cx, cy - fh*0.54, cx, cy);
+  foreGrad.addColorStop(0, 'rgba(180,130,90,0.4)');
+  foreGrad.addColorStop(1, 'rgba(0,0,0,0)');
+  o.fillStyle = foreGrad;
+  o.beginPath();
+  o.ellipse(cx, cy - fh*0.15, fw*0.48, fh*0.40, 0, 0, Math.PI*2);
+  o.fill();
+
+  // Bangs
+  o.beginPath();
+  o.moveTo(cx - fw*0.50, cy - fh*0.38);
+  o.quadraticCurveTo(cx - fw*0.20, cy - fh*0.58, cx, cy - fh*0.55);
+  o.quadraticCurveTo(cx + fw*0.20, cy - fh*0.58, cx + fw*0.50, cy - fh*0.38);
+  o.quadraticCurveTo(cx + fw*0.30, cy - fh*0.30, cx + fw*0.10, cy - fh*0.32);
+  o.quadraticCurveTo(cx, cy - fh*0.33, cx - fw*0.10, cy - fh*0.32);
+  o.quadraticCurveTo(cx - fw*0.30, cy - fh*0.30, cx - fw*0.50, cy - fh*0.38);
+  o.fillStyle = '#0d0807';
+  o.fill();
+
+  // Left eyebrow
+  o.beginPath();
+  o.moveTo(cx - fw*0.32, cy - fh*0.16);
+  o.quadraticCurveTo(cx - fw*0.18, cy - fh*0.21, cx - fw*0.06, cy - fh*0.17);
+  o.strokeStyle = '#1a0f08';
+  o.lineWidth = 4;
+  o.lineCap = 'round';
+  o.stroke();
+
+  // Right eyebrow
+  o.beginPath();
+  o.moveTo(cx + fw*0.06, cy - fh*0.17);
+  o.quadraticCurveTo(cx + fw*0.18, cy - fh*0.21, cx + fw*0.32, cy - fh*0.16);
+  o.strokeStyle = '#1a0f08';
+  o.lineWidth = 4;
+  o.stroke();
+
+  // Left eye white
+  o.beginPath();
+  o.ellipse(cx - fw*0.20, cy - fh*0.08, fw*0.10, fh*0.055, -0.1, 0, Math.PI*2);
+  o.fillStyle = '#f0ece8';
+  o.fill();
+  // Left iris
+  o.beginPath();
+  o.arc(cx - fw*0.20, cy - fh*0.08, fw*0.065, 0, Math.PI*2);
+  o.fillStyle = '#2d1a0f';
+  o.fill();
+  // Left pupil
+  o.beginPath();
+  o.arc(cx - fw*0.20, cy - fh*0.08, fw*0.032, 0, Math.PI*2);
+  o.fillStyle = '#080402';
+  o.fill();
+  // Eye shine
+  o.beginPath();
+  o.arc(cx - fw*0.185, cy - fh*0.092, fw*0.018, 0, Math.PI*2);
+  o.fillStyle = 'rgba(255,255,255,0.85)';
+  o.fill();
+
+  // Right eye white
+  o.beginPath();
+  o.ellipse(cx + fw*0.20, cy - fh*0.08, fw*0.10, fh*0.055, 0.1, 0, Math.PI*2);
+  o.fillStyle = '#f0ece8';
+  o.fill();
+  // Right iris
+  o.beginPath();
+  o.arc(cx + fw*0.20, cy - fh*0.08, fw*0.065, 0, Math.PI*2);
+  o.fillStyle = '#2d1a0f';
+  o.fill();
+  // Right pupil
+  o.beginPath();
+  o.arc(cx + fw*0.20, cy - fh*0.08, fw*0.032, 0, Math.PI*2);
+  o.fillStyle = '#080402';
+  o.fill();
+  // Eye shine
+  o.beginPath();
+  o.arc(cx + fw*0.215, cy - fh*0.092, fw*0.018, 0, Math.PI*2);
+  o.fillStyle = 'rgba(255,255,255,0.85)';
+  o.fill();
+
+  // Nose
+  o.beginPath();
+  o.moveTo(cx - fw*0.04, cy + fh*0.04);
+  o.quadraticCurveTo(cx - fw*0.10, cy + fh*0.12, cx - fw*0.08, cy + fh*0.16);
+  o.quadraticCurveTo(cx, cy + fh*0.18, cx + fw*0.08, cy + fh*0.16);
+  o.quadraticCurveTo(cx + fw*0.10, cy + fh*0.12, cx + fw*0.04, cy + fh*0.04);
+  o.strokeStyle = 'rgba(120,75,50,0.45)';
+  o.lineWidth = 2.5;
+  o.lineCap = 'round';
+  o.stroke();
+
+  // Nostrils
+  o.beginPath();
+  o.ellipse(cx - fw*0.09, cy + fh*0.165, fw*0.038, fw*0.022, -0.3, 0, Math.PI*2);
+  o.fillStyle = 'rgba(90,50,30,0.5)';
+  o.fill();
+  o.beginPath();
+  o.ellipse(cx + fw*0.09, cy + fh*0.165, fw*0.038, fw*0.022, 0.3, 0, Math.PI*2);
+  o.fill();
+
+  // Lips
+  // Upper lip
+  o.beginPath();
+  o.moveTo(cx - fw*0.16, cy + fh*0.265);
+  o.quadraticCurveTo(cx - fw*0.08, cy + fh*0.245, cx, cy + fh*0.255);
+  o.quadraticCurveTo(cx + fw*0.08, cy + fh*0.245, cx + fw*0.16, cy + fh*0.265);
+  o.quadraticCurveTo(cx + fw*0.10, cy + fh*0.275, cx, cy + fh*0.278);
+  o.quadraticCurveTo(cx - fw*0.10, cy + fh*0.275, cx - fw*0.16, cy + fh*0.265);
+  o.fillStyle = '#b06060';
+  o.fill();
+  // Lower lip
+  o.beginPath();
+  o.moveTo(cx - fw*0.16, cy + fh*0.268);
+  o.quadraticCurveTo(cx - fw*0.06, cy + fh*0.32, cx, cy + fh*0.322);
+  o.quadraticCurveTo(cx + fw*0.06, cy + fh*0.32, cx + fw*0.16, cy + fh*0.268);
+  o.quadraticCurveTo(cx + fw*0.10, cy + fh*0.296, cx, cy + fh*0.298);
+  o.quadraticCurveTo(cx - fw*0.10, cy + fh*0.296, cx - fw*0.16, cy + fh*0.268);
+  o.fillStyle = '#c07070';
+  o.fill();
+
+  // Cheek blush
+  const blushL = o.createRadialGradient(cx - fw*0.36, cy + fh*0.05, 0, cx - fw*0.36, cy + fh*0.05, fw*0.22);
+  blushL.addColorStop(0, 'rgba(220,120,100,0.18)');
+  blushL.addColorStop(1, 'rgba(0,0,0,0)');
+  o.fillStyle = blushL;
+  o.beginPath();
+  o.ellipse(cx - fw*0.36, cy + fh*0.05, fw*0.22, fh*0.15, 0, 0, Math.PI*2);
+  o.fill();
+
+  const blushR = o.createRadialGradient(cx + fw*0.36, cy + fh*0.05, 0, cx + fw*0.36, cy + fh*0.05, fw*0.22);
+  blushR.addColorStop(0, 'rgba(220,120,100,0.18)');
+  blushR.addColorStop(1, 'rgba(0,0,0,0)');
+  o.fillStyle = blushR;
+  o.beginPath();
+  o.ellipse(cx + fw*0.36, cy + fh*0.05, fw*0.22, fh*0.15, 0, 0, Math.PI*2);
+  o.fill();
+
+  // Ear (right visible)
+  o.beginPath();
+  o.ellipse(cx + fw*0.50, cy + fh*0.02, fw*0.065, fh*0.10, 0.2, 0, Math.PI*2);
+  o.fillStyle = '#c09070';
+  o.fill();
+  // Ear ring
+  o.beginPath();
+  o.arc(cx + fw*0.54, cy + fh*0.07, fw*0.025, 0, Math.PI*2);
+  o.strokeStyle = '#d4b060';
+  o.lineWidth = 2;
+  o.stroke();
+
+  // Small light highlight on forehead
+  const fhHighlight = o.createRadialGradient(cx - fw*0.06, cy - fh*0.30, 0, cx - fw*0.06, cy - fh*0.30, fw*0.20);
+  fhHighlight.addColorStop(0, 'rgba(255,220,180,0.25)');
+  fhHighlight.addColorStop(1, 'rgba(0,0,0,0)');
+  o.fillStyle = fhHighlight;
+  o.beginPath();
+  o.ellipse(cx - fw*0.06, cy - fh*0.30, fw*0.20, fh*0.18, 0, 0, Math.PI*2);
+  o.fill();
+
+  // Dark shirt collar area
+  o.beginPath();
+  o.moveTo(cx - fw*0.18, cy + fh*0.68);
+  o.lineTo(cx - fw*0.40, cy + fh*0.85);
+  o.lineTo(cx + fw*0.40, cy + fh*0.85);
+  o.lineTo(cx + fw*0.18, cy + fh*0.68);
+  o.closePath();
+  o.fillStyle = '#111';
+  o.fill();
+
+  // ── Now read pixels from offscreen and render text portrait ──
+  const imageData = o.getImageData(0, 0, DISP_W, DISP_H);
+  const pixels    = imageData.data;
+
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0, 0, DISP_W, DISP_H);
+
+  const FS   = 6;
+  const STEP = FS;
+  ctx.textBaseline = 'top';
+  ctx.font = `bold ${FS}px monospace`;
+
+  let idx = 0;
+
+  for (let y = 0; y < DISP_H; y += STEP) {
+    for (let x = 0; x < DISP_W; x += STEP) {
+      const px = Math.min(Math.floor(x), DISP_W - 1);
+      const py = Math.min(Math.floor(y), DISP_H - 1);
+      const i  = (py * DISP_W + px) * 4;
+
+      const r = pixels[i], g = pixels[i+1], b = pixels[i+2], a = pixels[i+3];
+      const brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
+
+      if (a < 10 || brightness < 0.03) continue;
+
+      const rr = Math.min(255, Math.floor(r * 1.15));
+      const gg = Math.min(255, Math.floor(g * 1.08));
+      const bb = Math.min(255, Math.floor(b * 1.05));
+      const alpha = Math.min(1, 0.45 + brightness * 0.65);
+
+      ctx.fillStyle = `rgba(${rr},${gg},${bb},${alpha})`;
+      ctx.fillText(loveMessage[idx % loveMessage.length], x, y);
+      idx++;
+    }
+  }
+
+  // Vignette
+  const vig = ctx.createRadialGradient(
+    DISP_W/2, DISP_H/2, DISP_H * 0.35,
+    DISP_W/2, DISP_H/2, DISP_H * 0.90
+  );
+  vig.addColorStop(0, 'rgba(0,0,0,0)');
+  vig.addColorStop(1, 'rgba(0,0,0,0.4)');
+  ctx.fillStyle = vig;
+  ctx.fillRect(0, 0, DISP_W, DISP_H);
+
+  document.getElementById('loading').style.display = 'none';
+}
+
+// ── Typing animation ──
 const messages = [
   "My Love, Elai... 🥹",
   "From October 12, 2025 — you changed my world. 💕",
@@ -415,7 +773,9 @@ const messages = [
 ];
 
 let msgIndex = 0, charIdx = 0, isDeleting = false;
+
 function startTyping() { typeLoop(); }
+
 function typeLoop() {
   const current = messages[msgIndex];
   const typedEl = document.getElementById('typed-text');
@@ -437,6 +797,7 @@ function typeLoop() {
   setTimeout(typeLoop, isDeleting ? 28 : 58);
 }
 
+// ── Falling hearts ──
 const heartsContainer = document.getElementById('hearts');
 const heartSymbols    = ['💕','❤️','🥹','💖','💗','✨'];
 for (let i = 0; i < 15; i++) {
