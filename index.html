@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy 5th Monthsary, My Love 💕</title>
+<title>Happy 5th Monthsary, My Love 💙</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -20,7 +20,7 @@
     position: fixed;
     inset: 0;
     z-index: 0;
-    background: linear-gradient(135deg, #000a1a, #001a2e, #000d20, #001525);
+    background: linear-gradient(135deg, #000208, #000d18, #000510, #000a14);
     background-size: 400% 400%;
     animation: gradientShift 12s ease infinite;
   }
@@ -119,8 +119,8 @@
     z-index: 999;
     cursor: pointer;
     transition: opacity 1.2s ease;
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(4px);
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(6px);
   }
 
   #intro .intro-heart {
@@ -329,6 +329,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background: radial-gradient(
+      ellipse 70% 60% at 50% 50%,
+      rgba(0, 80, 140, 0.15) 0%,
+      rgba(0, 0, 0, 0.85) 100%
+    );
+    border-radius: 20px;
+    padding: 16px;
   }
 
   /* ── PORTRAIT ── */
@@ -351,11 +358,16 @@
     background-clip: text;
     color: transparent;
     border-radius: 12px;
-    filter: brightness(1.4) contrast(1.1);
+
+    /* ✅ BRIGHT AND VIVID */
+    filter: brightness(2.0) contrast(1.3) saturate(1.4);
+
+    /* ✅ STRONG SKY BLUE GLOW */
     box-shadow:
-      0 0 30px rgba(0, 170, 255, 0.4),
-      0 0 60px rgba(0, 120, 200, 0.2),
-      0 0 100px rgba(0, 80, 180, 0.1);
+      0 0 25px rgba(0, 200, 255, 0.9),
+      0 0 60px rgba(0, 150, 255, 0.6),
+      0 0 100px rgba(0, 100, 200, 0.3);
+
     position: relative;
     z-index: 6;
   }
@@ -395,8 +407,8 @@
     border-radius: 8px;
     position: relative;
     box-shadow:
-      0 0 30px rgba(0, 150, 255, 0.4),
-      0 0 60px rgba(0, 100, 200, 0.2);
+      0 0 30px rgba(0, 150, 255, 0.5),
+      0 0 60px rgba(0, 100, 200, 0.3);
     transition: transform 0.3s ease;
   }
 
@@ -459,7 +471,7 @@
     padding: 32px 28px;
     box-shadow:
       0 0 40px rgba(0, 150, 255, 0.3),
-      0 10px 40px rgba(0, 0, 0, 0.4);
+      0 10px 40px rgba(0,0,0,0.4);
     position: relative;
     overflow: hidden;
   }
@@ -683,13 +695,12 @@ for (let i = 0; i < 160; i++) {
 }
 
 // ════════════════════════════════
-//  FIREFLIES — sides only, not center
+//  FIREFLIES — sides only
 // ════════════════════════════════
 const firefliesContainer = document.getElementById('fireflies');
 for (let i = 0; i < 18; i++) {
   const ff = document.createElement('div');
   ff.classList.add('firefly');
-  // Keep fireflies on left 20% or right 20% of screen
   const side = Math.random() > 0.5;
   const leftPos = side
     ? Math.random() * 20
@@ -706,7 +717,7 @@ for (let i = 0; i < 18; i++) {
 }
 
 // ════════════════════════════════
-//  PETAL RAIN — sides only, not center
+//  PETAL RAIN — sides only
 // ════════════════════════════════
 const petalsContainer = document.getElementById('petals');
 const petalEmojis = ['🌸','🩵','💙','❄️','🌊','💎'];
@@ -714,7 +725,6 @@ for (let i = 0; i < 22; i++) {
   const petal = document.createElement('div');
   petal.classList.add('petal');
   petal.textContent = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
-  // Keep petals on left 15% or right 15% of screen
   const side = Math.random() > 0.5;
   const leftPos = side
     ? Math.random() * 15
@@ -912,9 +922,9 @@ function openLetter() {
   document.getElementById('envelope').classList.add('open');
   document.getElementById('envelope-hint').textContent = '💙';
   setTimeout(() => {
-    const paper = document.getElementById('letter-paper');
-    paper.style.display    = 'block';
-    paper.style.animation  = 'letterOpen 0.8s ease forwards';
+    const paper       = document.getElementById('letter-paper');
+    paper.style.display   = 'block';
+    paper.style.animation = 'letterOpen 0.8s ease forwards';
   }, 700);
 }
 
