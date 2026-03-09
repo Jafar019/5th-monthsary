@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Elaiza ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{
+            background:#000;
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            overflow-x:hidden;
+            font-family:'Quicksand',sans-serif;
+        }
+
+        /* ====== TAP OVERLAY ====== */
+        #tapOverlay{
+            position:fixed;inset:0;
+            background:radial-gradient(ellipse,#1a0a1e,#000);
+            z-index:100;display:flex;flex-direction:column;
+            align-items:center;justify-content:center;cursor:pointer;
+            transition:opacity 1.2s,visibility 1.2s;
+        }
+        #tapOverlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
+        #tapOverlay .icon{font-size:80px;animation:bounce 2s ease-in-out infinite}
+        #tapOverlay p{color:#ffa8cc;font-size:1.1rem;margin-top:18px;animation:pulse 2s ease-in-out infinite}
+        #tapOverlay .sub{font-size:.85rem;margin-top:6px;opacity:.5;color:#fff}
+        @keyframes bounce{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.15) rotate(5deg)}}
+        @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+        /* ====== LOADING ====== */
+        #loadingWrap{display:none;flex-direction:column;align-items:center;z-index:50}
+        #loadingWrap p{color:#ff6b9d;font-family:'Great Vibes',cursive;font-size:1.5rem;margin-bottom:15px}
+        .load-bar{width:220px;height:3px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}
+        .load-bar-inner{height:100%;width:0;background:linear-gradient(90deg,#ff6b9d,#a855f7);border-radius:3px;transition:width .2s}
+
+        /* ====== PORTRAIT ====== */
+        .portrait-wrap{
+            position:relative;display:none;
+            max-width:100vw;padding:10px;
+        }
+        #textCanvas{display:block;max-width:96vw;max-height:88vh;border-radius:4px}
+
+        /* Name Overlay */
+        .name-overlay{
+            position:absolute;bottom:8%;left:6%;z-index:10;
+            opacity:0;transform:translateY(20px);
+            transition:opacity 1.2s ease,transform 1.2s ease;
+        }
+        .name-overlay.show{opacity:1;transform:translateY(0)}
+        .name-overlay h1{
+            font-family:'Great Vibes',cursive;
+            font-size:clamp(2.2rem,7vw,4rem);
+            color:#fff;
+            text-shadow:0 0 8px rgba(0,0,0,.9),0 0 25px rgba(255,100,150,.7),0 0 50px rgba(255,50,100,.4);
+            line-height:1.1;
+        }
+        .name-overlay p{
+            font-family:'Great Vibes',cursive;
+            font-size:clamp(1rem,3.5vw,1.6rem);
+            color:#ff6b9d;margin-top:2px;
+            text-shadow:0 0 12px rgba(255,107,157,.6);
+        }
+
+        /* ====== BUTTONS ====== */
+        .btn-row{
+            position:fixed;bottom:12px;
+            display:none;gap:10px;z-index:50;
+        }
+        .btn-row button{
+            background:rgba(255,107,157,.12);
+            border:1px solid rgba(255,107,157,.3);
+            color:#ff6b9d;padding:8px 18px;border-radius:25px;
+            font-family:'Quicksand',sans-serif;font-size:.8rem;
+            cursor:pointer;backdrop-filter:blur(10px);
+            transition:background .3s;
+        }
+        .btn-row button:hover{background:rgba(255,107,157,.3)}
+
+        /* ====== FLOATING ====== */
+        .fh{position:fixed;pointer-events:none;z-index:1;opacity:0;animation:fhUp linear infinite}
+        @keyframes fhUp{
+            0%{transform:translateY(105vh) rotate(0);opacity:0}
+            5%{opacity:.5}90%{opacity:0}
+            100%{transform:translateY(-5vh) rotate(360deg);opacity:0}
+        }
+
+        /* ====== MUSIC ====== */
+        .music-wrap{
+            position:fixed;top:12px;right:12px;z-index:50;
+            display:none;
+        }
+        .music-toggle{
+            background:rgba(255,107,157,.15);
+            border:1px solid rgba(255,107,157,.3);
+            color:#ff6b9d;width:40px;height:40px;border-radius:50%;
+            font-size:18px;cursor:pointer;backdrop-filter:blur(10px);
+            display:flex;align-items:center;justify-content:center;
+            transition:background .3s;
+        }
+        .music-toggle:hover{background:rgba(255,107,157,.3)}
+
+        #srcImg{display:none}
+    </style>
+</head>
+<body>
+
+<!-- ====== TAP TO OPEN ====== -->
+<div id="tapOverlay">
+    <div class="icon">💌</div>
+    <p>Tap to open, Elaiza...</p>
+    <span class="sub">may surprise ako sayo ❤️</span>
+</div>
+
+<!-- ====== LOADING ====== -->
+<div id="loadingWrap">
+    <p>Creating something special... ❤️</p>
+    <div class="load-bar"><div class="load-bar-inner" id="loadBar"></div></div>
+</div>
+
+<!-- ====== PORTRAIT ====== -->
+<div class="portrait-wrap" id="portraitWrap">
+    <canvas id="textCanvas"></canvas>
+    <div class="name-overlay" id="nameOverlay">
+        <h1>Elaiza</h1>
+        <p>My Love ❤️</p>
+    </div>
+</div>
+
+<!-- ====== BOTTOM BUTTONS ====== -->
+<div class="btn-row" id="btnRow">
+    <button onclick="downloadPortrait()">📥 Save Photo</button>
+    <button onclick="toggleColor()">🎨 Warm / Cool</button>
+</div>
+
+<!-- ====== MUSIC TOGGLE ====== -->
+<div class="music-wrap" id="musicWrap">
+    <button class="music-toggle" onclick="toggleMusic()">🎵</button>
+</div>
+
+<!-- Hidden audio (Ed Sheeran - Perfect) -->
+<audio id="bgMusic" loop>
+    <!-- Use a direct mp3 link or local file. YouTube can't autoplay as audio. -->
+    <!-- Option: download "Perfect" mp3 and name it perfect.mp3 in same folder -->
+    <!-- <source src="perfect.mp3" type="audio/mpeg"> -->
+</audio>
+
+<!-- ====== SOURCE IMAGE ====== -->
+<!--
+    📸 INSTRUCTIONS:
+    1. Save Elaiza's photo as "elaiza.jpg" in the SAME folder as this HTML file
+    2. Or change the filename below to match your photo
+-->
+<img id="srcImg" src="elaiza.jpg">
+
+<script>
+// ============================================================
+// ROMANTIC TEXT (this text forms the portrait!)
+// ============================================================
+const romanticText = [
+    "Mahal na mahal kita Elaiza. ",
+    "You are my heart, my soul, my everything. ",
+    "Every single moment with you feels like a beautiful dream. ",
+    "I choose you today, tomorrow, and forever. ",
+    "You caught my attention, my interest, and my heart. ",
+    "From the first time I saw you, I knew you were special. ",
+    "I want to be with you, in the highs and lows, in the good times and bad. ",
+    "You are one of a kind and I am so grateful for you. ",
+    "Happy Monthsary my love! ",
+    "I promise to always be here for you, to hold you, to love you. ",
+    "You are the most beautiful person I have ever known, inside and out. ",
+    "My heart beats only for you, Elaiza. ",
+    "Ikaw lang ang mahal ko, ikaw lang ang gusto ko, ikaw lang talaga. ",
+    "Pangako ko sayo, hindi kita iiwan kahit kailan. ",
+    "You complete me in ways I never knew I needed. ",
+    "I love you to the moon and back, today and always. ",
+    "Gel loves Elaiza forever and ever. ",
+    "You are my answered prayer, my blessing, my home. ",
+    "I want you to be the last, Allow me to love you forever. ",
+    "Every love story is beautiful but ours is my favorite. ",
+    "In God's perfect time and place, I found you. ",
+    "Ikaw ang sagot sa lahat ng dasal ko. ",
+    "You are my sunshine on my darkest days. ",
+    "I will always fight for us, for you, for our love. ",
+    "Thank you for choosing me every single day. ",
+    "You make my world so much better just by being in it. ",
+    "I fall in love with you more and more each day. ",
+    "Elaiza, you are the best thing that ever happened to me. "
+].join('');
+
+// ============================================================
+// GLOBALS
+// ============================================================
+const img       = document.getElementById('srcImg');
+const canvas    = document.getElementById('textCanvas');
+const ctx       = canvas.getContext('2d');
+let warmMode    = true;
+let pixelCache  = null;
+let gridInfo    = null;
+let generated   = false;
+
+// ============================================================
+// TAP TO OPEN
+// ============================================================
+document.getElementById('tapOverlay').addEventListener('click', () => {
+    document.getElementById('tapOverlay').classList.add('hidden');
+    startGeneration();
+});
+
+// ============================================================
+// START GENERATION
+// ============================================================
+function startGeneration() {
+    document.getElementById('loadingWrap').style.display = 'flex';
+    if (img.complete && img.naturalWidth > 0) {
+        setTimeout(generatePortrait, 300);
+    } else {
+        img.onload = () => setTimeout(generatePortrait, 300);
+        img.onerror = () => {
+            document.querySelector('#loadingWrap p').textContent =
+                '⚠️ Place elaiza.jpg in the same folder as index.html';
+        };
+    }
+}
+
+// ============================================================
+// GENERATE TEXT PORTRAIT
+// ============================================================
+function generatePortrait() {
+    if (generated) return;
+    generated = true;
+
+    const loadBar = document.getElementById('loadBar');
+
+    // Font / grid settings
+    const fontSize = 7;
+    const charW    = fontSize * 0.6;
+    const charH    = fontSize;
+
+    // Canvas target width
+    const targetW  = Math.min(650, window.innerWidth * 0.96);
+    const cols     = Math.floor(targetW / charW);
+    const imgAsp   = img.naturalHeight / img.naturalWidth;
+    const rows     = Math.floor(cols * (charW / charH) * imgAsp);
+
+    // Sample image at grid resolution
+    const sCanvas  = document.createElement('canvas');
+    const sCtx     = sCanvas.getContext('2d');
+    sCanvas.width  = cols;
+    sCanvas.height = rows;
+    sCtx.drawImage(img, 0, 0, cols, rows);
+
+    const imgData  = sCtx.getImageData(0, 0, cols, rows);
+    pixelCache     = imgData.data;
+    gridInfo       = { cols, rows, charW, charH, fontSize };
+
+    // Output canvas size
+    canvas.width   = Math.ceil(cols * charW);
+    canvas.height  = Math.ceil(rows * charH);
+
+    // Animate: render row-by-row
+    let curRow = 0;
+    const batchSize = 4;
+
+    function renderBatch() {
+        ctx.font         = `${fontSize}px "Courier New", Courier, monospace`;
+        ctx.textBaseline = 'top';
+
+        for (let b = 0; b < batchSize && curRow < rows; b++, curRow++) {
+            renderRow(curRow);
+        }
+
+        // Progress
+        const pct = (curRow / rows) * 100;
+        loadBar.style.width = pct + '%';
+
+        if (curRow < rows) {
+            requestAnimationFrame(renderBatch);
+        } else {
+            onComplete();
+        }
+    }
+
+    // Black fill first
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    document.getElementById('portraitWrap').style.display = 'block';
+    requestAnimationFrame(renderBatch);
+}
+
+// ============================================================
+// RENDER SINGLE ROW
+// ============================================================
+let globalCharIdx = 0;
+
+function renderRow(row) {
+    const { cols, charW, charH, fontSize } = gridInfo;
+
+    for (let col = 0; col < cols; col++) {
+        const pIdx = (row * cols + col) * 4;
+        let r = pixelCache[pIdx];
+        let g = pixelCache[pIdx + 1];
+        let b = pixelCache[pIdx + 2];
+
+        const brightness = 0.299 * r + 0.587 * g + 0.114 * b;
+
+        if (brightness > 10) {
+            // Warm tint
+            if (warmMode) {
+                r = Math.min(255, r * 1.08 + 10);
+                g = Math.min(255, g * 0.93);
+                b = Math.min(255, b * 0.75);
+            }
+
+            const alpha = Math.min(1, brightness / 140);
+            const char  = romanticText[globalCharIdx % romanticText.length];
+            globalCharIdx++;
+
+            ctx.fillStyle = `rgba(${r|0},${g|0},${b|0},${alpha.toFixed(2)})`;
+            ctx.fillText(char, col * charW, row * charH);
+        }
+    }
+}
+
+// ============================================================
+// ON COMPLETE
+// ============================================================
+function onComplete() {
+    // Add subtle vignette
+    addVignette();
+
+    // Hide loading
+    document.getElementById('loadingWrap').style.display = 'none';
+
+    // Show name overlay
+    setTimeout(() => document.getElementById('nameOverlay').classList.add('show'), 600);
+
+    // Show buttons
+    setTimeout(() => {
+        document.getElementById('btnRow').style.display = 'flex';
+        document.getElementById('musicWrap').style.display = 'block';
+    }, 1500);
+
+    // Floating hearts
+    startHearts();
+}
+
+// ============================================================
+// VIGNETTE EFFECT
+// ============================================================
+function addVignette() {
+    const w = canvas.width, h = canvas.height;
+    const grd = ctx.createRadialGradient(w/2, h/2, w*0.28, w/2, h/2, w*0.75);
+    grd.addColorStop(0, 'rgba(0,0,0,0)');
+    grd.addColorStop(1, 'rgba(0,0,0,0.45)');
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, w, h);
+}
+
+// ============================================================
+// TOGGLE WARM / COOL
+// ============================================================
+function toggleColor() {
+    warmMode = !warmMode;
+    globalCharIdx = 0;
+    const { rows, charW, charH, fontSize } = gridInfo;
+
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.font = `${fontSize}px "Courier New", Courier, monospace`;
+    ctx.textBaseline = 'top';
+
+    for (let row = 0; row < rows; row++) {
+        renderRow(row);
+    }
+    addVignette();
+}
+
+// ============================================================
+// DOWNLOAD PORTRAIT
+// ============================================================
+function downloadPortrait() {
+    document.fonts.ready.then(() => {
+        const dl  = document.createElement('canvas');
+        const dc  = dl.getContext('2d');
+        dl.width  = canvas.width;
+        dl.height = canvas.height;
+
+        // Copy portrait
+        dc.drawImage(canvas, 0, 0);
+
+        // Name
+        const ns = Math.floor(canvas.width * 0.09);
+        dc.font = `${ns}px "Great Vibes", cursive, serif`;
+        dc.shadowColor = 'rgba(0,0,0,0.8)';
+        dc.shadowBlur = 15;
+        dc.fillStyle = '#fff';
+        dc.fillText('Elaiza', canvas.width * 0.05, canvas.height * 0.89);
+
+        dc.font = `${Math.floor(ns*0.5)}px "Great Vibes", cursive, serif`;
+        dc.fillStyle = '#ff6b9d';
+        dc.shadowColor = 'rgba(255,107,157,0.5)';
+        dc.fillText('My Love ❤️', canvas.width * 0.05, canvas.height * 0.89 + ns * 1.1);
+
+        const a  = document.createElement('a');
+        a.download = 'elaiza-text-portrait.png';
+        a.href = dl.toDataURL('image/png');
+        a.click();
+    });
+}
+
+// ============================================================
+// MUSIC TOGGLE
+// ============================================================
+let musicPlaying = false;
+function toggleMusic() {
+    const audio = document.getElementById('bgMusic');
+    const btn   = document.querySelector('.music-toggle');
+    if (musicPlaying) {
+        audio.pause();
+        btn.textContent = '🎵';
+    } else {
+        audio.play().catch(()=>{});
+        btn.textContent = '⏸️';
+    }
+    musicPlaying = !musicPlaying;
+}
+
+// ============================================================
+// FLOATING HEARTS
+// ============================================================
+function startHearts() {
+    const em = ['❤️','💕','✨','💗','🌸','💖','🩷'];
+    setInterval(() => {
+        const e = document.createElement('div');
+        e.className = 'fh';
+        e.textContent = em[Math.random()*em.length|0];
+        e.style.left = Math.random()*100+'vw';
+        e.style.fontSize = (10+Math.random()*16)+'px';
+        const d = 7+Math.random()*7;
+        e.style.animationDuration = d+'s';
+        document.body.appendChild(e);
+        setTimeout(()=>e.remove(), d*1e3);
+    }, 600);
+}
+</script>
+</body>
+</html>
