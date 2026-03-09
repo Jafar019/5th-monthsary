@@ -12,10 +12,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     min-height: 100vh;
     font-family: 'Georgia', serif;
     overflow-x: hidden;
+    padding-top: 20px;
   }
 
   /* ── INTRO SCREEN ── */
@@ -39,6 +40,7 @@
     text-align: center;
     animation: pulse 2s infinite;
     margin-bottom: 10px;
+    padding: 0 20px;
   }
 
   #intro p {
@@ -167,11 +169,22 @@
     display: block;
     max-width: 95vw;
     border-radius: 8px;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+  }
+
+  /* ── LOADING ── */
+  #loading {
+    color: #ff9966;
+    font-size: 0.9rem;
+    font-style: italic;
+    margin: 20px 0;
+    animation: pulse 1.5s infinite;
   }
 
   /* ── TYPED MESSAGE ── */
   #typed-box {
-    max-width: 480px;
+    max-width: 500px;
     width: 92vw;
     margin-top: 24px;
     background: rgba(255,100,40,0.08);
@@ -258,8 +271,8 @@
   <div id="music-player">
     <button id="play-btn" onclick="toggleMusic()">▶</button>
     <div class="song-info">
-   <span class="song-title">🎵 Pag Ibig ng Ikaw at Ako</span>
-<span class="song-sub">Earl Agustin — Para sa iyo, Elai 💕</span>
+      <span class="song-title">🎵 Pag Ibig ng Ikaw at Ako</span>
+      <span class="song-sub">Earl Agustin — Para sa iyo, Elai 💕</span>
     </div>
     <div class="music-bars bars-paused" id="bars">
       <div class="bar"></div>
@@ -269,6 +282,9 @@
       <div class="bar"></div>
     </div>
   </div>
+
+  <!-- LOADING TEXT -->
+  <div id="loading">✨ Loading your portrait, Love... ✨</div>
 
   <!-- TEXT PORTRAIT CANVAS -->
   <div id="portrait-container">
@@ -283,7 +299,6 @@
 
 </div>
 
-<!-- AUDIO — replace src with your own song file or YouTube embed -->
 <audio id="bg-music" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
@@ -300,7 +315,6 @@ function startExperience() {
     document.getElementById('main').style.display = 'flex';
     buildPortrait();
     startTyping();
-    // Auto-play music (browsers allow after user tap)
     const music = document.getElementById('bg-music');
     music.play().then(() => {
       document.getElementById('play-btn').textContent = '⏸';
@@ -328,76 +342,128 @@ function toggleMusic() {
 }
 
 // ════════════════════════════════
-//  TEXT PORTRAIT
+//  LOVE LETTER TEXT
 // ════════════════════════════════
 const loveText = `
-  My Love, Elai. From the very first day you said we were officially together —
-  October 12, 2025 — my world changed completely. I love how you care for me so deeply,
-  how you support me through everything, how you make every single day better just by
-  being in it. When we talk, when we spend time together, I feel something I cannot
-  put into words — pure happiness. You understand me like no one else ever has.
-  And I miss you so much when you're not around. I still think about the day we shared
-  our first kiss. That memory lives in my heart forever. You are not just my girlfriend —
-  you are my peace, my joy, my favorite person in this world. I love you, Elai.
-  Always and forever. Happy 5th Monthsary, my love.
-`.replace(/\s+/g, ' ').trim();
+  MyLoveElai FromTheVeryFirstDayYouSaidWeWereOfficiallyTogether October122025
+  MyWorldChangedCompletely ILoveHowYouCareForMeSoDeeplyhowYouSupportMeThroughEverything
+  HowYouMakeEverySingleDayBetterJustByBeingInIt WhenWeTalkWhenWeSpendTimeTogether
+  IFeelSomethingICannotPutIntoWords PureHappiness YouUnderstandMeLikeNoOneElseEverHas
+  AndIMissYouSoMuchWhenYoureNotAround IStillThinkAboutTheDayWeSharedOurFirstKiss
+  ThatMemoryLivesInMyHeartForever YouAreNotJustMyGirlfriend YouAreMyPeaceMyJoy
+  MyFavoritePersonInThisWorld ILoveYouElai AlwaysAndForever HappyMonthsaryMyLove
+  PagIbigNgIkawAtAko OctoberTwelve TwoThousandTwentyFive ForeverAndAlways
+  MyLoveElai FromTheVeryFirstDayYouSaidWeWereOfficiallyTogether October122025
+  MyWorldChangedCompletely ILoveHowYouCareForMeSoDeeplyhowYouSupportMeThroughEverything
+  HowYouMakeEverySingleDayBetterJustByBeingInIt WhenWeTalkWhenWeSpendTimeTogether
+  IFeelSomethingICannotPutIntoWords PureHappiness YouUnderstandMeLikeNoOneElseEverHas
+  ILoveYouElai AlwaysAndForever HappyMonthsaryMyLove
+`.replace(/\s+/g, '').trim();
 
+// ════════════════════════════════
+//  HIGH QUALITY TEXT PORTRAIT
+// ════════════════════════════════
 function buildPortrait() {
   const canvas = document.getElementById('canvas');
   const ctx    = canvas.getContext('2d');
   const img    = new Image();
-  img.src      = 'elaiza.jpg';
+  img.crossOrigin = 'anonymous';
+  img.src = 'elaiza.jpg';
 
   img.onload = function () {
-    const MAX_WIDTH = Math.min(window.innerWidth * 0.92, 480);
-    const scale = MAX_WIDTH / img.width;
+    const loading = document.getElementById('loading');
+
+    // Use full image resolution for maximum detail
+    const MAX_W = Math.min(window.innerWidth * 0.95, 700);
+    const scale = MAX_W / img.width;
     const W = Math.floor(img.width  * scale);
     const H = Math.floor(img.height * scale);
 
-    canvas.width  = W;
-    canvas.height = H;
+    // High DPI — renders at 2x or 3x pixel density
+    const DPR = Math.min(window.devicePixelRatio || 2, 3);
 
-    ctx.drawImage(img, 0, 0, W, H);
-    const imageData = ctx.getImageData(0, 0, W, H);
-    const pixels    = imageData.data;
+    canvas.width        = W * DPR;
+    canvas.height       = H * DPR;
+    canvas.style.width  = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.scale(DPR, DPR);
 
+    // Step 1: Draw original image to sample pixels
+    const offscreen    = document.createElement('canvas');
+    offscreen.width    = W;
+    offscreen.height   = H;
+    const offCtx       = offscreen.getContext('2d');
+    offCtx.drawImage(img, 0, 0, W, H);
+    const imageData    = offCtx.getImageData(0, 0, W, H);
+    const pixels       = imageData.data;
+
+    // Step 2: Black background
     ctx.fillStyle = '#0a0005';
     ctx.fillRect(0, 0, W, H);
 
-    const fontSize = 6;
-    ctx.font = `bold ${fontSize}px monospace`;
+    // Step 3: Tiny font = maximum detail
+    const fontSize = 3.5;
+    const step     = fontSize;
+    ctx.textBaseline = 'top';
 
     let charIndex = 0;
-    const step    = fontSize;
 
     for (let y = 0; y < H; y += step) {
       for (let x = 0; x < W; x += step) {
-        const i = (y * W + x) * 4;
+        const px = Math.floor(x);
+        const py = Math.floor(y);
+        const i  = (py * W + px) * 4;
+
         const r = pixels[i];
         const g = pixels[i + 1];
         const b = pixels[i + 2];
+        const a = pixels[i + 3];
+
+        if (a < 10) continue;
+
         const brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
 
-        if (brightness < 0.08) continue;
+        // Skip near-black background pixels
+        if (brightness < 0.07) continue;
 
-        const red   = Math.floor(180 + brightness * 75);
-        const green = Math.floor(60  + brightness * 80);
-        const blue  = Math.floor(10  + brightness * 30);
-        const alpha = 0.4 + brightness * 0.6;
+        // Color warm glow — brighter pixels = more vivid orange/gold
+        const red   = Math.min(255, Math.floor(140 + brightness * 115));
+        const green = Math.min(255, Math.floor(40  + brightness * 100));
+        const blue  = Math.min(255, Math.floor(0   + brightness * 40));
+        const alpha = 0.35 + brightness * 0.65;
 
+        // Font size varies slightly with brightness for depth
+        const dynamicSize = brightness > 0.6
+          ? fontSize * 0.85
+          : brightness > 0.3
+            ? fontSize
+            : fontSize * 1.1;
+
+        ctx.font      = `bold ${dynamicSize}px monospace`;
         ctx.fillStyle = `rgba(${red},${green},${blue},${alpha})`;
+
         const char = loveText[charIndex % loveText.length];
         ctx.fillText(char, x, y);
         charIndex++;
       }
     }
 
-    // Soft vignette glow
-    const gradient = ctx.createRadialGradient(W/2, H/2, H*0.1, W/2, H/2, H*0.7);
-    gradient.addColorStop(0, 'rgba(255,100,30,0.04)');
-    gradient.addColorStop(1, 'rgba(0,0,0,0.35)');
-    ctx.fillStyle = gradient;
+    // Step 4: Subtle vignette for depth
+    const vignette = ctx.createRadialGradient(W/2, H/2, H * 0.25, W/2, H/2, H * 0.85);
+    vignette.addColorStop(0, 'rgba(0,0,0,0)');
+    vignette.addColorStop(1, 'rgba(0,0,0,0.5)');
+    ctx.fillStyle = vignette;
     ctx.fillRect(0, 0, W, H);
+
+    // Step 5: Very subtle warm center glow
+    const glow = ctx.createRadialGradient(W/2, H*0.35, 0, W/2, H*0.35, W * 0.6);
+    glow.addColorStop(0, 'rgba(255,80,20,0.06)');
+    glow.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, W, H);
+
+    // Hide loading
+    loading.style.display = 'none';
   };
 }
 
@@ -417,41 +483,33 @@ const messages = [
   "Happy 5th Monthsary, my love. I love you, Elai. 💕"
 ];
 
-let msgIndex  = 0;
-let charIdx   = 0;
+let msgIndex   = 0;
+let charIdx    = 0;
 let isDeleting = false;
-let typedEl   = document.getElementById('typed-text');
 
-function startTyping() {
-  typeLoop();
-}
+function startTyping() { typeLoop(); }
 
 function typeLoop() {
-  const current = messages[msgIndex];
+  const current  = messages[msgIndex];
+  const typedEl  = document.getElementById('typed-text');
 
   if (!isDeleting) {
     charIdx++;
-    typedEl.innerHTML = current.substring(0, charIdx)
-      + '<span id="cursor"></span>';
-
+    typedEl.innerHTML = current.substring(0, charIdx) + '<span id="cursor"></span>';
     if (charIdx === current.length) {
-      // Pause then delete
       setTimeout(() => { isDeleting = true; typeLoop(); }, 2200);
       return;
     }
   } else {
     charIdx--;
-    typedEl.innerHTML = current.substring(0, charIdx)
-      + '<span id="cursor"></span>';
-
+    typedEl.innerHTML = current.substring(0, charIdx) + '<span id="cursor"></span>';
     if (charIdx === 0) {
       isDeleting = false;
       msgIndex   = (msgIndex + 1) % messages.length;
     }
   }
 
-  const speed = isDeleting ? 35 : 65;
-  setTimeout(typeLoop, speed);
+  setTimeout(typeLoop, isDeleting ? 30 : 60);
 }
 
 // ════════════════════════════════
@@ -460,14 +518,14 @@ function typeLoop() {
 const heartsContainer = document.getElementById('hearts');
 const heartSymbols    = ['💕','❤️','🥹','💖','💗','✨'];
 
-for (let i = 0; i < 12; i++) {
+for (let i = 0; i < 15; i++) {
   const heart = document.createElement('div');
   heart.classList.add('heart');
-  heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-  heart.style.left              = Math.random() * 100 + 'vw';
+  heart.textContent          = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+  heart.style.left           = Math.random() * 100 + 'vw';
   heart.style.animationDuration = (5 + Math.random() * 7) + 's';
-  heart.style.animationDelay    = (Math.random() * 6)     + 's';
-  heart.style.fontSize          = (0.8 + Math.random() * 1.2) + 'rem';
+  heart.style.animationDelay   = (Math.random() * 6) + 's';
+  heart.style.fontSize         = (0.8 + Math.random() * 1.2) + 'rem';
   heartsContainer.appendChild(heart);
 }
 </script>
