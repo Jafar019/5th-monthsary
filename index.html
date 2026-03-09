@@ -153,23 +153,33 @@
 
   .bars-paused .bar { animation-play-state: paused; }
 
+  /* ── ORIGINAL CLEAN TEXT PORTRAIT ── */
   #portrait-container {
-    position: relative;
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
   }
 
-  canvas {
-    display: block;
+  .portrait {
+    font-family: monospace;
+    font-size: 5px;
+    line-height: 5px;
+    letter-spacing: -0.5px;
+    word-spacing: -1px;
+    text-align: justify;
+    width: 500px;
+    height: 650px;
+    overflow: hidden;
+
+    background-image: url('elaiza.jpeg.jpg');
+    background-size: cover;
+    background-position: center top;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+
     max-width: 95vw;
-    border-radius: 8px;
-  }
-
-  #loading {
-    color: #ff9966;
-    font-size: 0.9rem;
-    font-style: italic;
-    margin: 20px 0;
-    animation: pulse 1.5s infinite;
   }
 
   #typed-box {
@@ -266,10 +276,9 @@
     </div>
   </div>
 
-  <div id="loading">✨ Loading your portrait, Love... ✨</div>
-
+  <!-- ORIGINAL CLEAN TEXT PORTRAIT -->
   <div id="portrait-container">
-    <canvas id="canvas"></canvas>
+    <div class="portrait" id="portrait"></div>
   </div>
 
   <div id="typed-box">
@@ -283,6 +292,9 @@
 </audio>
 
 <script>
+// ════════════════════════════════
+//  INTRO
+// ════════════════════════════════
 function startExperience() {
   const intro = document.getElementById('intro');
   intro.style.opacity = '0';
@@ -299,6 +311,9 @@ function startExperience() {
   }, 1000);
 }
 
+// ════════════════════════════════
+//  MUSIC
+// ════════════════════════════════
 function toggleMusic() {
   const music = document.getElementById('bg-music');
   const btn   = document.getElementById('play-btn');
@@ -314,98 +329,23 @@ function toggleMusic() {
   }
 }
 
-const loveText = `MyLoveElaiFromTheVeryFirstDayOctober122025YouChangedMyWorldILoveHowYouCareForMeAndSupportMeYouMakeEveryDayBetterWhenWeTalkIFeelPureHappinessYouUnderstandMeLikeNoOneElseIMissYouSoMuchOurFirstKissLivesInMyHeartForeverYouAreMyPeaceMyJoyMyFavoritePersonILoveYouElaiAlwaysAndForeverHappyMonthsaryMyLovePagIbigNgIkawAtAkoParaSaIyoElai`;
-
+// ════════════════════════════════
+//  TEXT PORTRAIT
+// ════════════════════════════════
 function buildPortrait() {
-  const canvas = document.getElementById('canvas');
-  const ctx    = canvas.getContext('2d');
-  const img    = new Image();
+  const portrait = document.getElementById('portrait');
+  const message  = `HAPPY 5TH MONTHSARY ELAIZA I may not always say the perfect words but I am thankful every day that I have you Your smile makes my day better your love makes me stronger I'm lucky to call you mine Happy Monthsary my love `;
 
-  // ✅ FIXED: matches your actual filename
-  img.src = 'elaiza.jpg';
-
-  img.onload = function () {
-    const MAX_W = Math.min(window.innerWidth * 0.95, 650);
-    const scale = MAX_W / img.width;
-    const W     = Math.floor(img.width  * scale);
-    const H     = Math.floor(img.height * scale);
-    const DPR   = Math.min(window.devicePixelRatio || 2, 3);
-
-    canvas.width        = W * DPR;
-    canvas.height       = H * DPR;
-    canvas.style.width  = W + 'px';
-    canvas.style.height = H + 'px';
-    ctx.scale(DPR, DPR);
-
-    const off    = document.createElement('canvas');
-    off.width    = W;
-    off.height   = H;
-    const offCtx = off.getContext('2d');
-    offCtx.filter = 'contrast(140%) brightness(110%)';
-    offCtx.drawImage(img, 0, 0, W, H);
-
-    const imageData = offCtx.getImageData(0, 0, W, H);
-    const pixels    = imageData.data;
-
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(0, 0, W, H);
-
-    const fontSize = 3.2;
-    const step     = fontSize;
-    ctx.textBaseline = 'top';
-
-    let charIndex = 0;
-
-    for (let y = 0; y < H; y += step) {
-      for (let x = 0; x < W; x += step) {
-        const px = Math.min(Math.floor(x), W - 1);
-        const py = Math.min(Math.floor(y), H - 1);
-        const i  = (py * W + px) * 4;
-
-        const r = pixels[i];
-        const g = pixels[i + 1];
-        const b = pixels[i + 2];
-        const a = pixels[i + 3];
-
-        if (a < 10) continue;
-
-        const brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
-        if (brightness < 0.04) continue;
-
-        const red   = Math.min(255, Math.floor(r * 1.15));
-        const green = Math.min(255, Math.floor(g * 1.15));
-        const blue  = Math.min(255, Math.floor(b * 1.15));
-        const alpha = Math.min(1, 0.5 + brightness * 0.6);
-        const fSize = brightness > 0.6 ? fontSize * 0.85 : fontSize;
-
-        ctx.font      = `bold ${fSize}px monospace`;
-        ctx.fillStyle = `rgba(${red},${green},${blue},${alpha})`;
-
-        const char = loveText[charIndex % loveText.length];
-        ctx.fillText(char, x, y);
-        charIndex++;
-      }
-    }
-
-    const vignette = ctx.createRadialGradient(
-      W / 2, H / 2, H * 0.4,
-      W / 2, H / 2, H * 0.95
-    );
-    vignette.addColorStop(0, 'rgba(0,0,0,0)');
-    vignette.addColorStop(1, 'rgba(0,0,0,0.35)');
-    ctx.fillStyle = vignette;
-    ctx.fillRect(0, 0, W, H);
-
-    document.getElementById('loading').style.display = 'none';
-  };
-
-  // ✅ Show error if image fails to load
-  img.onerror = function() {
-    document.getElementById('loading').textContent = 
-      '❌ Could not load image. Check filename!';
-  };
+  let text = '';
+  for (let i = 0; i < 600; i++) {
+    text += message;
+  }
+  portrait.textContent = text;
 }
 
+// ════════════════════════════════
+//  TYPED MESSAGES
+// ════════════════════════════════
 const messages = [
   "My Love, Elai... 🥹",
   "From October 12, 2025 — you changed my world. 💕",
@@ -448,6 +388,9 @@ function typeLoop() {
   setTimeout(typeLoop, isDeleting ? 28 : 58);
 }
 
+// ════════════════════════════════
+//  FALLING HEARTS
+// ════════════════════════════════
 const heartsContainer = document.getElementById('hearts');
 const heartSymbols    = ['💕','❤️','🥹','💖','💗','✨'];
 
