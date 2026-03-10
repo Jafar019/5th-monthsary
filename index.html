@@ -274,7 +274,7 @@
     border: 1px solid rgba(100, 210, 255, 0.3);
     border-radius: 50px;
     padding: 10px 24px;
-    margin-bottom: 28px;
+    margin-bottom: 36px;
     backdrop-filter: blur(6px);
     box-shadow: 0 0 24px rgba(0, 170, 255, 0.18);
     transition: box-shadow 0.3s ease;
@@ -347,72 +347,30 @@
 
   .bars-paused .bar { animation-play-state: paused; }
 
-  /* ── PORTRAIT WRAPPER ── */
-  #portrait-wrapper {
-    position: relative;
-    width: min(480px, 92vw);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  #portrait-wrapper::before {
-    content: '';
-    position: absolute;
-    inset: -6px;
-    border-radius: 18px;
-    background: transparent;
-    box-shadow:
-      0 0 28px rgba(0, 170, 255, 0.5),
-      0 0 60px rgba(0, 120, 200, 0.25),
-      0 0 100px rgba(0, 80, 180, 0.12);
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  /* ── PORTRAIT ── */
-  .portrait {
-    font-family: monospace;
-    font-size: 5.5px;
-    line-height: 6px;
-    letter-spacing: 0px;
-    word-spacing: -1px;
-    text-align: justify;
-    width: min(480px, 92vw);
-    height: min(640px, calc(92vw * 1.333));
-    overflow: hidden;
-    display: block;
-    background-image: url('elaiza.jpg');
-    background-size: cover;
-    background-position: center top;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    border-radius: 14px;
-    filter: brightness(1.45) contrast(1.12);
-    position: relative;
-    z-index: 6;
-  }
-
-  .portrait-caption {
-    color: #7fd8f0;
-    font-size: 0.88rem;
-    font-style: italic;
-    text-align: center;
-    margin-top: 14px;
-    text-shadow: 0 0 10px rgba(0, 170, 255, 0.6);
-    animation: pulse 2s infinite;
-    letter-spacing: 1px;
+  .section-divider {
+    width: min(400px, 80vw);
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(100,210,255,0.35), transparent);
+    margin: 40px 0;
   }
 
   /* ── LOVE LETTER ── */
   #letter-section {
-    margin-top: 36px;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
     gap: 0;
+  }
+
+  .section-label {
+    color: #7fd8f0;
+    font-size: 0.78rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 20px;
+    font-style: italic;
   }
 
   #envelope-wrapper {
@@ -554,11 +512,99 @@
     font-weight: bold;
   }
 
-  .letter-hearts {
+  /* ── NEXT BUTTON (NEW) ── */
+  #next-btn {
+    display: none; 
+    opacity: 0; 
+    margin-top: 40px; 
+    padding: 12px 28px;
+    background: rgba(0, 170, 255, 0.15); 
+    border: 1px solid rgba(100, 210, 255, 0.4); 
+    border-radius: 30px;
+    color: #7fd8f0; 
+    font-size: 0.95rem; 
+    cursor: pointer; 
+    backdrop-filter: blur(4px);
+    transition: all 0.3s ease;
+  }
+
+  #next-btn:hover { 
+    background: rgba(0, 170, 255, 0.3); 
+    transform: scale(1.05); 
+  }
+
+  @keyframes fadeUpBtn { 
+    from { opacity: 0; transform: translateY(15px); } 
+    to { opacity: 1; transform: translateY(0); } 
+  }
+
+  /* ── PART 2 (HIDDEN INITIALLY) (NEW) ── */
+  #part-2 { 
+    display: none; 
+    flex-direction: column; 
+    align-items: center; 
+    width: 100%; 
+    opacity: 0; 
+    transition: opacity 1s ease; 
+    margin-top: 20px; 
+  }
+
+  /* ── PORTRAIT WRAPPER ── */
+  #portrait-wrapper {
+    position: relative;
+    width: min(480px, 92vw);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #portrait-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 18px;
+    background: transparent;
+    box-shadow:
+      0 0 28px rgba(0, 170, 255, 0.5),
+      0 0 60px rgba(0, 120, 200, 0.25),
+      0 0 100px rgba(0, 80, 180, 0.12);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ── PORTRAIT ── */
+  .portrait {
+    font-family: monospace;
+    font-size: 5.5px;
+    line-height: 6px;
+    letter-spacing: 0px;
+    word-spacing: -1px;
+    text-align: justify;
+    width: min(480px, 92vw);
+    height: min(640px, calc(92vw * 1.333));
+    overflow: hidden;
+    display: block;
+    background-image: url('elaiza.jpg');
+    background-size: cover;
+    background-position: center top;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    border-radius: 14px;
+    filter: brightness(1.45) contrast(1.12);
+    position: relative;
+    z-index: 6;
+  }
+
+  .portrait-caption {
+    color: #7fd8f0;
+    font-size: 0.88rem;
+    font-style: italic;
     text-align: center;
-    font-size: 1.3rem;
-    margin-top: 12px;
-    letter-spacing: 5px;
+    margin-top: 14px;
+    text-shadow: 0 0 10px rgba(0, 170, 255, 0.6);
+    animation: pulse 2s infinite;
+    letter-spacing: 1px;
   }
 
   /* ── TYPED BOX ── */
@@ -644,7 +690,9 @@
 <div id="petals"></div>
 <canvas id="fireworks-canvas"></canvas>
 
-<!-- INTRO -->
+<!-- ══════════════════════════════════ -->
+<!--  INTRO                            -->
+<!-- ══════════════════════════════════ -->
 <div id="intro" onclick="startExperience()">
   <div class="intro-floats" id="intro-floats"></div>
   <div class="intro-heart">💙</div>
@@ -653,12 +701,15 @@
   <div class="intro-date">— 10-12-25 —</div>
 </div>
 
-<!-- MAIN -->
+<!-- ══════════════════════════════════ -->
+<!--  MAIN                             -->
+<!-- ══════════════════════════════════ -->
 <div id="main">
+
+  <!-- TITLE + TIMER + MUSIC -->
   <h1 class="title fade-section">💙 Happy 5th Monthsary, Love 💙</h1>
   <h2 class="subtitle-top fade-section">— From the one who loves you most —</h2>
 
-  <!-- TIMER -->
   <div id="timer-box" class="fade-section">
     <div class="timer-unit"><span class="timer-num" id="t-months">0</span><span class="timer-label">Months</span></div>
     <div class="timer-unit"><span class="timer-num" id="t-days">0</span><span class="timer-label">Days</span></div>
@@ -667,7 +718,6 @@
     <div class="timer-unit"><span class="timer-num" id="t-secs">0</span><span class="timer-label">Seconds</span></div>
   </div>
 
-  <!-- MUSIC PLAYER -->
   <div id="music-player" class="fade-section">
     <button id="play-btn" onclick="toggleMusic()">▶</button>
     <div class="song-info">
@@ -675,21 +725,17 @@
       <span class="song-sub">Earl Agustin — Para sa iyo, love 💙</span>
     </div>
     <div class="music-bars bars-paused" id="bars">
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      <div class="bar"></div><div class="bar"></div>
     </div>
   </div>
 
-  <!-- PORTRAIT -->
-  <div id="portrait-wrapper" class="fade-section">
-    <div class="portrait" id="portrait"></div>
-  </div>
-  <p class="portrait-caption fade-section">✨ Made with love, just for you ✨</p>
+  <!-- ─── DIVIDER ─── -->
+  <div class="section-divider fade-section"></div>
 
-  <!-- LOVE LETTER -->
+  <!-- ══ ACT 1: LOVE LETTER ══ -->
+  <p class="section-label fade-section">✉️ A letter for you</p>
+
   <div id="letter-section" class="fade-section">
     <div id="envelope-wrapper" onclick="openLetter()">
       <div id="envelope">
@@ -697,31 +743,48 @@
       </div>
       <p id="envelope-hint">— Tap to open your letter 💙 —</p>
     </div>
+
     <div id="letter-paper">
       <p class="letter-dear">My dearest Elai,</p>
       <p class="letter-body">
         From the very first day you said yes, my world has never been the same.
         Every morning I wake up grateful that I get to love you.
-        You are not just my girlfriend you are my peace, my happiness,
+        You are not just my girlfriend — you are my peace, my happiness,
         and my favorite reason to smile every single day. 🥹<br><br>
+
         I know I am not perfect, but I promise to always try my best
         to make you feel loved, safe, and cherished.
         Thank you for choosing me, for trusting me, and for loving me
         the way that you do. 💙<br><br>
+
         Happy 5th Monthsary, my love.
       </p>
       <p class="letter-sign">Forever yours, Gel 💙</p>
- 
     </div>
+
+    <!-- This button only appears AFTER she opens the letter -->
+    <button id="next-btn" onclick="revealPart2()">See the rest of your gift 💙</button>
   </div>
 
-  <!-- TYPED MESSAGES -->
-  <div id="typed-box" class="fade-section">
-    <div id="typed-text"><span id="cursor"></span></div>
-    <p class="date-tag">💙 10-12-25 💙</p>
+
+  <!-- ══ ACT 2: PORTRAIT & TYPING (HIDDEN AT FIRST) ══ -->
+  <div id="part-2">
+    <div class="section-divider"></div>
+    <p class="section-label">🖼️ Made with love, just for you</p>
+
+    <div id="portrait-wrapper">
+      <div class="portrait" id="portrait"></div>
+    </div>
+    <p class="portrait-caption">✨ Made with love, just for you ✨</p>
+
+    <div id="typed-box">
+      <div id="typed-text"><span id="cursor"></span></div>
+      <p class="date-tag">💙 10-12-25 💙</p>
+    </div>
+
+    <p class="footer">with all my love, forever yours — Gel 💙</p>
   </div>
 
-  <p class="footer fade-section">with all my love, forever yours — Gel 💙</p>
 </div>
 
 <audio id="bg-music" loop>
@@ -916,7 +979,7 @@ function updateTimer() {
 }
 
 // ════════════════════════════════
-//  INTRO
+//  STEP 1: INTRO → START (No typing yet!)
 // ════════════════════════════════
 function startExperience() {
   const intro = document.getElementById('intro');
@@ -925,14 +988,13 @@ function startExperience() {
     intro.style.display = 'none';
     const main = document.getElementById('main');
     main.style.display = 'flex';
-    setTimeout(() => {
-      buildPortrait();
-      initFadeObserver();
-    }, 100);
-    startTyping();
-    updateTimer();
+    
+    initFadeObserver(); // Only fades in the top elements & envelope
+
+    updateTimer(); 
     setInterval(updateTimer, 1000);
     startFireworks();
+
     const music = document.getElementById('bg-music');
     music.play().then(() => {
       document.getElementById('play-btn').textContent = '⏸';
@@ -941,26 +1003,74 @@ function startExperience() {
   }, 1200);
 }
 
-// ════════════════════════════════
-//  MUSIC
-// ════════════════════════════════
 function toggleMusic() {
-  const music = document.getElementById('bg-music');
-  const btn   = document.getElementById('play-btn');
-  const bars  = document.getElementById('bars');
-  if (music.paused) {
-    music.play();
-    btn.textContent = '⏸';
-    bars.classList.remove('bars-paused');
-  } else {
-    music.pause();
-    btn.textContent = '▶';
-    bars.classList.add('bars-paused');
+  const music = document.getElementById('bg-music'); 
+  const btn = document.getElementById('play-btn'); 
+  const bars = document.getElementById('bars');
+  if (music.paused) { 
+    music.play(); 
+    btn.textContent = '⏸'; 
+    bars.classList.remove('bars-paused'); 
+  } else { 
+    music.pause(); 
+    btn.textContent = '▶'; 
+    bars.classList.add('bars-paused'); 
   }
 }
 
 // ════════════════════════════════
-//  PORTRAIT
+//  STEP 2: OPEN LETTER
+// ════════════════════════════════
+let letterOpened = false;
+function openLetter() {
+  if (letterOpened) return;
+  letterOpened = true;
+  document.getElementById('envelope').classList.add('open');
+  document.getElementById('envelope-hint').style.animation = 'none';
+  document.getElementById('envelope-hint').textContent = '💙';
+  
+  setTimeout(() => {
+    const paper = document.getElementById('letter-paper');
+    paper.style.display   = 'block';
+    paper.style.animation = 'letterOpen 0.8s ease forwards';
+
+    // ✨ Give her 3.5 seconds to read the letter before showing the "Next" button
+    setTimeout(() => {
+      const nextBtn = document.getElementById('next-btn');
+      nextBtn.style.display = 'block';
+      nextBtn.style.animation = 'fadeUpBtn 0.8s ease forwards, pulse 2.5s infinite 1s';
+    }, 3500);
+
+  }, 700);
+}
+
+// ════════════════════════════════
+//  STEP 3: REVEAL PORTRAIT & TYPING
+// ════════════════════════════════
+function revealPart2() {
+  const btn = document.getElementById('next-btn');
+  const part2 = document.getElementById('part-2');
+
+  btn.style.display = 'none'; // Hide button once clicked
+  part2.style.display = 'flex';
+  
+  // Small delay to allow CSS display:flex to apply before setting opacity
+  setTimeout(() => {
+    part2.style.opacity = '1';
+    
+    // Build the portrait image text
+    buildPortrait();
+
+    // Scroll smoothly down to the portrait
+    part2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Start typing slightly after the scroll finishes
+    setTimeout(startTyping, 800);
+  }, 50);
+}
+
+// ════════════════════════════════
+//  PORTRAIT GENERATION
 // ════════════════════════════════
 function buildPortrait() {
   const portrait = document.getElementById('portrait');
@@ -974,37 +1084,18 @@ function buildPortrait() {
 }
 
 // ════════════════════════════════
-//  LOVE LETTER
-// ════════════════════════════════
-let letterOpened = false;
-function openLetter() {
-  if (letterOpened) return;
-  letterOpened = true;
-  document.getElementById('envelope').classList.add('open');
-  document.getElementById('envelope-hint').style.animation = 'none';
-  document.getElementById('envelope-hint').textContent = '💙';
-  setTimeout(() => {
-    const paper = document.getElementById('letter-paper');
-    paper.style.display   = 'block';
-    paper.style.animation = 'letterOpen 0.8s ease forwards';
-  }, 700);
-}
-
-// ════════════════════════════════
-//  TYPED MESSAGES
+//  TYPING MESSAGES
 // ════════════════════════════════
 const messages = [
-  "My Love, Elai🥹",
-  "From the moment October 12, 2025 came into my life, everything changed. That day wasn't just another date on the calendar it became the day my world slowly started to feel brighter, warmer, and more meaningful because of you. 💕",
-  "Before you, I didn't know someone could care for me the way you do. The way you check on me, the way you listen to the smallest things I say, the way you support me even when I doubt myself those little things mean more to me than you could ever imagine.",
-  "You make ordinary days feel special just by being part of them. Even the simplest conversations with you can turn a bad day into one filled with peace and happiness. When we talk, when I hear your voice, when I see your messages… my heart feels a kind of happiness that's pure and real. ❤️",
-  "What I love most about you is how you understand me. You see parts of me that no one else ever noticed, and somehow you accept them all without hesitation. With you, I don't feel like I have to pretend or hide who I am. I can just be myself and that's one of the most beautiful gifts you've ever given me.",
-  "There are moments when I miss you so much it actually hurts a little. When you're not around, there's this quiet space that only you can fill. It reminds me how important you are to me and how deeply my heart has chosen you.🥺",
-  "And I will never forget our first kiss. That moment is something my heart holds so gently and so tightly. It wasn't just a kiss it was a memory, a feeling, a promise that I will carry with me forever.",
-  "Elai, you are my peace when life feels heavy. You are my joy when days feel dull. You are the person I want to tell everything to, the one I want beside me through every moment.",
+  "My Love, Elai 🥹",
+  "From the moment October 12, 2025 came into my life, everything changed. That day became the day my world slowly started to feel brighter, warmer, and more meaningful — because of you. 💕",
+  "Before you, I didn't know someone could care for me the way you do. The way you check on me, listen to the smallest things I say, and support me even when I doubt myself — those things mean more than you'll ever know.",
+  "You make ordinary days feel special just by being part of them. When we talk, when I hear your voice, when I see your messages… my heart feels a kind of happiness that's pure and real. ❤️",
+  "What I love most about you is how you understand me. You see parts of me no one else ever noticed — and you accept them all. With you, I don't have to pretend. I can just be myself.",
+  "There are moments when I miss you so much it actually hurts a little. It reminds me how important you are to me and how deeply my heart has chosen you. 🥺",
+  "Elai, you are my peace when life feels heavy. You are my joy when days feel dull. You are the person I want to tell everything to — the one I want beside me through every moment.",
   "Out of all the people in the world, my heart found you… and I'm grateful every single day that it did.",
-  "Happy 5th Monthsary, my love. Thank you for loving me, for choosing me, and for staying with me.",
-  "I love you more than words can ever fully explain, Elai. Always.💕"
+  "Happy 5th Monthsary, my love. Thank you for loving me, for choosing me, and for staying. I love you always. 💕"
 ];
 
 let msgIndex = 0, charIdx = 0, isDeleting = false;
@@ -1033,4 +1124,3 @@ function typeLoop() {
 </script>
 </body>
 </html>
-
