@@ -7,12 +7,17 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  html {
+    background: #000;
+    min-height: 100%;
+  }
+
   body {
     min-height: 100vh;
     font-family: 'Georgia', serif;
     overflow-x: hidden;
     padding-top: 20px;
-    background: #000;
+    background: transparent;
     opacity: 0;
     animation: pageLoad 1.2s ease forwards;
   }
@@ -24,7 +29,9 @@
 
   #bg-gradient {
     position: fixed;
-    inset: 0;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 0;
     background: linear-gradient(135deg, #000a1a, #001a2e, #000d20, #001525);
     background-size: 400% 400%;
@@ -39,7 +46,9 @@
 
   #stars {
     position: fixed;
-    inset: 0;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 1;
     pointer-events: none;
   }
@@ -58,7 +67,9 @@
 
   #fireflies {
     position: fixed;
-    inset: 0;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 2;
     pointer-events: none;
   }
@@ -83,7 +94,9 @@
 
   #petals {
     position: fixed;
-    inset: 0;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 3;
     pointer-events: none;
     overflow: hidden;
@@ -105,7 +118,9 @@
 
   #fireworks-canvas {
     position: fixed;
-    inset: 0;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 4;
     pointer-events: none;
   }
@@ -192,6 +207,7 @@
     padding-bottom: 80px;
     position: relative;
     z-index: 5;
+    background: transparent;
   }
 
   /* ── SECTION FADE-IN ── */
@@ -347,67 +363,10 @@
 
   .bars-paused .bar { animation-play-state: paused; }
 
-  /* ── PORTRAIT WRAPPER ── */
-  #portrait-wrapper {
-    position: relative;
-    width: min(480px, 92vw);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  #portrait-wrapper::before {
-    content: '';
-    position: absolute;
-    inset: -6px;
-    border-radius: 18px;
-    background: transparent;
-    box-shadow:
-      0 0 28px rgba(0, 170, 255, 0.5),
-      0 0 60px rgba(0, 120, 200, 0.25),
-      0 0 100px rgba(0, 80, 180, 0.12);
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  /* ── PORTRAIT ── */
-  .portrait {
-    font-family: monospace;
-    font-size: 5.5px;
-    line-height: 6px;
-    letter-spacing: 0px;
-    word-spacing: -1px;
-    text-align: justify;
-    width: min(480px, 92vw);
-    height: min(640px, calc(92vw * 1.333));
-    overflow: hidden;
-    display: block;
-    background-image: url('elaiza.jpg');
-    background-size: cover;
-    background-position: center top;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    border-radius: 14px;
-    filter: brightness(1.45) contrast(1.12);
-    position: relative;
-    z-index: 6;
-  }
-
-  .portrait-caption {
-    color: #7fd8f0;
-    font-size: 0.88rem;
-    font-style: italic;
-    text-align: center;
-    margin-top: 14px;
-    text-shadow: 0 0 10px rgba(0, 170, 255, 0.6);
-    animation: pulse 2s infinite;
-    letter-spacing: 1px;
-  }
-
   /* ── LOVE LETTER ── */
   #letter-section {
-    margin-top: 36px;
+    margin-top: 10px;
+    margin-bottom: 36px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -561,6 +520,64 @@
     letter-spacing: 5px;
   }
 
+  /* ── PORTRAIT WRAPPER ── */
+  #portrait-wrapper {
+    position: relative;
+    width: min(480px, 92vw);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #portrait-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 18px;
+    background: transparent;
+    box-shadow:
+      0 0 28px rgba(0, 170, 255, 0.5),
+      0 0 60px rgba(0, 120, 200, 0.25),
+      0 0 100px rgba(0, 80, 180, 0.12);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ── PORTRAIT ── */
+  .portrait {
+    font-family: monospace;
+    font-size: 5.5px;
+    line-height: 6px;
+    letter-spacing: 0px;
+    word-spacing: -1px;
+    text-align: justify;
+    width: min(480px, 92vw);
+    height: min(640px, calc(92vw * 1.333));
+    overflow: hidden;
+    display: block;
+    background-image: url('elaiza.jpg');
+    background-size: cover;
+    background-position: center top;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    border-radius: 14px;
+    filter: brightness(1.45) contrast(1.12);
+    position: relative;
+    z-index: 6;
+  }
+
+  .portrait-caption {
+    color: #7fd8f0;
+    font-size: 0.88rem;
+    font-style: italic;
+    text-align: center;
+    margin-top: 14px;
+    text-shadow: 0 0 10px rgba(0, 170, 255, 0.6);
+    animation: pulse 2s infinite;
+    letter-spacing: 1px;
+  }
+
   /* ── TYPED BOX ── */
   #typed-box {
     max-width: 580px;
@@ -683,13 +700,7 @@
     </div>
   </div>
 
-  <!-- PORTRAIT -->
-  <div id="portrait-wrapper" class="fade-section">
-    <div class="portrait" id="portrait"></div>
-  </div>
-  <p class="portrait-caption fade-section">✨ Made with love, just for you ✨</p>
-
-  <!-- LOVE LETTER -->
+  <!-- ✉️ LOVE LETTER -->
   <div id="letter-section" class="fade-section">
     <div id="envelope-wrapper" onclick="openLetter()">
       <div id="envelope">
@@ -711,9 +722,14 @@
         Happy 5th Monthsary, my love.
       </p>
       <p class="letter-sign">Forever yours, Gel 💙</p>
- 
     </div>
   </div>
+
+  <!-- 🖼️ PORTRAIT -->
+  <div id="portrait-wrapper" class="fade-section">
+    <div class="portrait" id="portrait"></div>
+  </div>
+  <p class="portrait-caption fade-section">✨ Made with love, just for you ✨</p>
 
   <!-- TYPED MESSAGES -->
   <div id="typed-box" class="fade-section">
@@ -739,7 +755,7 @@ for (let i = 0; i < 160; i++) {
   const size = 0.5 + Math.random() * 2;
   star.style.cssText = `
     width:${size}px;height:${size}px;
-    top:${Math.random()*100}vh;left:${Math.random()*100}vw;
+    top:${Math.random()*100}%;left:${Math.random()*100}%;
     animation-duration:${1.5+Math.random()*3}s;
     animation-delay:${Math.random()*3}s;
     opacity:${0.3+Math.random()*0.7};
@@ -757,7 +773,7 @@ for (let i = 0; i < 18; i++) {
   const side = Math.random() > 0.5;
   const leftPos = side ? Math.random()*20 : 80+Math.random()*20;
   ff.style.cssText = `
-    top:${Math.random()*100}vh;left:${leftPos}vw;
+    top:${Math.random()*100}%;left:${leftPos}%;
     animation-duration:${3+Math.random()*5}s;
     animation-delay:${Math.random()*4}s;
     width:${4+Math.random()*5}px;height:${4+Math.random()*5}px;
@@ -777,7 +793,7 @@ for (let i = 0; i < 22; i++) {
   const side = Math.random() > 0.5;
   const leftPos = side ? Math.random()*15 : 85+Math.random()*15;
   petal.style.cssText = `
-    left:${leftPos}vw;
+    left:${leftPos}%;
     animation-duration:${6+Math.random()*8}s;
     animation-delay:${Math.random()*7}s;
     font-size:${0.7+Math.random()*1}rem;
@@ -796,7 +812,7 @@ for (let i = 0; i < 14; i++) {
   el.classList.add('intro-float');
   el.textContent = introSymbols[Math.floor(Math.random()*introSymbols.length)];
   el.style.cssText = `
-    left:${Math.random()*100}vw;
+    left:${Math.random()*100}%;
     font-size:${0.8+Math.random()*1.2}rem;
     animation-duration:${4+Math.random()*5}s;
     animation-delay:${Math.random()*4}s;
