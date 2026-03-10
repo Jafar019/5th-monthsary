@@ -511,13 +511,58 @@
     font-style: italic;
     text-align: right;
     font-weight: bold;
+    margin-bottom: 24px;
   }
 
-  .letter-hearts {
-    text-align: center;
-    font-size: 1.3rem;
-    margin-top: 12px;
-    letter-spacing: 5px;
+  /* ── NEXT BUTTON ── */
+  #next-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  #next-btn {
+    background: linear-gradient(135deg, #0077cc, #00aaff);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 13px 36px;
+    font-size: 0.95rem;
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    box-shadow:
+      0 0 20px rgba(0, 170, 255, 0.55),
+      0 4px 18px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    animation: nextPulse 2s ease infinite;
+  }
+
+  #next-btn:hover {
+    transform: scale(1.07);
+    box-shadow:
+      0 0 34px rgba(0, 170, 255, 0.8),
+      0 6px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  @keyframes nextPulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(0, 170, 255, 0.55), 0 4px 18px rgba(0,0,0,0.3); }
+    50%       { box-shadow: 0 0 38px rgba(0, 170, 255, 0.9), 0 4px 18px rgba(0,0,0,0.3); }
+  }
+
+  /* ── BOTTOM SECTIONS (portrait + typed) ── */
+  #bottom-sections {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 0;
+  }
+
+  @keyframes revealSection {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
   /* ── PORTRAIT WRAPPER ── */
@@ -650,6 +695,7 @@
     #letter-paper { padding: 26px 20px; }
     .letter-body { font-size: 0.86rem; }
     #typed-text { font-size: 0.88rem; }
+    #next-btn { padding: 11px 28px; font-size: 0.88rem; }
   }
 </style>
 </head>
@@ -708,12 +754,13 @@
       </div>
       <p id="envelope-hint">— Tap to open your letter 💙 —</p>
     </div>
+
     <div id="letter-paper">
       <p class="letter-dear">My dearest Elai,</p>
       <p class="letter-body">
         From the very first day you said yes, my world has never been the same.
         Every morning I wake up grateful that I get to love you.
-        You are not just my girlfriend you are my peace, my happiness,
+        You are not just my girlfriend — you are my peace, my happiness,
         and my favorite reason to smile every single day. 🥹<br><br>
         I know I am not perfect, but I promise to always try my best
         to make you feel loved, safe, and cherished.
@@ -722,22 +769,32 @@
         Happy 5th Monthsary, my love.
       </p>
       <p class="letter-sign">Forever yours, Gel 💙</p>
+
+      <!-- ✅ NEXT BUTTON inside the letter -->
+      <div id="next-btn-wrapper">
+        <button id="next-btn" onclick="showBottomSections()">
+          ✨ There's more for you, love 💙
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- 🖼️ PORTRAIT -->
-  <div id="portrait-wrapper" class="fade-section">
-    <div class="portrait" id="portrait"></div>
-  </div>
-  <p class="portrait-caption fade-section">✨ Made with love, just for you ✨</p>
+  <!-- 🖼️ PORTRAIT + TYPED — hidden until Next is clicked -->
+  <div id="bottom-sections">
 
-  <!-- TYPED MESSAGES -->
-  <div id="typed-box" class="fade-section">
-    <div id="typed-text"><span id="cursor"></span></div>
-    <p class="date-tag">💙 10-12-25 💙</p>
+    <div id="portrait-wrapper" class="fade-section">
+      <div class="portrait" id="portrait"></div>
+    </div>
+    <p class="portrait-caption fade-section">✨ Made with love, just for you ✨</p>
+
+    <div id="typed-box" class="fade-section">
+      <div id="typed-text"><span id="cursor"></span></div>
+      <p class="date-tag">💙 10-12-25 💙</p>
+    </div>
+
+    <p class="footer fade-section">with all my love, forever yours — Gel 💙</p>
   </div>
 
-  <p class="footer fade-section">with all my love, forever yours — Gel 💙</p>
 </div>
 
 <audio id="bg-music" loop>
@@ -941,11 +998,7 @@ function startExperience() {
     intro.style.display = 'none';
     const main = document.getElementById('main');
     main.style.display = 'flex';
-    setTimeout(() => {
-      buildPortrait();
-      initFadeObserver();
-    }, 100);
-    startTyping();
+    setTimeout(() => initFadeObserver(), 100);
     updateTimer();
     setInterval(updateTimer, 1000);
     startFireworks();
@@ -1007,16 +1060,57 @@ function openLetter() {
 }
 
 // ════════════════════════════════
+//  SHOW BOTTOM SECTIONS (Next Btn)
+// ════════════════════════════════
+function showBottomSections() {
+  const btn    = document.getElementById('next-btn');
+  const bottom = document.getElementById('bottom-sections');
+
+  // Disable button after click
+  btn.disabled = true;
+  btn.textContent = '💙 Enjoy, my love...';
+  btn.style.opacity = '0.6';
+  btn.style.cursor  = 'default';
+  btn.style.animation = 'none';
+
+  // Show the bottom section
+  bottom.style.display = 'flex';
+  bottom.style.animation = 'revealSection 0.9s ease forwards';
+
+  // Build portrait then trigger fade observers for new elements
+  setTimeout(() => {
+    buildPortrait();
+    startTyping();
+
+    const newSections = bottom.querySelectorAll('.fade-section');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 100);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    newSections.forEach(s => observer.observe(s));
+
+    // Scroll smoothly to portrait
+    setTimeout(() => {
+      document.getElementById('portrait-wrapper').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 300);
+  }, 200);
+}
+
+// ════════════════════════════════
 //  TYPED MESSAGES
 // ════════════════════════════════
 const messages = [
   "My Love, Elai🥹",
   "From the moment October 12, 2025 came into my life, everything changed. That day wasn't just another date on the calendar it became the day my world slowly started to feel brighter, warmer, and more meaningful because of you. 💕",
-  "Before you, I didn't know someone could care for me the way you do. The way you check on me, the way you listen to the smallest things I say, the way you support me even when I doubt myself those little things mean more to me than you could ever imagine.",
+  "Before you, I didn't know someone could care for me the way you do. The way you check on me, the way you listen to the smallest things I say, the way you support me even when I doubt myself — those little things mean more to me than you could ever imagine.",
   "You make ordinary days feel special just by being part of them. Even the simplest conversations with you can turn a bad day into one filled with peace and happiness. When we talk, when I hear your voice, when I see your messages… my heart feels a kind of happiness that's pure and real. ❤️",
-  "What I love most about you is how you understand me. You see parts of me that no one else ever noticed, and somehow you accept them all without hesitation. With you, I don't feel like I have to pretend or hide who I am. I can just be myself and that's one of the most beautiful gifts you've ever given me.",
+  "What I love most about you is how you understand me. You see parts of me that no one else ever noticed, and somehow you accept them all without hesitation. With you, I don't feel like I have to pretend or hide who I am. I can just be myself — and that's one of the most beautiful gifts you've ever given me.",
   "There are moments when I miss you so much it actually hurts a little. When you're not around, there's this quiet space that only you can fill. It reminds me how important you are to me and how deeply my heart has chosen you.🥺",
-  "And I will never forget our first kiss. That moment is something my heart holds so gently and so tightly. It wasn't just a kiss it was a memory, a feeling, a promise that I will carry with me forever.",
+  "And I will never forget our first kiss. That moment is something my heart holds so gently and so tightly. It wasn't just a kiss — it was a memory, a feeling, a promise that I will carry with me forever.",
   "Elai, you are my peace when life feels heavy. You are my joy when days feel dull. You are the person I want to tell everything to, the one I want beside me through every moment.",
   "Out of all the people in the world, my heart found you… and I'm grateful every single day that it did.",
   "Happy 5th Monthsary, my love. Thank you for loving me, for choosing me, and for staying with me.",
@@ -1024,11 +1118,18 @@ const messages = [
 ];
 
 let msgIndex = 0, charIdx = 0, isDeleting = false;
-function startTyping() { typeLoop(); }
+let typingStarted = false;
+
+function startTyping() {
+  if (typingStarted) return;
+  typingStarted = true;
+  typeLoop();
+}
 
 function typeLoop() {
   const current = messages[msgIndex];
   const typedEl = document.getElementById('typed-text');
+  if (!typedEl) return;
   if (!isDeleting) {
     charIdx++;
     typedEl.innerHTML = current.substring(0, charIdx) + '<span id="cursor"></span>';
