@@ -966,26 +966,40 @@ function startFireworks() {
 }
 
 // ════════════════════════════════
-//  TIMER
+//  TIMER — FIXED ✅
 // ════════════════════════════════
 function updateTimer() {
   const start = new Date('2025-10-12T00:00:00');
   const now   = new Date();
-  let   diff  = Math.floor((now - start) / 1000);
+
+  // Calendar-accurate months
+  let months = (now.getFullYear() - start.getFullYear()) * 12
+             + (now.getMonth()    - start.getMonth());
+
+  // Build anchor: same day as start, but N months later
+  const anchor = new Date(start);
+  anchor.setMonth(anchor.getMonth() + months);
+
+  // If anchor is still ahead of now, step back one month
+  if (anchor > now) {
+    months--;
+    anchor.setMonth(anchor.getMonth() - 1);
+  }
+
+  // Remaining seconds after whole months
+  let diff = Math.floor((now - anchor) / 1000);
   if (diff < 0) diff = 0;
 
-  const months = Math.floor(diff / (30.44*24*3600));
-  diff -= months * Math.floor(30.44*24*3600);
-  const days  = Math.floor(diff / (24*3600)); diff -= days*24*3600;
-  const hours = Math.floor(diff / 3600);      diff -= hours*3600;
+  const days  = Math.floor(diff / (24 * 3600)); diff -= days  * 24 * 3600;
+  const hours = Math.floor(diff / 3600);        diff -= hours * 3600;
   const mins  = Math.floor(diff / 60);
   const secs  = diff % 60;
 
   document.getElementById('t-months').textContent = months;
-  document.getElementById('t-days').textContent   = String(days).padStart(2,'0');
-  document.getElementById('t-hours').textContent  = String(hours).padStart(2,'0');
-  document.getElementById('t-mins').textContent   = String(mins).padStart(2,'0');
-  document.getElementById('t-secs').textContent   = String(secs).padStart(2,'0');
+  document.getElementById('t-days').textContent   = String(days).padStart(2, '0');
+  document.getElementById('t-hours').textContent  = String(hours).padStart(2, '0');
+  document.getElementById('t-mins').textContent   = String(mins).padStart(2, '0');
+  document.getElementById('t-secs').textContent   = String(secs).padStart(2, '0');
 }
 
 // ════════════════════════════════
@@ -1066,18 +1080,15 @@ function showBottomSections() {
   const btn    = document.getElementById('next-btn');
   const bottom = document.getElementById('bottom-sections');
 
-  // Disable button after click
   btn.disabled = true;
   btn.textContent = '💙 Enjoy, my love...';
   btn.style.opacity = '0.6';
   btn.style.cursor  = 'default';
   btn.style.animation = 'none';
 
-  // Show the bottom section
   bottom.style.display = 'flex';
   bottom.style.animation = 'revealSection 0.9s ease forwards';
 
-  // Build portrait then trigger fade observers for new elements
   setTimeout(() => {
     buildPortrait();
     startTyping();
@@ -1093,7 +1104,6 @@ function showBottomSections() {
     }, { threshold: 0.12 });
     newSections.forEach(s => observer.observe(s));
 
-    // Scroll smoothly to portrait
     setTimeout(() => {
       document.getElementById('portrait-wrapper').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 300);
