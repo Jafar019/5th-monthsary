@@ -551,7 +551,7 @@
     50%       { box-shadow: 0 0 38px rgba(0, 170, 255, 0.9), 0 4px 18px rgba(0,0,0,0.3); }
   }
 
-  /* ── BOTTOM SECTIONS (portrait + typed) ── */
+  /* ── BOTTOM SECTIONS ── */
   #bottom-sections {
     display: none;
     flex-direction: column;
@@ -588,11 +588,11 @@
     pointer-events: none;
   }
 
-  /* ── PORTRAIT ── */
+  /* ── PORTRAIT — FIXED ✅ ── */
   .portrait {
     font-family: monospace;
-    font-size: 5.5px;
-    line-height: 6px;
+    font-size: 3.5px;
+    line-height: 3.8px;
     letter-spacing: 0px;
     word-spacing: -1px;
     text-align: justify;
@@ -602,12 +602,12 @@
     display: block;
     background-image: url('elaiza.jpg');
     background-size: cover;
-    background-position: center top;
+    background-position: center 5%;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     border-radius: 14px;
-    filter: brightness(1.45) contrast(1.12);
+    filter: brightness(1.5) contrast(1.35) saturate(1.1);
     position: relative;
     z-index: 6;
   }
@@ -746,7 +746,7 @@
     </div>
   </div>
 
-  <!-- ✉️ LOVE LETTER -->
+  <!-- LOVE LETTER -->
   <div id="letter-section" class="fade-section">
     <div id="envelope-wrapper" onclick="openLetter()">
       <div id="envelope">
@@ -769,8 +769,6 @@
         Happy 5th Monthsary, my love.
       </p>
       <p class="letter-sign">Forever yours, Gel 💙</p>
-
-      <!-- ✅ NEXT BUTTON inside the letter -->
       <div id="next-btn-wrapper">
         <button id="next-btn" onclick="showBottomSections()">
           ✨ There's more for you, love 💙
@@ -779,9 +777,8 @@
     </div>
   </div>
 
-  <!-- 🖼️ PORTRAIT + TYPED — hidden until Next is clicked -->
+  <!-- PORTRAIT + TYPED -->
   <div id="bottom-sections">
-
     <div id="portrait-wrapper" class="fade-section">
       <div class="portrait" id="portrait"></div>
     </div>
@@ -972,21 +969,17 @@ function updateTimer() {
   const start = new Date('2025-10-12T00:00:00');
   const now   = new Date();
 
-  // Calendar-accurate months
   let months = (now.getFullYear() - start.getFullYear()) * 12
              + (now.getMonth()    - start.getMonth());
 
-  // Build anchor: same day as start, but N months later
   const anchor = new Date(start);
   anchor.setMonth(anchor.getMonth() + months);
 
-  // If anchor is still ahead of now, step back one month
   if (anchor > now) {
     months--;
     anchor.setMonth(anchor.getMonth() - 1);
   }
 
-  // Remaining seconds after whole months
   let diff = Math.floor((now - anchor) / 1000);
   if (diff < 0) diff = 0;
 
@@ -1043,13 +1036,13 @@ function toggleMusic() {
 }
 
 // ════════════════════════════════
-//  PORTRAIT
+//  PORTRAIT — FIXED ✅
 // ════════════════════════════════
 function buildPortrait() {
   const portrait = document.getElementById('portrait');
   const message  = `HAPPY 5TH MONTHSARY ELAIZA I may not always say the perfect words but I am thankful every day that I have you Your smile makes my day better your love makes me stronger I am lucky to call you mine Happy Monthsary my love `;
   let text = '';
-  for (let i = 0; i < 800; i++) text += message;
+  for (let i = 0; i < 3000; i++) text += message;
   portrait.textContent = text;
   portrait.style.display = 'none';
   portrait.offsetHeight;
@@ -1074,7 +1067,7 @@ function openLetter() {
 }
 
 // ════════════════════════════════
-//  SHOW BOTTOM SECTIONS (Next Btn)
+//  SHOW BOTTOM SECTIONS
 // ════════════════════════════════
 function showBottomSections() {
   const btn    = document.getElementById('next-btn');
